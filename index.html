@@ -8,7 +8,6 @@
 
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="css/index.css" />
-
   </head>
   <body>
     <header class="topbar">
@@ -58,14 +57,28 @@
             </p>
           </div>
 
-          <a href="#" class="hours-link">Confira os horários de atendimento</a>
+          <button class="hours-link">Confira os horários de atendimento</button>
         </div>
       </div>
     </section>
 
+    <dialog id="hours-modal" class="hours-modal">
+      <h2>Horários de Atendimento</h2>
+
+      <ul class="hours-list">
+        <li><span>Domingo</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Segunda</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Terça</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Quarta</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Quinta</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Sexta</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+        <li><span>Sábado</span><span><i data-lucide="clock-3"></i>18:00 – 23:59</span></li>
+      </ul>
+
+      <button class="modal-ok">OK</button>
+    </dialog>
+
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-      lucide.createIcons();
-    </script>
+    <script src="js/script.js"></script>
   </body>
 </html>
