@@ -1,0 +1,42 @@
+:root {
+  /* Colors */
+  --primary-color: #E67E22;
+  --primary-hover: #D35400;
+  --bg-dark: #060a0f;
+  --bg-card: #1a1a1a;
+  --bg-topbar: #242424;
+  --text-main: #ffffff;
+  --text-secondary: #f1f1f1;
+  
+  /* Transitions */
+  --transition-fast: 0.25s ease;
+  --transition-slow: 0.7s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-main);
+}
+
+/* Utility classes */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-base {
+  border-radius: 999px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
