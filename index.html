@@ -11,8 +11,90 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
+
+    <!-- Drawer -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" />
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a href="tel:+5522999294971" class="drawer-item">
+            <i data-lucide="phone"></i>
+            <span>Pedir por Telefone</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a>
+        </p>
+        <p class="drawer-icons">
+          Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+        </p>
+      </footer>
+    </nav>
+
     <header class="topbar">
-      <button class="menu-btn" aria-label="Abrir menu">
+      <button class="menu-btn" aria-label="Abrir menu" id="menu-btn">
         <i data-lucide="menu"></i>
       </button>
 
@@ -33,7 +115,7 @@
         <div class="info-box">
           <p class="info-main">
             <i data-lucide="phone"></i>
-            <a href="tel:+5522999999999">(22) 9-9999-9999</a>
+            <a href="tel:+5522999294971">(22) 9-9929-4971</a>
           </p>
 
           <p class="info-main">
