@@ -232,6 +232,7 @@
 }
 
 .drawer-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,6 +242,7 @@
 
 .drawer-logo {
   width: min(70%, 160px);
+  height: auto;
 }
 
 .drawer-nav {

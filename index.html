@@ -16,7 +16,10 @@
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
       <div class="drawer-header">
-        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" />
+        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" width="160" height="56" />
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+          <i data-lucide="x"></i>
+        </button>
       </div>
 
       <ul class="drawer-nav">
@@ -98,14 +101,14 @@
         <i data-lucide="menu"></i>
       </button>
 
-      <h1>BEM-VINDO</h1>
+      <h1>Open Source Burger</h1>
     </header>
 
     <section class="hero">
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <img src="assets/logo.webp" alt="Open Source Burger" class="logo" />
+        <img src="assets/logo.webp" alt="Open Source Burger" class="logo" width="250" height="88" />
 
         <a href="#" class="order-button">
           <i data-lucide="chevron-right"></i>
@@ -115,12 +118,12 @@
         <div class="info-box">
           <p class="info-main">
             <i data-lucide="phone"></i>
-            <a href="#" data-tel></a>
+            <a href="#" data-tel aria-label="Telefone de contato">Carregando telefone...</a>
           </p>
 
           <p class="info-main">
             <i data-lucide="map-pin"></i>
-            <a href="#" data-endereco target="_blank" rel="noopener noreferrer"></a>
+            <a href="#" data-endereco target="_blank" rel="noopener noreferrer">Carregando endereço...</a>
           </p>
 
           <div class="info-secondary">

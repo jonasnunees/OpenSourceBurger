@@ -58,3 +58,23 @@ body {
   cursor: pointer;
   transition: background var(--transition-fast);
 }
+
+.close-drawer-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.close-drawer-btn svg {
+  width: 24px;
+  height: 24px;
+}

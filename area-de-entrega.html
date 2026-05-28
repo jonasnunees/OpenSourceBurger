@@ -16,7 +16,10 @@
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
       <div class="drawer-header">
-        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" />
+        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" width="160" height="56" />
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+          <i data-lucide="x"></i>
+        </button>
       </div>
 
       <ul class="drawer-nav">
@@ -105,7 +108,7 @@
     <main class="delivery-page">
 
       <!-- Cidade -->
-      <p class="section-label">Cidade</p>
+      <h2 class="section-label">Cidade</h2>
       <div class="city-select-wrapper">
         <select class="city-select" aria-label="Selecionar cidade" id="city-select">
           <!-- preenchido via JS -->
@@ -114,7 +117,7 @@
       </div>
 
       <!-- Bairros -->
-      <p class="section-label">Bairros Atendidos</p>
+      <h2 class="section-label">Bairros Atendidos</h2>
 
       <div class="search-wrapper">
         <i data-lucide="search"></i>

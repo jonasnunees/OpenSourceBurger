@@ -81,6 +81,7 @@ document.querySelector(".modal-ok").addEventListener("click", () => {
 const drawer = document.getElementById("drawer");
 const overlay = document.getElementById("drawer-overlay");
 const menuBtn = document.getElementById("menu-btn");
+const closeBtn = document.getElementById("close-drawer-btn");
 
 function openDrawer() {
   drawer.classList.add("is-open");
@@ -96,6 +97,7 @@ function closeDrawer() {
 
 menuBtn.addEventListener("click", openDrawer);
 overlay.addEventListener("click", closeDrawer);
+if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
 
 // ── Verifica se está dentro do horário ──
 function estaAberto() {
