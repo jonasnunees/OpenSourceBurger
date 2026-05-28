@@ -84,7 +84,7 @@
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 1px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-md);
   transition: var(--transition-fast);
 }
 
@@ -284,11 +284,11 @@
 .drawer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-bg);
   z-index: 99;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity var(--transition-medium);
 }
 
 .drawer-overlay.is-open {
@@ -307,7 +307,7 @@
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-medium) cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 

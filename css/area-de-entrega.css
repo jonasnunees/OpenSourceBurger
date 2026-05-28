@@ -59,7 +59,7 @@
   width: 100%;
   appearance: none;
   background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-input);
   border-radius: 12px;
   color: var(--text-main);
   font-family: var(--font-body);
@@ -105,7 +105,7 @@
 .search-input {
   width: 100%;
   background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-input);
   border-radius: 12px;
   color: var(--text-main);
   font-family: var(--font-body);
@@ -135,7 +135,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid var(--border-subtle);
   gap: 12px;
   animation: fadeIn 0.2s ease;
 }
@@ -200,11 +200,11 @@
 .drawer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-bg);
   z-index: 99;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity var(--transition-medium);
 }
 
 .drawer-overlay.is-open {
@@ -223,7 +223,7 @@
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-medium) cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
 }
 
