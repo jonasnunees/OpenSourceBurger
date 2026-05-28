@@ -1,0 +1,310 @@
+.topbar {
+  height: 72px;
+  background: var(--bg-topbar);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.5;
+}
+
+.topbar h1 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── Conteúdo principal ── */
+.delivery-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+/* ── Seletor de cidade ── */
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 10px;
+}
+
+.city-select-wrapper {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.city-select {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  padding: 14px 44px 14px 16px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.city-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.city-select-wrapper svg {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+/* ── Busca de bairro ── */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-wrapper svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  padding: 14px 16px 14px 44px;
+  transition: border-color var(--transition-fast);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* ── Lista de bairros ── */
+.neighborhoods-list {
+  list-style: none;
+  display: grid;
+  gap: 0;
+}
+
+.neighborhood-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  gap: 12px;
+  animation: fadeIn 0.2s ease;
+}
+
+.neighborhood-item:last-child {
+  border-bottom: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; translate: 0 6px; }
+  to   { opacity: 1; translate: 0 0;   }
+}
+
+.neighborhood-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.neighborhood-left svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: var(--primary-color);
+  stroke-width: 2.2;
+}
+
+.neighborhood-name {
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.neighborhood-fee {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
+/* ── Sem resultados ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 0 24px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+  display: none;
+}
+
+.empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke: rgba(255, 255, 255, 0.15);
+  margin-bottom: 12px;
+  display: block;
+  margin-inline: auto;
+}
+
+/* ── Drawer (reaproveitado do index) ── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.drawer-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(80%, 320px);
+  background: var(--bg-card);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.drawer-logo {
+  width: min(70%, 160px);
+}
+
+.drawer-nav {
+  list-style: none;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.drawer-nav li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.drawer-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+}
+
+.drawer-item:hover svg {
+  stroke: var(--primary-color);
+}
+
+.drawer-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+.drawer-item.active {
+  color: var(--primary-color);
+}
+
+.drawer-item.active svg {
+  stroke: var(--primary-color);
+}
+
+.drawer-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.drawer-credit,
+.drawer-icons {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.8;
+}
+
+.drawer-credit a,
+.drawer-icons a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.drawer-credit a:hover,
+.drawer-icons a:hover {
+  color: var(--primary-color);
+}

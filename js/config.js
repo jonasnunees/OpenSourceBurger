@@ -24,4 +24,23 @@ const CONFIG = {
     { dia: "Sexta",    abertura: "18:00", fechamento: "23:59" },
     { dia: "Sábado",   abertura: "18:00", fechamento: "23:59" },
   ],
+
+  cidade: "São Pedro da Aldeia/RJ",
+
+  bairros: [
+    { nome: "Baleia",            taxa: 3.00  },
+    { nome: "Base Aero Naval",   taxa: 10.00 },
+    { nome: "Boqueirão",         taxa: 3.00  },
+    { nome: "Camerum",           taxa: 4.00  },
+    { nome: "Centro",            taxa: 5.00  },
+    { nome: "Estação",           taxa: 10.00 },
+    { nome: "Fluminense",        taxa: 10.00 },
+    { nome: "Mossoró",           taxa: 4.00  },
+    { nome: "Nova São Pedro",    taxa: 5.00  },
+    { nome: "Poço Fundo",        taxa: 3.00  },
+    { nome: "Ponta da Areia",    taxa: 3.00  },
+    { nome: "Porto da Aldeia",   taxa: 4.00  },
+    { nome: "Praia do Sudoeste", taxa: 3.00  },
+    { nome: "São José",          taxa: 10.00 },
+  ],
 };
