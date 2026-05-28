@@ -3,26 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Open Source Burger — Peça online ou retire no local em São Pedro da Aldeia. Entrega em 30 min."
-    />
+    <meta name="description" content="Open Source Burger — Peça online ou retire no local em São Pedro da Aldeia. Entrega em 30 min." />
     <title>OpenSourceBurger</title>
 
     <link rel="icon" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
+
     <!-- Drawer -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
       <div class="drawer-header">
-        <img
-          src="assets/logo.webp"
-          alt="Open Source Burger"
-          class="drawer-logo"
-        />
+        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" />
       </div>
 
       <ul class="drawer-nav">
@@ -81,13 +75,7 @@
           </a>
         </li>
         <li>
-          <a
-            href="https://wa.me/5522999294971?text=Olá!+Gostaria+de+fazer+um+pedido."
-            class="drawer-item"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Pedir pelo WhatsApp"
-          >
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
             <i data-lucide="message-circle-more"></i>
             <span>Pedir pelo WhatsApp</span>
           </a>
@@ -97,18 +85,10 @@
       <footer class="drawer-footer">
         <p class="drawer-credit">
           Desenvolvido por
-          <a
-            href="https://github.com/jonasnunees"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Jonas Nunes</a
-          >
+          <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a>
         </p>
         <p class="drawer-icons">
-          Ícones por
-          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
-            >Lucide</a
-          >
+          Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
         </p>
       </footer>
     </nav>
@@ -135,33 +115,28 @@
         <div class="info-box">
           <p class="info-main">
             <i data-lucide="phone"></i>
-            <a href="tel:+5522999294971">(22) 9-9929-4971</a>
+            <a href="#" data-tel></a>
           </p>
 
           <p class="info-main">
             <i data-lucide="map-pin"></i>
-            <a
-              href="https://share.google/J5IHdEkIUK4utzDgb"
-              target="_blank"
-              rel="noopener noreferrer"
-              >São Pedro da Aldeia</a
-            >
+            <a href="#" data-endereco target="_blank" rel="noopener noreferrer"></a>
           </p>
 
           <div class="info-secondary">
             <p>
               <i data-lucide="bike"></i>
-              30 min · tempo estimado de entrega
+              <span data-tempo-entrega></span>
             </p>
 
             <p>
               <i data-lucide="store"></i>
-              20 min · retirada e consumo no local
+              <span data-tempo-retirada></span>
             </p>
 
             <p>
               <i data-lucide="clock-3"></i>
-              Atendimento hoje das 18:00 às 23:59
+              <span data-horario-hoje></span>
             </p>
           </div>
 
@@ -172,41 +147,11 @@
 
     <dialog id="hours-modal" class="hours-modal">
       <h2>Horários de Atendimento</h2>
-
-      <ul class="hours-list">
-        <li>
-          <span>Domingo</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Segunda</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Terça</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Quarta</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Quinta</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Sexta</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-        <li>
-          <span>Sábado</span
-          ><span><i data-lucide="clock-3"></i>18:00 – 23:59</span>
-        </li>
-      </ul>
-
+      <ul class="hours-list" id="hours-list"></ul>
       <button class="modal-ok">OK</button>
     </dialog>
 
+    <script src="js/config.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/script.js"></script>
   </body>
