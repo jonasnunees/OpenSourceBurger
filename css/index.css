@@ -379,3 +379,23 @@ body {
 .drawer-icons a:hover {
   color: var(--primary-color);
 }
+
+/* ── Modal fechado ── */
+.closed-message {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.closed-hours-hint {
+  font-size: 0.88rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 28px;
+}
+
+.closed-hours-hint strong {
+  color: var(--primary-color);
+}

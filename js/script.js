@@ -97,9 +97,47 @@ function closeDrawer() {
 menuBtn.addEventListener("click", openDrawer);
 overlay.addEventListener("click", closeDrawer);
 
+// ── Verifica se está dentro do horário ──
+function estaAberto() {
+  const agora = new Date();
+  const hoje = CONFIG.horarios[agora.getDay()];
+  if (!hoje) return false;
+
+  const [hAbre, mAbre] = hoje.abertura.split(":").map(Number);
+  const [hFecha, mFecha] = hoje.fechamento.split(":").map(Number);
+
+  const agoraMin = agora.getHours() * 60 + agora.getMinutes();
+  const abreMin = hAbre * 60 + mAbre;
+  const fechaMin = hFecha * 60 + mFecha;
+
+  return agoraMin >= abreMin && agoraMin <= fechaMin;
+}
+
+// ── Modal de fechado ──
+function initModalFechado() {
+  if (estaAberto()) return;
+
+  const modal = document.getElementById("closed-modal");
+  const btnOk = document.getElementById("closed-ok");
+  const elAbre = document.querySelector("[data-abre-hoje]");
+
+  if (elAbre) {
+    elAbre.textContent = CONFIG.horarios[new Date().getDay()].abertura;
+  }
+
+  modal.showModal();
+  requestAnimationFrame(() => modal.classList.add("is-open"));
+
+  btnOk.addEventListener("click", () => {
+    modal.classList.remove("is-open");
+    modal.addEventListener("transitionend", () => modal.close(), { once: true });
+  });
+}
+
 // ── Init ──
 initContato();
 initEndereco();
 initTempos();
 initHorarioHoje();
 initHorarioModal();
+initModalFechado(); // deve ser o último
