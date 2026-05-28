@@ -6,13 +6,13 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: #060a0f;
-  color: #fff;
+  background: var(--bg-dark);
+  color: var(--text-main);
 }
 
 .topbar {
   height: 72px;
-  background: #242424;
+  background: var(--bg-topbar);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -23,7 +23,7 @@ body {
 .menu-btn {
   background: transparent;
   border: none;
-  color: white;
+  color: var(--text-main);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -83,8 +83,8 @@ body {
   width: 100%;
   min-height: 56px;
   border-radius: 999px;
-  background: #E67E22;
-  color: white;
+  background: var(--primary-color);
+  color: var(--text-main);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.4px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-  transition: 0.25s ease;
+  transition: var(--transition-fast);
 }
 
 .order-button span {
@@ -104,8 +104,8 @@ body {
 }
 
 .order-button:hover {
-    background: #D35400;
-    transition: .7s;
+    background: var(--primary-hover);
+    transition: var(--transition-slow);
 }
 
 .order-button svg {
@@ -135,7 +135,7 @@ body {
 
 .info-main a {
     text-decoration: none;
-    color: #f1f1f1;
+    color: var(--text-secondary);
 }
 
 .info-secondary {
@@ -147,7 +147,7 @@ body {
 .info-secondary p {
   font-size: .88rem;
   line-height: 1.4;
-  color: #f1f1f1;
+  color: var(--text-secondary);
 }
 
 .info-main svg,
@@ -164,7 +164,7 @@ body {
   border: none;
   display: inline-block;
   margin-top: 24px;
-  color: #fff;
+  color: var(--text-main);
   font-size: 1rem;
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -175,8 +175,8 @@ body {
 .hours-modal {
   border: none;
   border-radius: 16px;
-  background: #1a1a1a;
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-main);
   padding: 32px 28px 24px;
   width: min(90%, 360px);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
@@ -252,19 +252,19 @@ body {
   width: 100%;
   min-height: 48px;
   border-radius: 999px;
-  background: #E67E22;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--text-main);
   border: none;
   font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
   cursor: pointer;
-  transition: background 0.25s ease;
+  transition: background var(--transition-fast);
 }
 
 .modal-ok:hover {
-  background: #D35400;
+  background: var(--primary-hover);
 }
 
 
