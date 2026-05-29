@@ -7,11 +7,6 @@ function initContato() {
     telLink.href = `tel:+${numero}`;
     telLink.textContent = formatado;
   }
-
-  const waLink = document.querySelector("[data-whatsapp]");
-  if (waLink) {
-    waLink.href = `https://wa.me/${numero}?text=${whatsappMensagem}`;
-  }
 }
 
 // ── Endereço ──
@@ -77,28 +72,6 @@ document.querySelector(".modal-ok").addEventListener("click", () => {
   modal.addEventListener("transitionend", () => modal.close(), { once: true });
 });
 
-// ── Drawer ──
-const drawer = document.getElementById("drawer");
-const overlay = document.getElementById("drawer-overlay");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-drawer-btn");
-
-function openDrawer() {
-  drawer.classList.add("is-open");
-  overlay.classList.add("is-open");
-  document.body.style.overflow = "hidden";
-}
-
-function closeDrawer() {
-  drawer.classList.remove("is-open");
-  overlay.classList.remove("is-open");
-  document.body.style.overflow = "";
-}
-
-menuBtn.addEventListener("click", openDrawer);
-overlay.addEventListener("click", closeDrawer);
-if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
-
 // ── Verifica se está dentro do horário ──
 function estaAberto() {
   const agora = new Date();
@@ -110,7 +83,10 @@ function estaAberto() {
 
   const agoraMin = agora.getHours() * 60 + agora.getMinutes();
   const abreMin = hAbre * 60 + mAbre;
-  const fechaMin = hFecha * 60 + mFecha;
+  let fechaMin = hFecha * 60 + mFecha;
+
+  // Lógica para horários que passam da meia-noite (ex: até as 02:00)
+  if (fechaMin <= abreMin) fechaMin += 1440; 
 
   return agoraMin >= abreMin && agoraMin <= fechaMin;
 }

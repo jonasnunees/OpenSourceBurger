@@ -68,39 +68,7 @@ function initBairros() {
   });
 }
 
-// ── Drawer ──
-const drawer = document.getElementById("drawer");
-const overlay = document.getElementById("drawer-overlay");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-drawer-btn");
-
-function openDrawer() {
-  drawer.classList.add("is-open");
-  overlay.classList.add("is-open");
-  document.body.style.overflow = "hidden";
-}
-
-function closeDrawer() {
-  drawer.classList.remove("is-open");
-  overlay.classList.remove("is-open");
-  document.body.style.overflow = "";
-}
-
-menuBtn.addEventListener("click", openDrawer);
-overlay.addEventListener("click", closeDrawer);
-if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
-
-// ── WhatsApp ──
-function initWhatsapp() {
-  const { numero, whatsappMensagem } = CONFIG.contato;
-  const waLink = document.querySelector("[data-whatsapp]");
-  if (waLink) {
-    waLink.href = `https://wa.me/${numero}?text=${whatsappMensagem}`;
-  }
-}
-
 // ── Init ──
 lucide.createIcons();
 initCidade();
 initBairros();
-initWhatsapp();

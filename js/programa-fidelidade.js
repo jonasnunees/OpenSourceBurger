@@ -211,55 +211,9 @@ function initTabs() {
   });
 }
 
-// ── Drawer ───────────────────────────────────────────────────────────────────
-
-const drawer  = document.getElementById("drawer");
-const overlay = document.getElementById("drawer-overlay");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-drawer-btn");
-
-function openDrawer() {
-  drawer.classList.add("is-open");
-  overlay.classList.add("is-open");
-  overlay.removeAttribute("aria-hidden");
-  document.body.style.overflow = "hidden";
-  menuBtn.setAttribute("aria-expanded", "true");
-}
-
-function closeDrawer() {
-  drawer.classList.remove("is-open");
-  overlay.classList.remove("is-open");
-  overlay.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  menuBtn.setAttribute("aria-expanded", "false");
-}
-
-menuBtn.addEventListener("click", openDrawer);
-overlay.addEventListener("click", closeDrawer);
-if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
-
-// Fecha com Escape — WCAG 2.1 SC 1.4.13
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && drawer.classList.contains("is-open")) {
-    closeDrawer();
-    menuBtn.focus();
-  }
-});
-
-// ── WhatsApp ──────────────────────────────────────────────────────────────────
-
-function initWhatsapp() {
-  const { numero, whatsappMensagem } = CONFIG.contato;
-  const waLink = document.querySelector("[data-whatsapp]");
-  if (waLink) {
-    waLink.href = `https://wa.me/${numero}?text=${whatsappMensagem}`;
-  }
-}
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 
 lucide.createIcons();
 initTabs();
 initPremios();
 initRegulamento();
-initWhatsapp();

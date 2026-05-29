@@ -7,6 +7,7 @@ const CONFIG = {
 
   endereco: {
     texto: "São Pedro da Aldeia",
+    completo: "Estr. do Boqueirão, Baleia, São Pedro da Aldeia – RJ",
     mapLink: "https://share.google/J5IHdEkIUK4utzDgb",
   },
 
