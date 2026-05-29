@@ -1,0 +1,344 @@
+/* ═══════════════════════════════════════
+   localizacao.css
+   Estilos específicos da página de Localização.
+   Depende de base.css para variáveis e reset.
+   ═══════════════════════════════════════ */
+
+/* ── Topbar ── */
+.topbar {
+  height: var(--topbar-height);
+  background: var(--bg-topbar);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  box-shadow: var(--shadow-sm);
+  /* Cria contexto de empilhamento acima do mapa */
+  position: relative;
+  z-index: 10;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Área de toque acessível (mínimo 44×44 px — WCAG 2.5.5) */
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.menu-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.5;
+}
+
+.topbar h1 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  /* Empurra o botão do carrinho para a direita */
+  flex: 1;
+}
+
+/* ── Botão do carrinho (canto direito da topbar) ── */
+.cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--text-main);
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.cart-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #e53935;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  /* Anel de contraste para separar do ícone */
+  box-shadow: 0 0 0 2px var(--bg-topbar);
+}
+
+/* ── Layout principal ── */
+.location-page {
+  display: flex;
+  flex-direction: column;
+  /*
+    Ocupa exatamente o espaço restante da viewport após a topbar.
+    dvh cobre browsers móveis modernos (endereço recolhível).
+  */
+  height: calc(100dvh - var(--topbar-height));
+  overflow: hidden;
+}
+
+/* ── Seção de endereço ── */
+.address-section {
+  background: var(--bg-topbar);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  /* Linha separadora sutil entre o topbar e o conteúdo */
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.store-address {
+  font-style: normal; /* <address> é itálico por padrão — sobrescrevemos */
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  text-align: center;
+  max-width: 560px;
+}
+
+/* ── Botão "Traçar rota" ── */
+.route-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: var(--text-main);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-md);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  /* Área de toque acessível */
+  min-height: 48px;
+}
+
+.route-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+  /* Evita que o ícone encolha em flex */
+  flex-shrink: 0;
+}
+
+.route-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.route-btn:active {
+  transform: translateY(0);
+}
+
+/*
+  Focus visível para usuários de teclado — cumpre WCAG 2.4.7.
+  Usamos :focus-visible para não aplicar anel em cliques com mouse.
+*/
+.route-btn:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+/* ── Seção do mapa ── */
+.map-section {
+  flex: 1; /* Ocupa todo o espaço restante abaixo do endereço */
+  position: relative;
+  overflow: hidden;
+}
+
+.map-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ── Drawer ── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium);
+}
+
+.drawer-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(80%, 320px);
+  background: var(--bg-card);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform var(--transition-medium) cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Botão de fechar escondido visualmente mas acessível via teclado */
+.close-drawer-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+  transition: background var(--transition-fast);
+}
+
+.close-drawer-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.close-drawer-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.drawer-logo {
+  width: min(70%, 160px);
+  height: auto;
+}
+
+.drawer-nav {
+  list-style: none;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.drawer-nav li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.drawer-item:hover,
+.drawer-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+}
+
+.drawer-item:hover svg,
+.drawer-item.active svg {
+  stroke: var(--primary-color);
+}
+
+.drawer-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition: stroke var(--transition-fast);
+}
+
+.drawer-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.drawer-credit,
+.drawer-icons {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.8;
+}
+
+.drawer-credit a,
+.drawer-icons a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.drawer-credit a:hover,
+.drawer-icons a:hover {
+  color: var(--primary-color);
+}
+
+/* ── Responsividade ── */
+@media (min-width: 600px) {
+  .address-section {
+    padding: 24px 32px;
+  }
+
+  .store-address {
+    font-size: 1.1rem;
+  }
+
+  .route-btn {
+    font-size: 1.1rem;
+    padding: 15px 36px;
+  }
+}
