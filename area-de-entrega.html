@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Área de entrega do Open Source Burger em São Pedro da Aldeia. Confira os bairros atendidos e as taxas de entrega." />
+    <meta
+      name="description"
+      content="Área de entrega do Open Source Burger em São Pedro da Aldeia. Confira os bairros atendidos e as taxas de entrega."
+    />
     <title>Área de Entrega — OpenSourceBurger</title>
 
     <link rel="icon" href="assets/favicon.ico" />
@@ -11,13 +14,22 @@
     <link rel="stylesheet" href="css/area-de-entrega.css" />
   </head>
   <body>
-
     <!-- Drawer -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
       <div class="drawer-header">
-        <img src="assets/logo.webp" alt="Open Source Burger" class="drawer-logo" width="160" height="56" />
-        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+        <img
+          src="assets/logo.webp"
+          alt="Open Source Burger"
+          class="drawer-logo"
+          width="160"
+          height="56"
+        />
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
           <i data-lucide="x"></i>
         </button>
       </div>
@@ -60,7 +72,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="drawer-item">
+          <a href="programa-fidelidade.html" class="drawer-item">
             <i data-lucide="gift"></i>
             <span>Programa de Fidelidade</span>
           </a>
@@ -72,13 +84,24 @@
           </a>
         </li>
         <li>
-          <a href="area-de-entrega.html" class="drawer-item active" aria-current="page">
+          <a
+            href="area-de-entrega.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
             <i data-lucide="circle-dashed"></i>
             <span>Área de Entrega</span>
           </a>
         </li>
         <li>
-          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
             <i data-lucide="message-circle-more"></i>
             <span>Pedir pelo WhatsApp</span>
           </a>
@@ -88,10 +111,18 @@
       <footer class="drawer-footer">
         <p class="drawer-credit">
           Desenvolvido por
-          <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a>
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
         </p>
         <p class="drawer-icons">
-          Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
         </p>
       </footer>
     </nav>
@@ -106,11 +137,14 @@
 
     <!-- Conteúdo -->
     <main class="delivery-page">
-
       <!-- Cidade -->
       <h2 class="section-label">Cidade</h2>
       <div class="city-select-wrapper">
-        <select class="city-select" aria-label="Selecionar cidade" id="city-select">
+        <select
+          class="city-select"
+          aria-label="Selecionar cidade"
+          id="city-select"
+        >
           <!-- preenchido via JS -->
         </select>
         <i data-lucide="chevrons-up-down"></i>
@@ -130,7 +164,12 @@
         />
       </div>
 
-      <ul class="neighborhoods-list" id="neighborhoods-list" aria-live="polite" aria-label="Lista de bairros atendidos">
+      <ul
+        class="neighborhoods-list"
+        id="neighborhoods-list"
+        aria-live="polite"
+        aria-label="Lista de bairros atendidos"
+      >
         <!-- preenchido via JS -->
       </ul>
 
@@ -138,7 +177,6 @@
         <i data-lucide="search-x"></i>
         Nenhum bairro encontrado para "<span id="empty-term"></span>"
       </div>
-
     </main>
 
     <script src="js/config.js"></script>

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Programa de Fidelidade Open Source Burger — Troque seus pontos por prêmios incríveis. Confira o catálogo de brindes, seu histórico e o regulamento."
+    />
+    <title>Programa de Fidelidade — Open Source Burger</title>
+
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/programa-fidelidade.css" />
+  </head>
+  <body>
+    <!-- ── Drawer overlay ── -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+
+    <!-- ── Drawer / Menu lateral ── -->
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <img
+          src="assets/logo.webp"
+          alt="Open Source Burger"
+          class="drawer-logo"
+          width="160"
+          height="56"
+        />
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="programa-fidelidade.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp (abre em nova aba)"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ── Topbar ── -->
+    <header class="topbar">
+      <button
+        class="menu-btn"
+        id="menu-btn"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+
+      <h1 class="topbar-title">Programa de Fidelidade</h1>
+
+      <a href="#" class="cart-btn" aria-label="Carrinho de compras, 0 itens">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ── Conteúdo principal ── -->
+    <main>
+      <!-- Tabs de navegação — padrão ARIA Authoring Practices Guide -->
+      <div
+        class="tabs-nav"
+        role="tablist"
+        aria-label="Seções do Programa de Fidelidade"
+      >
+        <button
+          class="tab-btn"
+          id="tab-premios"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-premios"
+          tabindex="0"
+        >
+          Prêmios
+        </button>
+
+        <button
+          class="tab-btn"
+          id="tab-historico"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-historico"
+          tabindex="-1"
+        >
+          Histórico
+        </button>
+
+        <button
+          class="tab-btn"
+          id="tab-regulamento"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-regulamento"
+          tabindex="-1"
+        >
+          Regulamento
+        </button>
+      </div>
+
+      <!-- ── Painel: Prêmios ── -->
+      <section
+        class="tab-panel prizes-panel is-active"
+        id="panel-premios"
+        role="tabpanel"
+        aria-labelledby="tab-premios"
+        tabindex="0"
+      >
+        <!-- Campo de busca -->
+        <div class="search-wrapper">
+          <i data-lucide="search"></i>
+          <input
+            class="search-input"
+            id="search-input"
+            type="search"
+            placeholder="Pesquisar..."
+            aria-label="Pesquisar prêmios"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Lista de prêmios — populada via JS -->
+        <ul
+          class="prizes-list"
+          id="prizes-list"
+          aria-label="Catálogo de prêmios"
+        ></ul>
+
+        <!-- Estado vazio da busca -->
+        <div
+          class="empty-state"
+          id="empty-state"
+          role="status"
+          aria-live="polite"
+        >
+          <i data-lucide="search-x"></i>
+          <p>Nenhum prêmio encontrado.</p>
+        </div>
+      </section>
+
+      <!-- ── Painel: Histórico ── -->
+      <section
+        class="tab-panel history-panel"
+        id="panel-historico"
+        role="tabpanel"
+        aria-labelledby="tab-historico"
+        tabindex="0"
+      >
+        <p class="history-message">
+          Faça login para ver o seu histórico de pontos.
+        </p>
+
+        <a
+          href="#"
+          class="login-btn"
+          aria-label="Fazer login ou cadastrar-se no programa de fidelidade"
+        >
+          <i data-lucide="user-round"></i>
+          Faça login ou cadastre-se
+        </a>
+      </section>
+
+      <!-- ── Painel: Regulamento ── -->
+      <section
+        class="tab-panel rules-panel"
+        id="panel-regulamento"
+        role="tabpanel"
+        aria-labelledby="tab-regulamento"
+        tabindex="0"
+      >
+        <p class="rules-intro">
+          Com o nosso programa de fidelidade você ganha pontos de acordo com o
+          valor dos produtos do seu pedido. Cada categoria de produto possui uma
+          pontuação. Confira a tabela abaixo:
+        </p>
+
+        <!-- Tabela de pontuação por categoria -->
+        <table
+          class="points-table"
+          aria-label="Pontuação por categoria de produto"
+        >
+          <thead class="sr-only">
+            <tr>
+              <th scope="col">Categoria</th>
+              <th scope="col">Pontuação</th>
+            </tr>
+          </thead>
+          <tbody id="categories-body">
+            <!-- Populado via JS -->
+          </tbody>
+        </table>
+
+        <!-- Texto do regulamento -->
+        <div class="rules-section">
+          <h2 class="rules-heading">Regulamento</h2>
+
+          <p class="rules-text">
+            <i data-lucide="party-popper" aria-hidden="true"></i>
+            Agora tem fidelidade aqui na loja!
+          </p>
+
+          <p class="rules-text">
+            Cada pedido vira pontos, e com esses pontos você troca por brindes
+            incríveis!
+          </p>
+
+          <p class="rules-highlight">
+            Para concorrer, é indispensável realizar o cadastro, garantindo que
+            os pontos sejam devidamente contabilizados.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Scripts ── -->
+    <script src="js/config.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/programa-fidelidade.js"></script>
+  </body>
+</html>

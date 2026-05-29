@@ -1,0 +1,642 @@
+/* ═══════════════════════════════════════
+   programa-fidelidade.css
+   Estilos específicos da página Programa de Fidelidade.
+   Depende de base.css para variáveis e reset.
+   ═══════════════════════════════════════ */
+
+/* ── Topbar ── */
+.topbar {
+  height: var(--topbar-height);
+  background: var(--bg-topbar);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 10;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.menu-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.5;
+}
+
+.topbar-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Botão do carrinho ── */
+.cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--text-main);
+  text-decoration: none;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.cart-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #e53935;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--bg-topbar);
+}
+
+/* ── Tabs ── */
+.tabs-nav {
+  display: flex;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-subtle);
+  /* Garante que a nav fique abaixo da topbar mas acima do conteúdo */
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 14px 4px;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+  /* Área de toque mínima (WCAG 2.5.5) */
+  min-height: 44px;
+}
+
+.tab-btn:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tab-btn[aria-selected="true"] {
+  color: var(--text-main);
+  border-bottom-color: var(--primary-color);
+}
+
+/* ── Painéis de conteúdo ── */
+.tab-panel {
+  display: none;
+  animation: panelFadeIn 0.2s ease;
+}
+
+.tab-panel.is-active {
+  display: block;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Painel: Prêmios ── */
+.prizes-panel {
+  padding: 0;
+}
+
+/* Campo de busca */
+.search-wrapper {
+  position: relative;
+  padding: 16px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.search-wrapper svg {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 12px 16px 12px 44px;
+  transition: border-color var(--transition-fast);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Lista de prêmios */
+.prizes-list {
+  list-style: none;
+}
+
+.prize-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-dark);
+  transition: background var(--transition-fast);
+  cursor: default;
+}
+
+.prize-item:last-child {
+  border-bottom: none;
+}
+
+.prize-item:hover {
+  background: var(--bg-card);
+}
+
+/* Imagem do prêmio */
+.prize-thumb {
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--bg-card);
+  /* Fallback visual enquanto imagem carrega */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Placeholder quando não há imagem */
+.prize-thumb-placeholder {
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Informações do prêmio */
+.prize-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.prize-name {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.3;
+  /* Evita overflow em nomes longos */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prize-points {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+/* Estado vazio da busca */
+.empty-state {
+  display: none;
+  text-align: center;
+  padding: 56px 24px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+}
+
+.empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke: rgba(255, 255, 255, 0.15);
+  margin: 0 auto 12px;
+  display: block;
+}
+
+/* ── Painel: Histórico ── */
+.history-panel {
+  display: none; /* sobrescrito por .is-active */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - var(--topbar-height) - 49px);
+  padding: 48px 24px;
+  text-align: center;
+  gap: 24px;
+}
+
+.history-panel.is-active {
+  display: flex;
+}
+
+.history-message {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 280px;
+}
+
+/* Botão de login — usa a cor primária do sistema de design */
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  background: var(--primary-color);
+  color: var(--text-main);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background: var(--primary-hover);
+}
+
+.login-btn:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+.login-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ── Painel: Regulamento ── */
+.rules-panel {
+  padding: 20px 16px 48px;
+}
+
+.rules-intro {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Tabela de pontuação */
+.points-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  font-size: 0.92rem;
+}
+
+.points-table tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.points-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.points-table td {
+  padding: 14px 4px;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+/* Coluna de pontuação alinhada à direita */
+.points-table td:last-child {
+  text-align: right;
+  font-family: var(--font-body);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-main);
+}
+
+/* Destaque especial para Sanduíches (2 pontos — único diferente) */
+.points-table tr[data-highlight] td {
+  color: var(--primary-color);
+}
+
+/* Seção do regulamento textual */
+.rules-section {
+  margin-top: 8px;
+}
+
+.rules-heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.rules-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Parágrafos sem ícone não têm comportamento flex */
+.rules-text:not(:has(svg)) {
+  display: block;
+}
+
+.rules-text svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: var(--primary-color);
+  stroke-width: 2;
+}
+
+/* Aviso destacado (fundo amarelo como na imagem de referência) */
+.rules-highlight {
+  background: #f5c400;
+  color: #1a1100;
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+
+/* ── Drawer ── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium);
+}
+
+.drawer-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(80%, 320px);
+  background: var(--bg-card);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform var(--transition-medium) cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.close-drawer-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+  transition: background var(--transition-fast);
+}
+
+.close-drawer-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.close-drawer-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.drawer-logo {
+  width: min(70%, 160px);
+  height: auto;
+}
+
+.drawer-nav {
+  list-style: none;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.drawer-nav li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.drawer-item:hover,
+.drawer-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+}
+
+.drawer-item:hover svg,
+.drawer-item.active svg {
+  stroke: var(--primary-color);
+}
+
+.drawer-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition: stroke var(--transition-fast);
+}
+
+.drawer-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.drawer-credit,
+.drawer-icons {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.8;
+}
+
+.drawer-credit a,
+.drawer-icons a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.drawer-credit a:hover,
+.drawer-icons a:hover {
+  color: var(--primary-color);
+}
+
+/* ── Responsividade ── */
+@media (min-width: 480px) {
+  .topbar-title {
+    font-size: 1.5rem;
+  }
+
+  .prize-item {
+    padding: 14px 20px;
+    gap: 20px;
+  }
+
+  .prize-thumb,
+  .prize-thumb-placeholder {
+    width: 96px;
+    height: 96px;
+  }
+
+  .prize-name {
+    font-size: 1rem;
+  }
+
+  .prize-points {
+    font-size: 1.35rem;
+  }
+
+  .rules-panel {
+    padding: 24px 20px 56px;
+  }
+
+  .search-wrapper {
+    padding: 16px 20px;
+  }
+
+  .search-wrapper svg {
+    left: 34px;
+  }
+}
+
+@media (min-width: 600px) {
+  .prize-item {
+    padding: 16px 24px;
+  }
+
+  .prize-thumb,
+  .prize-thumb-placeholder {
+    width: 104px;
+    height: 104px;
+  }
+
+  .rules-panel {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 24px 64px;
+  }
+}

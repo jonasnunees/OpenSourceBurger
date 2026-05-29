@@ -10,7 +10,10 @@
     <title>Localização | Open Source Burger</title>
 
     <!-- Canonical para evitar conteúdo duplicado -->
-    <link rel="canonical" href="https://opensourceburger.com.br/localizacao.html" />
+    <link
+      rel="canonical"
+      href="https://opensourceburger.com.br/localizacao.html"
+    />
 
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="css/base.css" />
@@ -21,44 +24,49 @@
       os dados estruturados do estabelecimento.
     -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FastFoodRestaurant",
-      "name": "Open Source Burger",
-      "image": "https://opensourceburger.com.br/assets/logo.webp",
-      "url": "https://opensourceburger.com.br",
-      "telephone": "+5522981104103",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Estrada do Boqueirão",
-        "addressLocality": "São Pedro da Aldeia",
-        "addressRegion": "RJ",
-        "postalCode": "28940-000",
-        "addressCountry": "BR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -22.880357,
-        "longitude": -42.130493
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
-          ],
-          "opens": "18:00",
-          "closes": "23:59"
-        }
-      ],
-      "servesCuisine": "Hambúrguer artesanal",
-      "priceRange": "$$"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "FastFoodRestaurant",
+        "name": "Open Source Burger",
+        "image": "https://opensourceburger.com.br/assets/logo.webp",
+        "url": "https://opensourceburger.com.br",
+        "telephone": "+5522981104103",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Estrada do Boqueirão",
+          "addressLocality": "São Pedro da Aldeia",
+          "addressRegion": "RJ",
+          "postalCode": "28940-000",
+          "addressCountry": "BR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -22.880357,
+          "longitude": -42.130493
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "18:00",
+            "closes": "23:59"
+          }
+        ],
+        "servesCuisine": "Hambúrguer artesanal",
+        "priceRange": "$$"
+      }
     </script>
   </head>
 
   <body>
-
     <!-- ── Drawer ── -->
     <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
 
@@ -71,21 +79,57 @@
           width="160"
           height="56"
         />
-        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
           <i data-lucide="x"></i>
         </button>
       </div>
 
       <ul class="drawer-nav">
-        <li><a href="#" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
-        <li><a href="#" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
         <li>
-          <a href="localizacao.html" class="drawer-item active" aria-current="page">
+          <a href="#" class="drawer-item"
+            ><i data-lucide="book-open"></i><span>Cardápio</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="drawer-item"
+            ><i data-lucide="star"></i><span>Promoções</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="drawer-item"
+            ><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="drawer-item"
+            ><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="drawer-item"
+            ><i data-lucide="ticket"></i><span>Meus Cupons</span></a
+          >
+        </li>
+        <li>
+          <a href="#" class="drawer-item"
+            ><i data-lucide="user-round"></i><span>Minha Conta</span></a
+          >
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item"
+            ><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a
+          >
+        </li>
+        <li>
+          <a
+            href="localizacao.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
             <i data-lucide="map-pin"></i><span>Localização</span>
           </a>
         </li>
@@ -103,7 +147,8 @@
             rel="noopener noreferrer"
             aria-label="Pedir pelo WhatsApp (abre em nova aba)"
           >
-            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+            <i data-lucide="message-circle-more"></i
+            ><span>Pedir pelo WhatsApp</span>
           </a>
         </li>
       </ul>
@@ -111,22 +156,40 @@
       <footer class="drawer-footer">
         <p class="drawer-credit">
           Desenvolvido por
-          <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a>
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
         </p>
         <p class="drawer-icons">
-          Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
         </p>
       </footer>
     </nav>
 
     <!-- ── Topbar ── -->
     <header class="topbar" role="banner">
-      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="drawer">
+      <button
+        class="menu-btn"
+        id="menu-btn"
+        aria-label="Abrir menu de navegação"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
         <i data-lucide="menu"></i>
       </button>
       <h1>Localização</h1>
 
-      <a href="#" class="cart-btn" aria-label="Ver carrinho de compras (0 itens)">
+      <a
+        href="#"
+        class="cart-btn"
+        aria-label="Ver carrinho de compras (0 itens)"
+      >
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
       </a>
@@ -134,7 +197,6 @@
 
     <!-- ── Conteúdo principal ── -->
     <main class="location-page" id="main-content">
-
       <!-- Endereço e CTA -->
       <section class="address-section" aria-label="Endereço da loja">
         <address class="store-address" id="store-address">
@@ -167,7 +229,6 @@
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </section>
-
     </main>
 
     <script src="js/config.js"></script>
