@@ -14,12 +14,13 @@
     />
     <title>Login — Open Source Burger</title>
 
+    <link rel="canonical" href="https://opensourceburger.com.br/login.html" />
+
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/login.css" />
   </head>
   <body>
-
     <!-- ══ Drawer (menu lateral) ══ -->
     <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
@@ -74,7 +75,11 @@
           </a>
         </li>
         <li>
-          <a href="minha-conta.html" class="drawer-item active" aria-current="page">
+          <a
+            href="minha-conta.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
             <i data-lucide="user-round"></i>
             <span>Minha Conta</span>
           </a>
@@ -133,7 +138,13 @@
 
     <!-- ══ Topbar ══ -->
     <header class="topbar">
-      <button class="menu-btn" aria-label="Abrir menu" id="menu-btn">
+      <button
+        class="menu-btn"
+        aria-label="Abrir menu"
+        id="menu-btn"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
         <i data-lucide="menu"></i>
       </button>
 
@@ -152,7 +163,6 @@
     <!-- ══ Conteúdo principal ══ -->
     <main class="login-main" id="main-content">
       <div class="login-section">
-
         <!-- Bloco 1: Novo usuário -->
         <section class="login-block" aria-labelledby="register-heading">
           <h2 id="register-heading" class="login-block__title">
@@ -255,11 +265,7 @@
             </div>
 
             <!-- Botão entrar -->
-            <button
-              type="submit"
-              id="btn-login"
-              class="btn-base btn-primary"
-            >
+            <button type="submit" id="btn-login" class="btn-base btn-primary">
               <i data-lucide="circle-check-big"></i>
               Entrar
             </button>
@@ -270,7 +276,6 @@
             Esqueceu a senha?
           </a>
         </section>
-
       </div>
     </main>
 

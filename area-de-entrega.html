@@ -7,7 +7,12 @@
       name="description"
       content="Área de entrega do Open Source Burger em São Pedro da Aldeia. Confira os bairros atendidos e as taxas de entrega."
     />
-    <title>Área de Entrega — OpenSourceBurger</title>
+    <title>Área de Entrega — Open Source Burger</title>
+
+    <link
+      rel="canonical"
+      href="https://opensourceburger.com.br/area-de-entrega.html"
+    />
 
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="css/base.css" />
@@ -131,10 +136,21 @@
 
     <!-- Topbar -->
     <header class="topbar">
-      <button class="menu-btn" aria-label="Abrir menu" id="menu-btn">
+      <button
+        class="menu-btn"
+        aria-label="Abrir menu"
+        id="menu-btn"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
         <i data-lucide="menu"></i>
       </button>
-      <h1>Área de Entrega</h1>
+      <h1 class="topbar-title">Área de Entrega</h1>
+
+      <a href="#" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
     </header>
 
     <!-- Conteúdo -->
