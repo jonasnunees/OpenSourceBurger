@@ -13,6 +13,11 @@
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-input: rgba(255, 255, 255, 0.1);
 
+  /* Borders */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+
   /* Typography */
   --font-body: 'Nunito', sans-serif;
   --font-display: 'Barlow Condensed', sans-serif;
@@ -64,7 +69,7 @@ body {
 }
 
 .btn-base {
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.4px;
@@ -230,16 +235,9 @@ body {
 }
 
 .close-drawer-btn {
-  /* Estende a lógica sr-only */
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  /* Usa a utilidade de acessibilidade */
+  composes: sr-only;
+  position: absolute; /* Sobrescreve apenas a posição para manter o botão funcional */
 }
 
 .drawer-logo {

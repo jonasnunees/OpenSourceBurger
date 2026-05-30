@@ -1,5 +1,9 @@
 /* ── Login Page ── */
 
+:root {
+  --input-height: 54px;
+}
+
 .login-main {
   min-height: calc(100dvh - var(--topbar-height));
   display: flex;
@@ -29,35 +33,10 @@
   margin-bottom: 16px;
   line-height: 1.3;
 }
-
-/* Botão de cadastro (azul) */
 .btn-register {
   width: 100%;
-  min-height: 54px;
-  border: none;
-  border-radius: 10px;
-  background: #3d7fdb;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: background var(--transition-fast), box-shadow var(--transition-fast);
-  box-shadow: 0 4px 16px rgba(61, 127, 219, 0.3);
-}
-
-.btn-register:hover,
-.btn-register:focus-visible {
-  background: #2e68bf;
-  box-shadow: 0 6px 20px rgba(61, 127, 219, 0.45);
-  outline: none;
+  min-height: var(--input-height);
+  /* Cores azul removidas para seguir o padrão btn-primary */
 }
 
 .btn-register svg {
@@ -109,11 +88,11 @@
 
 .form-field input {
   width: 100%;
-  min-height: 54px;
+  min-height: var(--input-height);
   padding: 0 50px 0 16px;
   background: #fff;
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: 1rem;
   color: #1a1a1a;
@@ -150,7 +129,7 @@
 .toggle-password {
   position: absolute;
   right: 12px;
-  top: 27px; /* Centraliza verticalmente com base na altura do input (54px / 2) */
+  top: calc(var(--input-height) / 2);
   transform: translateY(-50%);
   background: transparent;
   border: none;
@@ -199,35 +178,10 @@
 .login-feedback.is-visible {
   display: block;
 }
-
-/* ── Botão de entrar (verde) ── */
 .btn-login {
   width: 100%;
-  min-height: 54px;
-  border: none;
-  border-radius: 10px;
-  background: #2eb82e;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: background var(--transition-fast), box-shadow var(--transition-fast);
-  box-shadow: 0 4px 16px rgba(46, 184, 46, 0.3);
-  margin-top: 4px;
-}
-
-.btn-login:hover,
-.btn-login:focus-visible {
-  background: #24a024;
-  box-shadow: 0 6px 20px rgba(46, 184, 46, 0.45);
-  outline: none;
+  min-height: var(--input-height);
+  /* Cores verde removidas para seguir o padrão btn-primary */
 }
 
 .btn-login:disabled {

@@ -4,6 +4,10 @@
    Depende de base.css para variáveis e reset.
    ═══════════════════════════════════════ */
 
+ :root {
+  --prize-img-size: 88px;
+ }
+
 /* ── Tabs ── */
 .tabs-nav {
   display: flex;
@@ -85,7 +89,7 @@
   width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border-input);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--text-main);
   font-family: var(--font-body);
   font-size: 0.95rem;
@@ -128,10 +132,10 @@
 
 /* Imagem do prêmio */
 .prize-thumb {
-  width: 88px;
-  height: 88px;
+  width: var(--prize-img-size);
+  height: var(--prize-img-size);
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
   background: var(--bg-card);
   /* Fallback visual enquanto imagem carrega */
