@@ -150,7 +150,7 @@
 .toggle-password {
   position: absolute;
   right: 12px;
-  top: 50%;
+  top: 27px; /* Centraliza verticalmente com base na altura do input (54px / 2) */
   transform: translateY(-50%);
   background: transparent;
   border: none;
