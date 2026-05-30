@@ -48,4 +48,7 @@ const UI = {
 document.addEventListener("DOMContentLoaded", () => {
   UI.initDrawer();
   UI.initWhatsapp();
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
 });

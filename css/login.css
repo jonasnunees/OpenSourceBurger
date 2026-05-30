@@ -1,0 +1,265 @@
+/* ── Login Page ── */
+
+.login-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 24px 48px;
+  background: var(--bg-dark);
+}
+
+.login-section {
+  width: 100%;
+  max-width: 430px;
+}
+
+/* ── Bloco: Primeiro acesso ── */
+.login-block {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.login-block__title {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+/* Botão de cadastro (azul) */
+.btn-register {
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 10px;
+  background: #3d7fdb;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 16px rgba(61, 127, 219, 0.3);
+}
+
+.btn-register:hover,
+.btn-register:focus-visible {
+  background: #2e68bf;
+  box-shadow: 0 6px 20px rgba(61, 127, 219, 0.45);
+  outline: none;
+}
+
+.btn-register svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2;
+  flex-shrink: 0;
+}
+
+/* ── Bloco: Formulário de login ── */
+.login-form-block {
+  text-align: center;
+}
+
+.login-form-block__title {
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+/* ── Form ── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels visíveis apenas para leitores de tela */
+.form-field label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.form-field input {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 50px 0 16px;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-field input::placeholder {
+  color: #9e9e9e;
+}
+
+.form-field input:focus {
+  border-color: #3d7fdb;
+  box-shadow: 0 0 0 3px rgba(61, 127, 219, 0.18);
+}
+
+/* Estado de erro */
+.form-field input[aria-invalid="true"] {
+  border-color: #e53935;
+}
+
+/* Mensagem de erro inline */
+.field-error {
+  font-size: 0.8rem;
+  color: #ef5350;
+  margin-top: 4px;
+  text-align: left;
+  padding-left: 4px;
+  min-height: 18px;
+  display: block;
+}
+
+/* Botão toggle de senha */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #757575;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color var(--transition-fast);
+  /* Alinha com o campo, ignorando possível mensagem de erro abaixo */
+  /* Usa marginBottom do parent como referência */
+}
+
+.toggle-password:hover,
+.toggle-password:focus-visible {
+  color: #3d7fdb;
+  outline: 2px solid rgba(61, 127, 219, 0.4);
+  outline-offset: 2px;
+}
+
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+/* Ajuste: campo de senha tem botão absoluto, precisa de posição relativa no wrapper */
+.form-field--password {
+  position: relative;
+}
+
+/* ── Feedback geral de erro (ex: credenciais inválidas) ── */
+.login-feedback {
+  background: rgba(229, 57, 53, 0.12);
+  border: 1px solid rgba(229, 57, 53, 0.4);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  color: #ef5350;
+  text-align: center;
+  display: none;
+}
+
+.login-feedback.is-visible {
+  display: block;
+}
+
+/* ── Botão de entrar (verde) ── */
+.btn-login {
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 10px;
+  background: #2eb82e;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 16px rgba(46, 184, 46, 0.3);
+  margin-top: 4px;
+}
+
+.btn-login:hover,
+.btn-login:focus-visible {
+  background: #24a024;
+  box-shadow: 0 6px 20px rgba(46, 184, 46, 0.45);
+  outline: none;
+}
+
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-login svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* ── Link "Esqueceu a senha?" ── */
+.forgot-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: color var(--transition-fast);
+}
+
+.forgot-link:hover,
+.forgot-link:focus-visible {
+  color: #3d7fdb;
+  outline: none;
+}

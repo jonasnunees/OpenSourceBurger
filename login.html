@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      noindex: página de login não deve ser indexada por mecanismos de busca.
+      É conteúdo de acesso controlado, não agrega valor de descoberta orgânica.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Acesse sua conta no Open Source Burger para gerenciar pedidos, cupons e muito mais."
+    />
+    <title>Login — Open Source Burger</title>
+
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+
+    <!-- ══ Drawer (menu lateral) ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="index.html">
+          <img
+            src="assets/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item active" aria-current="page">
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <button class="menu-btn" aria-label="Abrir menu" id="menu-btn">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <!--
+        h1 na topbar: mantém o padrão do projeto.
+        O título "LOGIN" corresponde à seção atual da página.
+      -->
+      <h1 class="topbar-title">Login</h1>
+
+      <a href="#" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="login-main" id="main-content">
+      <div class="login-section">
+
+        <!-- Bloco 1: Novo usuário -->
+        <section class="login-block" aria-labelledby="register-heading">
+          <h2 id="register-heading" class="login-block__title">
+            Seu primeiro pedido?
+          </h2>
+
+          <a href="cadastro.html" class="btn-base btn-primary">
+            <i data-lucide="user-round"></i>
+            Cadastre-se
+          </a>
+        </section>
+
+        <!-- Bloco 2: Formulário de login -->
+        <section class="login-form-block" aria-labelledby="login-heading">
+          <h2 id="login-heading" class="login-form-block__title">
+            Já é cadastrado?
+          </h2>
+
+          <!--
+            aria-live="polite": anuncia erros gerais do formulário
+            para leitores de tela sem roubar o foco bruscamente.
+          -->
+          <div
+            id="login-feedback"
+            class="login-feedback"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <form
+            id="login-form"
+            class="login-form"
+            novalidate
+            aria-label="Formulário de login"
+          >
+            <!-- Campo: e-mail -->
+            <div class="form-field">
+              <!--
+                Label visualmente oculta (sr-only implícito via CSS),
+                mas presente para leitores de tela e semântica correta.
+                O placeholder complementa, mas não substitui o label.
+              -->
+              <label for="login-email">Seu e-mail</label>
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                placeholder="Seu e-mail"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="email-error"
+              />
+              <span
+                id="email-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Campo: senha -->
+            <div class="form-field form-field--password">
+              <label for="login-password">Sua senha</label>
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                placeholder="Sua senha"
+                autocomplete="current-password"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="password-error"
+              />
+              <!--
+                Toggle de senha:
+                - aria-pressed indica estado ligado/desligado
+                - aria-label descreve a ação atual
+                - aria-controls associa o botão ao campo que controla
+              -->
+              <button
+                type="button"
+                id="toggle-password"
+                class="toggle-password"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+                aria-controls="login-password"
+              >
+                <i data-lucide="eye"></i>
+              </button>
+              <span
+                id="password-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Botão entrar -->
+            <button
+              type="submit"
+              id="btn-login"
+              class="btn-base btn-primary"
+            >
+              <i data-lucide="circle-check-big"></i>
+              Entrar
+            </button>
+          </form>
+
+          <!-- Link de recuperação de senha -->
+          <a href="recuperar-senha.html" class="forgot-link">
+            Esqueceu a senha?
+          </a>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Scripts: auth.js antes de login.js (dependência) -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

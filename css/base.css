@@ -72,6 +72,31 @@ body {
   transition: background var(--transition-fast);
 }
 
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  padding: 12px 28px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  min-height: 48px;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
 /* ── Topbar Component ── */
 .topbar {
   height: var(--topbar-height);

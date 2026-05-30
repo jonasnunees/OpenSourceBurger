@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Gerencie suas informações pessoais no Open Source Burger."
+    />
+    <title>Minha Conta — Open Source Burger</title>
+
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/account.css" />
+  </head>
+  <body>
+
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="index.html">
+          <img
+            src="assets/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <ul class="drawer-nav">
+        <li><a href="#" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
+        <li><a href="#" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
+        <li><a href="#" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
+        <li><a href="meus-pedidos.html" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
+        <li><a href="meus-cupons.html" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
+        <li><a href="minha-conta.html" class="drawer-item active" aria-current="page"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
+        <li><a href="programa-fidelidade.html" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
+        <li><a href="localizacao.html" class="drawer-item"><i data-lucide="map-pin"></i><span>Localização</span></a></li>
+        <li><a href="area-de-entrega.html" class="drawer-item"><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a></li>
+        <li>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+      <footer class="drawer-footer">
+        <p class="drawer-credit">Desenvolvido por <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a></p>
+        <p class="drawer-icons">Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a></p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <button class="menu-btn" aria-label="Abrir menu" id="menu-btn">
+        <i data-lucide="menu"></i>
+      </button>
+      <h1 class="topbar-title">Minha Conta</h1>
+      <a href="#" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="account-main" id="main-content">
+      <div class="account-container">
+
+        <header class="account-header">
+          <h2 class="account-header__title">Minha Conta</h2>
+          <p class="account-header__subtitle">Seus dados cadastrais</p>
+        </header>
+
+        <!--
+          Dados preenchidos via JS (account.js) a partir de Auth.getSession().
+          Quando o backend existir, busque os dados aqui e popule os elementos.
+        -->
+        <div class="account-card">
+          <p class="account-card__label">Nome</p>
+          <p class="account-card__value" id="account-name">—</p>
+        </div>
+
+        <div class="account-card">
+          <p class="account-card__label">E-mail</p>
+          <p class="account-card__value" id="account-email">—</p>
+        </div>
+
+        <div class="account-card">
+          <p class="account-card__label">Telefone</p>
+          <p class="account-card__value" id="account-phone">Não informado</p>
+        </div>
+
+        <!-- Botão de logout -->
+        <button
+          type="button"
+          id="btn-logout"
+          class="btn-logout"
+          aria-label="Sair da conta"
+        >
+          <i data-lucide="log-out"></i>
+          Sair da conta
+        </button>
+
+      </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/common.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      // Verificação de autenticação — deve ocorrer antes de renderizar o conteúdo.
+      // O redirect preserva a URL atual para retornar após o login.
+      document.addEventListener('DOMContentLoaded', () => {
+        Auth.requireAuth();
+
+        // Se chegou aqui, está logado: popula os dados da sessão
+        const session = Auth.getSession();
+        if (session) {
+          document.getElementById('account-name').textContent  = session.name  || '—';
+          document.getElementById('account-email').textContent = session.email || '—';
+          if (session.phone) {
+            document.getElementById('account-phone').textContent = session.phone;
+          }
+        }
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', () => {
+          Auth.logout();
+        });
+      });
+    </script>
+  </body>
+</html>
