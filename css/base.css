@@ -73,6 +73,7 @@ body {
   font-family: var(--font-body);
   background: var(--bg-dark);
   color: var(--text-main);
+  padding-top: var(--topbar-height);
 }
 
 /* Utility classes */
@@ -131,6 +132,10 @@ body {
 
 /* ── Topbar Component ── */
 .topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: var(--topbar-height);
   background: var(--bg-topbar);
   display: flex;
@@ -138,8 +143,7 @@ body {
   gap: 24px;
   padding: 0 24px;
   box-shadow: var(--shadow-sm);
-  position: relative;
-  z-index: 10;
+  z-index: 50;
 }
 
 .menu-btn {

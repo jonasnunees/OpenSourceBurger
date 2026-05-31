@@ -15,7 +15,7 @@
   border-bottom: 1px solid var(--border-subtle);
   /* Garante que a nav fique abaixo da topbar mas acima do conteúdo */
   position: sticky;
-  top: 0;
+  top: var(--topbar-height);
   z-index: 9;
 }
 
