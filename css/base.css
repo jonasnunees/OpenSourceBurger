@@ -76,6 +76,11 @@ body {
   padding-top: var(--topbar-height);
 }
 
+main {
+  width: 100%;
+  margin: 0 auto;
+}
+
 /* Utility classes */
 .flex-center {
   display: flex;
@@ -446,4 +451,25 @@ body {
 .drawer-credit a:hover,
 .drawer-icons a:hover {
   color: var(--primary-color);
+}
+
+/* ── Global Toast ── */
+.toast {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+  white-space: nowrap;
 }

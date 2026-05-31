@@ -105,8 +105,8 @@
 }
 
 .form-field input:focus {
-  border-color: #3d7fdb;
-  box-shadow: 0 0 0 3px rgba(61, 127, 219, 0.18);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.18);
 }
 
 /* Estado de erro */
@@ -147,8 +147,8 @@
 
 .toggle-password:hover,
 .toggle-password:focus-visible {
-  color: #3d7fdb;
-  outline: 2px solid rgba(61, 127, 219, 0.4);
+  color: var(--primary-color);
+  outline: 2px solid rgba(245, 196, 0, 0.4);
   outline-offset: 2px;
 }
 
@@ -214,6 +214,6 @@
 
 .forgot-link:hover,
 .forgot-link:focus-visible {
-  color: #3d7fdb;
+  color: var(--primary-color);
   outline: none;
 }
