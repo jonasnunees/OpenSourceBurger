@@ -188,6 +188,6 @@ function initRegulamento() {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-// initTabs() é chamado automaticamente por UI.initTabs() em common.js
+// UI.initTabs() é chamado automaticamente no carregamento global (common.js)
 initPremios();
 initRegulamento();

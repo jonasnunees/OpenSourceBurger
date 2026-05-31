@@ -147,6 +147,10 @@ document.addEventListener("DOMContentLoaded", () => {
   UI.initDrawer();
   UI.initWhatsapp();
 
+  // Inicializa o sistema de tabs se houver elementos [role="tab"] na página.
+  // Centralizado aqui para evitar repetição nos scripts de cada página.
+  UI.initTabs();
+
   // Inicialização única e centralizada do Lucide Icons.
   // Os scripts de página NÃO devem chamar lucide.createIcons() no topo —
   // apenas após inserções dinâmicas de ícones no DOM (ex: innerHTML).
