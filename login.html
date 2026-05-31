@@ -279,11 +279,17 @@
       </div>
     </main>
 
-    <!-- Scripts: auth.js antes de login.js (dependência) -->
+    <!-- 1. Dados globais -->
     <script src="js/config.js"></script>
+    <!-- 2. Serviço de autenticação — auth.js deve vir antes de validators e login.js -->
     <script src="js/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Utilitários — validarEmail() e validarSenha() usados em login.js -->
+    <script src="js/utils/validators.js"></script>
+    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init) -->
     <script src="js/common.js"></script>
-    <script src="js/login.js"></script>
+    <!-- 6. Script da página -->
+    <script src="js/pages/login.js"></script>
   </body>
 </html>

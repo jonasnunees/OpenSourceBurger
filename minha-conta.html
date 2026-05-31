@@ -150,7 +150,7 @@
         </header>
 
         <!--
-          Dados preenchidos via JS (account.js) a partir de Auth.getSession().
+          Dados preenchidos via JS a partir de Auth.getSession().
           Quando o backend existir, busque os dados aqui e popule os elementos.
         -->
         <div class="account-card">
@@ -181,10 +181,15 @@
       </div>
     </main>
 
+    <!-- 1. Dados globais -->
     <script src="js/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
     <script src="js/auth.js"></script>
-    <script src="js/common.js"></script>
+    <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <script src="js/common.js"></script>
+    <!-- 5. Lógica inline da página -->
     <script>
       // Verificação de autenticação — deve ocorrer antes de renderizar o conteúdo.
       // O redirect preserva a URL atual para retornar após o login.
