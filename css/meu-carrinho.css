@@ -1,0 +1,144 @@
+/* Página: Meu Carrinho */
+
+/* Container do Carrinho */
+.cart-container {
+    padding: var(--space-xl) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: var(--container-narrow);
+    margin: 0 auto;
+}
+
+/* Empty State */
+.empty-cart-state {
+    text-align: center;
+    margin: var(--space-4xl) 0;
+}
+
+.cart-icon-container {
+    font-size: var(--icon-decoration);
+    color: var(--gray-dark);
+    margin-bottom: var(--space-xl);
+}
+
+.empty-cart-state h2 {
+    font-size: var(--font-size-lg);
+    color: var(--gray-medium);
+    margin: 0 0 var(--space-xs) 0;
+    letter-spacing: 0.5px;
+}
+
+.empty-cart-state p {
+    font-size: var(--font-size-sm);
+    color: var(--gray-medium);
+    font-weight: bold;
+    margin: 0;
+}
+
+.cart-hint {
+    margin-top: var(--space-2xl);
+    color: var(--gray-deep);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+}
+
+/* Botão Principal */
+.cart-actions {
+    width: 100%;
+    margin-bottom: var(--space-3xl);
+}
+
+.btn-primary-action {
+    width: 100%;
+    background-color: var(--bg-action);
+    color: var(--text-main);
+    border: 1px solid var(--border-input);
+    padding: var(--space-lg);
+    font-size: var(--font-size-sm);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-md);
+    transition: background var(--transition-fast);
+    text-decoration: none;
+}
+
+.btn-primary-action:hover, .btn-primary-action:active {
+    background-color: var(--gray-dark);
+}
+
+/* Informações da Loja e Horários */
+.store-status-info {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-xl);
+}
+
+.status-badge {
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.status-badge.closed {
+    color: var(--status-error);
+}
+
+.status-badge.open {
+    color: var(--status-success);
+}
+
+.schedule-text {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin: var(--space-xs) 0;
+}
+
+.hours-link {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    text-decoration: underline;
+    display: inline-block;
+    margin-bottom: var(--space-2xl);
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+}
+
+/* Estimativas de Tempo */
+.delivery-time-estimates {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    text-align: left;
+    background-color: var(--bg-card);
+    padding: var(--space-lg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.estimate-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.estimate-row i {
+    font-size: var(--font-size-base);
+    color: var(--text-muted);
+    width: 20px;
+    text-align: center;
+}

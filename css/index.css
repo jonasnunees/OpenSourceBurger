@@ -116,7 +116,6 @@
   stroke-width: 2.3;
 }
 
-/* ── Modal de horários ── */
 .hours-link {
   background: transparent;
   border: none;
@@ -129,103 +128,6 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
   cursor: pointer;
-}
-
-.hours-modal {
-  border: none;
-  border-radius: 16px;
-  background: var(--bg-card);
-  color: var(--text-main);
-  padding: 32px 28px 24px;
-  width: min(90%, 360px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.hours-modal.is-open {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hours-modal::backdrop {
-  background: rgba(0, 0, 0, 0.65);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.hours-modal.is-open::backdrop {
-  opacity: 1;
-}
-
-.hours-modal h2 {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 1px;
-  margin-bottom: 24px;
-  text-transform: uppercase;
-}
-
-.hours-list {
-  list-style: none;
-  display: grid;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-
-.hours-list li {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.95rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 12px;
-}
-
-.hours-list li:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.hours-list li span:last-child {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.hours-list li span:last-child svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-  stroke-width: 2.3;
-  opacity: 0.6;
-}
-
-.modal-ok {
-  width: 100%;
-  min-height: 48px;
-  border-radius: 999px;
-  background: var(--primary-color);
-  color: var(--text-main);
-  border: none;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.modal-ok:hover {
-  background: var(--primary-hover);
 }
 
 /* ── Modal fechado ── */
