@@ -16,8 +16,28 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
-  animation: fadeSlideIn 0.4s ease both;
   position: relative;
+
+  /* Estado inicial: embaçado, transparente e levemente deslocado para baixo */
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(40px);
+  
+  /* Transição suave para quando a classe .is-revealed for adicionada */
+  transition: 
+    opacity 0.8s ease, 
+    filter 0.8s ease, 
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  
+  will-change: opacity, filter, transform;
+}
+
+/* O primeiro card ignora o efeito inicial para aparecer imediatamente */
+.promo-card:first-of-type,
+.promo-card.is-revealed {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
 }
 
 @keyframes fadeSlideIn {
