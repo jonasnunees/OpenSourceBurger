@@ -3,24 +3,9 @@
  * Lógica para a página de carrinho vazio e informações da loja.
  */
 
-function estaAberto() {
-  const agora = new Date();
-  const hoje  = CONFIG.horarios[agora.getDay()];
-  if (!hoje) return false;
-
-  const [hAbre,  mAbre]  = hoje.abertura.split(":").map(Number);
-  const [hFecha, mFecha] = hoje.fechamento.split(":").map(Number);
-
-  const agoraMin = agora.getHours() * 60 + agora.getMinutes();
-  const abreMin  = hAbre  * 60 + mAbre;
-  let   fechaMin = hFecha * 60 + mFecha;
-
-  if (fechaMin <= abreMin) fechaMin += 1440;
-  return agoraMin >= abreMin && agoraMin <= fechaMin;
-}
-
 function initStatusLoja() {
-  const isAberto = estaAberto();
+  // Agora consome a lógica centralizada no Store util do common.js
+  const isAberto = Store.isOpen();
   const badge = document.getElementById('status-badge');
   const text = document.getElementById('status-text');
   const hoje = CONFIG.horarios[new Date().getDay()];
@@ -50,37 +35,7 @@ function initTemposEstimados() {
   if (elRetirada) elRetirada.textContent = `${CONFIG.tempos.retirada} - Tempo estimado para retirada`;
 }
 
-function initModalHorarios() {
-  const modal = document.getElementById('hours-modal');
-  const btnOpen = document.getElementById('open-hours-btn');
-  const btnOk = modal?.querySelector('.modal-ok');
-  const lista = document.getElementById('hours-list');
-
-  if (!modal || !btnOpen) return;
-
-  if (lista) {
-    lista.innerHTML = CONFIG.horarios.map(h => `
-      <li>
-        <span>${h.dia}</span>
-        <span><i data-lucide="clock-3"></i> ${h.abertura} – ${h.fechamento}</span>
-      </li>
-    `).join('');
-    lucide.createIcons();
-  }
-
-  btnOpen.addEventListener('click', () => {
-    modal.showModal();
-    requestAnimationFrame(() => modal.classList.add('is-open'));
-  });
-
-  btnOk?.addEventListener('click', () => {
-    modal.classList.remove('is-open');
-    modal.addEventListener('transitionend', () => modal.close(), { once: true });
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   initStatusLoja();
   initTemposEstimados();
-  initModalHorarios();
 });
