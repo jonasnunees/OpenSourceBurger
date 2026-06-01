@@ -128,12 +128,6 @@ const CARDAPIO = [
         desc: "Bacon picado, Calabresa fatiada, Carne, Presunto, Queijo, Ovo, Salada",
       },
       {
-        id: "duplo-picanha",
-        nome: "Duplo Picanha",
-        preco: "a partir de R$ 22,90",
-        desc: "2 Carnes, 2 Presuntos, 2 Queijos, 2 Maionese, 2 Ketchup, Salada",
-      },
-      {
         id: "bacon-picanha",
         nome: "Bacon Picanha",
         preco: "a partir de R$ 21,90",
