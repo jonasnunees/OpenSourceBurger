@@ -1,4 +1,9 @@
 const CONFIG = {
+  settings: {
+    cartStorageKey: "osb_cart",
+    cartTTL: 4 * 60 * 60 * 1000, // 4 horas
+  },
+
   contato: {
     numero: "5522981104103",
     formatado: "(22) 9-8110-4103",

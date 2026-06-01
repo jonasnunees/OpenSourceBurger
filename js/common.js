@@ -204,17 +204,14 @@ const UI = (() => {
  *   Cart.syncBadges()    → atualiza badges e barra de pedido na página atual
  */
 const Cart = (() => {
-  const STORAGE_KEY = "osb_cart";
+  const STORAGE_KEY = CONFIG.settings?.cartStorageKey || "osb_cart";
 
   /**
    * Tempo de vida do carrinho em milissegundos.
-   * Lido de CONFIG.cartTTL se disponível, senão usa 4 horas como padrão.
    * @returns {number}
    */
   function getTTL() {
-    return (typeof CONFIG !== "undefined" && CONFIG.cartTTL)
-      ? CONFIG.cartTTL
-      : 4 * 60 * 60 * 1000; // 4 horas
+    return CONFIG.settings?.cartTTL || 4 * 60 * 60 * 1000;
   }
 
   /**
