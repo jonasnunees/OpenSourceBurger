@@ -5,22 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Área de entrega do Open Source Burger em São Pedro da Aldeia. Confira os bairros atendidos e as taxas de entrega."
+      content="Cardápio completo Open Source Burger — Sanduíches artesanais, batatas, gelados, bebidas, picolés e muito mais. Peça online agora!"
     />
-    <title>Área de Entrega — Open Source Burger</title>
+    <title>Cardápio — Open Source Burger</title>
 
     <link
       rel="canonical"
-      href="https://opensourceburger.com.br/area-de-entrega.html"
+      href="https://opensourceburger.com.br/cardapio.html"
     />
+
+    <!-- Structured Data: ItemList para SEO de cardápio -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FoodEstablishment",
+        "name": "Open Source Burger",
+        "url": "https://opensourceburger.com.br",
+        "hasMenu": {
+          "@type": "Menu",
+          "name": "Cardápio Open Source Burger",
+          "url": "https://opensourceburger.com.br/cardapio.html"
+        }
+      }
+    </script>
 
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/area-de-entrega.css" />
+    <link rel="stylesheet" href="css/cardapio.css" />
   </head>
   <body>
-    <!-- Drawer -->
-    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <!-- ── Drawer overlay ── -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+
+    <!-- ── Drawer / Menu lateral ── -->
     <nav class="drawer" id="drawer" aria-label="Menu de navegação">
       <div class="drawer-header">
         <a href="index.html">
@@ -43,7 +60,11 @@
 
       <ul class="drawer-nav">
         <li>
-          <a href="cardapio.html" class="drawer-item">
+          <a
+            href="cardapio.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
             <i data-lucide="book-open"></i>
             <span>Cardápio</span>
           </a>
@@ -91,11 +112,7 @@
           </a>
         </li>
         <li>
-          <a
-            href="area-de-entrega.html"
-            class="drawer-item active"
-            aria-current="page"
-          >
+          <a href="area-de-entrega.html" class="drawer-item">
             <i data-lucide="circle-dashed"></i>
             <span>Área de Entrega</span>
           </a>
@@ -107,7 +124,7 @@
             class="drawer-item"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Pedir pelo WhatsApp"
+            aria-label="Pedir pelo WhatsApp (abre em nova aba)"
           >
             <i data-lucide="message-circle-more"></i>
             <span>Pedir pelo WhatsApp</span>
@@ -134,78 +151,105 @@
       </footer>
     </nav>
 
-    <!-- Topbar -->
-    <header class="topbar">
+    <!-- ── Topbar ── -->
+    <header class="topbar" role="banner">
       <button
         class="menu-btn"
-        aria-label="Abrir menu"
         id="menu-btn"
+        aria-label="Abrir menu"
         aria-expanded="false"
         aria-controls="drawer"
       >
         <i data-lucide="menu"></i>
       </button>
-      <h1 class="topbar-title">Área de Entrega</h1>
 
-      <a href="#" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+      <h1 class="topbar-title">Cardápio</h1>
+
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
       </a>
     </header>
 
-    <!-- Conteúdo -->
-    <main class="delivery-page">
-      <!-- Cidade -->
-      <h2 class="section-label">Cidade</h2>
-      <div class="city-select-wrapper">
-        <select
-          class="city-select"
-          aria-label="Selecionar cidade"
-          id="city-select"
-        >
-          <!-- preenchido via JS -->
-        </select>
-        <i data-lucide="chevrons-up-down"></i>
+    <!-- ── Conteúdo principal ── -->
+    <main id="main-content">
+      <!-- Barra de busca global — sticky abaixo da topbar -->
+      <div class="search-bar-wrapper" role="search">
+        <div class="search-bar-inner">
+          <i data-lucide="search" aria-hidden="true"></i>
+          <input
+            class="search-bar-input"
+            id="search-input"
+            type="search"
+            placeholder="Pesquisar..."
+            aria-label="Pesquisar produtos no cardápio"
+            autocomplete="off"
+          />
+        </div>
       </div>
 
-      <!-- Bairros -->
-      <h2 class="section-label">Bairros Atendidos</h2>
-
-      <div class="search-wrapper">
-        <i data-lucide="search"></i>
-        <input
-          type="search"
-          class="search-input"
-          id="search-input"
-          placeholder="Pesquisar..."
-          aria-label="Pesquisar bairro"
-        />
-      </div>
-
-      <ul
-        class="neighborhoods-list"
-        id="neighborhoods-list"
-        aria-live="polite"
-        aria-label="Lista de bairros atendidos"
+      <!-- Tabs de categorias com scroll horizontal -->
+      <div
+        id="category-tabs"
+        class="category-tabs"
+        role="tablist"
+        aria-label="Categorias do cardápio"
       >
-        <!-- preenchido via JS -->
-      </ul>
+        <!-- Populado via JS -->
+      </div>
 
-      <div class="empty-state" id="empty-state" aria-live="polite">
-        <i data-lucide="search-x"></i>
-        Nenhum bairro encontrado para "<span id="empty-term"></span>"
+      <!-- Painéis de categorias -->
+      <div class="menu-content" id="menu-content">
+        <!-- Populado via JS -->
+      </div>
+
+      <!-- Painel de resultados de busca global -->
+      <div
+        id="search-results-panel"
+        class="search-results-panel menu-content"
+        aria-live="polite"
+        aria-label="Resultados da busca"
+      >
+        <!-- Populado via JS durante a busca -->
+      </div>
+
+      <!-- Estado vazio da busca -->
+      <div
+        class="menu-empty-state"
+        id="menu-empty-state"
+        role="status"
+        aria-live="polite"
+      >
+        <i data-lucide="search-x" aria-hidden="true"></i>
+        <p>Nenhum produto encontrado.</p>
       </div>
     </main>
+
+    <!-- ── Barra inferior "Fechar Pedido" ── -->
+    <a
+      href="meu-carrinho.html"
+      class="order-bar"
+      id="order-bar"
+      aria-label="Fechar pedido e ir para o carrinho"
+    >
+      <span class="order-bar-badge" aria-hidden="true">
+        <i data-lucide="shopping-cart"></i>
+        <span class="order-bar-count">0</span>
+      </span>
+      <span class="order-bar-label">Fechar Pedido</span>
+    </a>
 
     <!-- 1. Dados globais -->
     <script src="js/config.js"></script>
     <!-- 2. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 3. Utilitários — formatarMoeda() usado em area-de-entrega.js -->
-    <script src="js/utils/formatters.js"></script>
-    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <!-- 3. Comportamentos comuns (drawer, whatsapp, lucide init) -->
     <script src="js/common.js"></script>
-    <!-- 5. Script da página -->
-    <script src="js/pages/area-de-entrega.js"></script>
+    <!-- 4. Script da página -->
+    <script src="js/pages/cardapio.js"></script>
   </body>
 </html>
