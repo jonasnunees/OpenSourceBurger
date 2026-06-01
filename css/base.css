@@ -40,6 +40,9 @@
   --topbar-height: 72px;
   --container-narrow: 480px;
   --gutter: 20px;
+  --bottom-bar-height: 64px;
+  --search-bar-height: 57px;
+  --product-img-size: 96px;
   --icon-decoration: 5rem;
 
   /* Transitions */
@@ -472,4 +475,10 @@ main {
   pointer-events: none;
   transition: opacity var(--transition-medium), transform var(--transition-medium);
   white-space: nowrap;
+}
+
+/* ── Global Animations ── */
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

@@ -4,11 +4,6 @@
    Depende de base.css para variáveis e reset.
    ═══════════════════════════════════════ */
 
-:root {
-  --product-img-size: 96px;
-  --bottom-bar-height: 64px;
-}
-
 /* ── Padding extra no body para a barra inferior ── */
 body {
   padding-bottom: var(--bottom-bar-height);
@@ -65,8 +60,8 @@ body {
 /* ── Tabs de categorias ── */
 .category-tabs {
   position: sticky;
-  /* Fica logo abaixo da barra de busca (topbar + busca ~116px) */
-  top: calc(var(--topbar-height) + 57px);
+  /* Fica logo abaixo da barra de busca */
+  top: calc(var(--topbar-height) + var(--search-bar-height));
   z-index: 7;
   background: var(--bg-topbar);
   border-bottom: 1px solid var(--border-subtle);
@@ -123,11 +118,6 @@ body {
 .cat-panel.is-active {
   display: block;
   animation: panelFadeIn 0.2s ease;
-}
-
-@keyframes panelFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Accordion de subcategoria ── */
