@@ -7,6 +7,7 @@
  *  - Links de WhatsApp dinâmicos
  *  - Sistema de tabs acessível (WCAG 2.1)
  *  - Inicialização global do Lucide Icons
+ *  - Módulo Cart: carrinho persistido com expiração automática
  *
  * Dependências: config.js (deve ser carregado antes).
  * Ordem de carregamento: após config.js e utils/, antes dos scripts de página.
@@ -176,6 +177,185 @@ const UI = (() => {
   return { initDrawer, initWhatsapp, initTabs, initModalHorarios };
 })();
 
+// ── Módulo Cart ───────────────────────────────────────────────────────────────
+
+/**
+ * Cart
+ * Gerencia o carrinho de compras de forma global e persistente.
+ *
+ * O carrinho é salvo no localStorage com um timestamp de criação.
+ * Ao ler, verifica se o tempo máximo (CONFIG.cartTTL ou padrão de 4h) foi
+ * ultrapassado — se sim, limpa automaticamente e retorna vazio.
+ *
+ * Estrutura armazenada:
+ * {
+ *   expiresAt: <timestamp ms>,
+ *   items: {
+ *     [produtoId]: { nome, preco, qty, categoriaId, categoriaNome }
+ *   }
+ * }
+ *
+ * Uso nos scripts de página:
+ *   Cart.add({ id, nome, preco, categoriaId, categoriaNome })
+ *   Cart.remove(id)
+ *   Cart.get()           → { [id]: { ... } }
+ *   Cart.totalItens()    → number
+ *   Cart.clear()
+ *   Cart.syncBadges()    → atualiza badges e barra de pedido na página atual
+ */
+const Cart = (() => {
+  const STORAGE_KEY = "osb_cart";
+
+  /**
+   * Tempo de vida do carrinho em milissegundos.
+   * Lido de CONFIG.cartTTL se disponível, senão usa 4 horas como padrão.
+   * @returns {number}
+   */
+  function getTTL() {
+    return (typeof CONFIG !== "undefined" && CONFIG.cartTTL)
+      ? CONFIG.cartTTL
+      : 4 * 60 * 60 * 1000; // 4 horas
+  }
+
+  /**
+   * Lê o payload bruto do localStorage.
+   * @returns {{ expiresAt: number, items: Object } | null}
+   */
+  function _readRaw() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY));
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Retorna os itens do carrinho.
+   * Se o carrinho tiver expirado, limpa e retorna objeto vazio.
+   * @returns {Object}
+   */
+  function get() {
+    const raw = _readRaw();
+    if (!raw) return {};
+
+    // Verifica expiração
+    if (Date.now() > raw.expiresAt) {
+      clear();
+      return {};
+    }
+
+    return raw.items || {};
+  }
+
+  /**
+   * Persiste os itens no localStorage, renovando o timestamp de expiração.
+   * A expiração é sempre contada a partir da ÚLTIMA alteração, não da criação —
+   * assim uma sessão ativa nunca expira no meio.
+   * @param {Object} items
+   */
+  function _save(items) {
+    const payload = {
+      expiresAt: Date.now() + getTTL(),
+      items,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    syncBadges();
+  }
+
+  /**
+   * Adiciona ou incrementa um produto no carrinho.
+   * @param {{ id: string, nome: string, preco: string, categoriaId: string, categoriaNome: string }} produto
+   */
+  function add(produto) {
+    const items = get();
+    if (!items[produto.id]) {
+      items[produto.id] = {
+        nome: produto.nome,
+        preco: produto.preco,
+        qty: 0,
+        categoriaId: produto.categoriaId,
+        categoriaNome: produto.categoriaNome,
+      };
+    }
+    items[produto.id].qty += 1;
+    _save(items);
+  }
+
+  /**
+   * Decrementa ou remove um produto do carrinho.
+   * @param {string} id - ID do produto
+   */
+  function remove(id) {
+    const items = get();
+    if (!items[id]) return;
+    items[id].qty -= 1;
+    if (items[id].qty <= 0) delete items[id];
+    _save(items);
+  }
+
+  /**
+   * Zera completamente o carrinho.
+   */
+  function clear() {
+    localStorage.removeItem(STORAGE_KEY);
+    syncBadges();
+  }
+
+  /**
+   * Retorna o total de itens (soma de todas as quantidades).
+   * @returns {number}
+   */
+  function totalItens() {
+    return Object.values(get()).reduce((acc, item) => acc + item.qty, 0);
+  }
+
+  /**
+   * Sincroniza todos os elementos de UI relacionados ao carrinho na página atual:
+   *  - `.cart-badge`         → número de itens
+   *  - `.cart-btn`           → aria-label acessível
+   *  - `#order-bar`          → barra "Fechar Pedido" (visível só se items > 0)
+   *  - `.order-bar-count`    → contagem na barra
+   *
+   * Chamado automaticamente após qualquer mutação e no DOMContentLoaded global,
+   * garantindo que qualquer página que tenha esses elementos seja atualizada.
+   */
+  function syncBadges() {
+    const total = totalItens();
+
+    // Badge numérico no ícone do carrinho
+    document.querySelectorAll(".cart-badge").forEach((badge) => {
+      badge.textContent = total;
+    });
+
+    // aria-label acessível no botão/link do carrinho
+    document.querySelectorAll(".cart-btn").forEach((btn) => {
+      btn.setAttribute(
+        "aria-label",
+        `Ver carrinho (${total} ${total === 1 ? "item" : "itens"})`
+      );
+    });
+
+    // Barra "Fechar Pedido" — exclusiva da página de cardápio
+    const bar = document.getElementById("order-bar");
+    if (bar) {
+      const countEl = bar.querySelector(".order-bar-count");
+      if (total > 0) {
+        bar.classList.add("is-visible");
+        if (countEl) countEl.textContent = total;
+        document.body.style.paddingBottom = "var(--bottom-bar-height)";
+      } else {
+        bar.classList.remove("is-visible");
+        document.body.style.paddingBottom = "";
+      }
+    }
+  }
+
+  // ── API pública ───────────────────────────────────────────────────────────
+  return { get, add, remove, clear, totalItens, syncBadges };
+})();
+
+// ── Namespace Store ───────────────────────────────────────────────────────────
+
 /**
  * Namespace para Regras de Negócio da Loja
  */
@@ -211,8 +391,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Centralizado aqui para evitar repetição nos scripts de cada página.
   UI.initTabs();
 
-  // Inicializa o modal de horários se os botões estiverem presentes
+  // Inicializa o modal de horários se os botões estiverem presentes.
   UI.initModalHorarios();
+
+  // Sincroniza badges do carrinho em todas as páginas que tenham .cart-badge.
+  // Garante que o número de itens seja sempre correto ao navegar entre páginas,
+  // e também verifica e descarta carrinho expirado silenciosamente.
+  Cart.syncBadges();
 
   // Inicialização única e centralizada do Lucide Icons.
   // Os scripts de página NÃO devem chamar lucide.createIcons() no topo —

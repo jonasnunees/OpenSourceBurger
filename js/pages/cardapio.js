@@ -332,79 +332,11 @@ const CARDAPIO = [
   },
 ];
 
-// ── Estado do carrinho ────────────────────────────────────────────────────────
-
-/**
- * Lê o carrinho do localStorage.
- * Formato: { [produtoId]: { nome, preco, qty, categoriaId } }
- * @returns {Object}
- */
-function lerCarrinho() {
-  try {
-    return JSON.parse(localStorage.getItem("osb_cart") || "{}");
-  } catch {
-    return {};
-  }
-}
-
-/**
- * Salva o carrinho no localStorage e dispara atualização de UI.
- * @param {Object} cart
- */
-function salvarCarrinho(cart) {
-  localStorage.setItem("osb_cart", JSON.stringify(cart));
-  atualizarBadgesCarrinho(cart);
-  atualizarBarraPedido(cart);
-}
-
-/**
- * Retorna a quantidade total de itens no carrinho.
- * @param {Object} cart
- * @returns {number}
- */
-function totalItens(cart) {
-  return Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
-}
-
-/**
- * Atualiza o badge do carrinho na topbar e no drawer.
- * @param {Object} cart
- */
-function atualizarBadgesCarrinho(cart) {
-  const total = totalItens(cart);
-  document.querySelectorAll(".cart-badge").forEach((badge) => {
-    badge.textContent = total;
-  });
-  // Atualiza aria-label do botão do carrinho para acessibilidade
-  document.querySelectorAll(".cart-btn").forEach((btn) => {
-    btn.setAttribute(
-      "aria-label",
-      `Ver carrinho (${total} ${total === 1 ? "item" : "itens"})`
-    );
-  });
-}
-
-/**
- * Mostra/oculta e atualiza a barra "Fechar Pedido".
- * @param {Object} cart
- */
-function atualizarBarraPedido(cart) {
-  const bar = document.getElementById("order-bar");
-  if (!bar) return;
-
-  const total = totalItens(cart);
-  const countEl = bar.querySelector(".order-bar-count");
-
-  if (total > 0) {
-    bar.classList.add("is-visible");
-    if (countEl) countEl.textContent = total;
-    // Ajusta padding do body para não esconder conteúdo atrás da barra
-    document.body.style.paddingBottom = "var(--bottom-bar-height)";
-  } else {
-    bar.classList.remove("is-visible");
-    document.body.style.paddingBottom = "";
-  }
-}
+// ── Carrinho ──────────────────────────────────────────────────────────────────
+// Toda a lógica de persistência, expiração e atualização de badges
+// é delegada ao módulo global Cart (common.js).
+// Este arquivo apenas consome Cart.get(), Cart.add(), Cart.remove()
+// e Cart.syncBadges() quando necessário.
 
 // ── Renderização ──────────────────────────────────────────────────────────────
 
@@ -606,7 +538,7 @@ function initPaineis() {
   const content = document.getElementById("menu-content");
   if (!content) return;
 
-  const cart = lerCarrinho();
+  const cart = Cart.get();
   content.innerHTML = CARDAPIO.map((cat, i) => htmlPainel(cat, cart, i === 0)).join("");
 }
 
@@ -674,33 +606,24 @@ function initEventosQtd() {
     const entry = PRODUTO_MAP.get(produtoId);
     if (!entry) return;
 
-    const cart = lerCarrinho();
-
     if (acao === "plus") {
-      if (!cart[produtoId]) {
-        cart[produtoId] = {
-          nome: entry.produto.nome,
-          preco: entry.produto.preco,
-          qty: 0,
-          categoriaId: entry.categoriaId,
-          categoriaNome: entry.categoriaNome,
-        };
-      }
-      cart[produtoId].qty += 1;
+      Cart.add({
+        id: produtoId,
+        nome: entry.produto.nome,
+        preco: entry.produto.preco,
+        categoriaId: entry.categoriaId,
+        categoriaNome: entry.categoriaNome,
+      });
     } else if (acao === "minus") {
-      if (cart[produtoId]) {
-        cart[produtoId].qty -= 1;
-        if (cart[produtoId].qty <= 0) delete cart[produtoId];
-      }
+      Cart.remove(produtoId);
     }
 
-    salvarCarrinho(cart);
-
     // Atualiza o display de quantidade no DOM sem re-renderizar tudo
+    const novaQty = Cart.get()[produtoId]?.qty || 0;
     const item = menuContent.querySelector(`.product-item[data-product-id="${produtoId}"]`);
     if (item) {
       const qtyEl = item.querySelector(".qty-value");
-      if (qtyEl) qtyEl.textContent = cart[produtoId]?.qty || 0;
+      if (qtyEl) qtyEl.textContent = novaQty;
     }
   });
 }
@@ -736,7 +659,7 @@ function initBusca() {
     menuContent.style.display = "none";
     searchPanel.classList.add("is-active");
 
-    const cart = lerCarrinho();
+    const cart = Cart.get();
     const resultados = [];
 
     CARDAPIO.forEach((cat) => {
@@ -796,32 +719,23 @@ function initEventosQtdBusca() {
     const entry = PRODUTO_MAP.get(produtoId);
     if (!entry) return;
 
-    const cart = lerCarrinho();
-
     if (acao === "plus") {
-      if (!cart[produtoId]) {
-        cart[produtoId] = {
-          nome: entry.produto.nome,
-          preco: entry.produto.preco,
-          qty: 0,
-          categoriaId: entry.categoriaId,
-          categoriaNome: entry.categoriaNome,
-        };
-      }
-      cart[produtoId].qty += 1;
+      Cart.add({
+        id: produtoId,
+        nome: entry.produto.nome,
+        preco: entry.produto.preco,
+        categoriaId: entry.categoriaId,
+        categoriaNome: entry.categoriaNome,
+      });
     } else if (acao === "minus") {
-      if (cart[produtoId]) {
-        cart[produtoId].qty -= 1;
-        if (cart[produtoId].qty <= 0) delete cart[produtoId];
-      }
+      Cart.remove(produtoId);
     }
 
-    salvarCarrinho(cart);
-
+    const novaQtyBusca = Cart.get()[produtoId]?.qty || 0;
     const item = searchPanel.querySelector(`.product-item[data-product-id="${produtoId}"]`);
     if (item) {
       const qtyEl = item.querySelector(".qty-value");
-      if (qtyEl) qtyEl.textContent = cart[produtoId]?.qty || 0;
+      if (qtyEl) qtyEl.textContent = novaQtyBusca;
     }
   });
 }
@@ -839,13 +753,14 @@ function initEventosQtdBusca() {
   initBusca();
   initEventosQtdBusca();
 
-  // Sincroniza UI com carrinho existente (ex: usuário voltou da página do carrinho)
-  const cart = lerCarrinho();
-  atualizarBadgesCarrinho(cart);
-  atualizarBarraPedido(cart);
+  // Sincroniza badges, barra de pedido e quantidades no DOM
+  // com o carrinho já persistido (ex: usuário voltou de outra página).
+  // Cart.syncBadges() é chamado pelo common.js no DOMContentLoaded,
+  // mas chamamos de novo aqui após renderizar os produtos no DOM.
+  Cart.syncBadges();
 
-  // Restaura quantidades no DOM a partir do localStorage
-  Object.entries(cart).forEach(([produtoId, item]) => {
+  // Restaura quantidades nos controles +/- a partir do localStorage
+  Object.entries(Cart.get()).forEach(([produtoId, item]) => {
     document.querySelectorAll(`.product-item[data-product-id="${produtoId}"] .qty-value`)
       .forEach((el) => { el.textContent = item.qty; });
   });
