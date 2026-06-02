@@ -493,52 +493,108 @@ function htmlPainel(categoria, cart, ativo = false) {
     </section>`;
 }
 
+// ── Utilidades ──────────────────────────────────────────────────────────────
+
+function createLucideIcons() {
+  if (typeof lucide === "undefined") return;
+
+  lucide.createIcons();
+}
+
+function getProductQuantity(produtoId) {
+  return Cart.get()[produtoId]?.qty || 0;
+}
+
+function updateQuantityElements(produtoId, quantidade) {
+  document
+    .querySelectorAll(`.product-item[data-product-id="${produtoId}"] .qty-value`)
+    .forEach((elemento) => {
+      elemento.textContent = quantidade;
+    });
+}
+
 // ── Mapa de lookup: produtoId → objeto Produto ─────────────────────────────
 
-/** @type {Map<string, { produto: Produto, categoriaId: string, categoriaNome: string }>} */
-const PRODUTO_MAP = new Map();
+/**
+ * Cria um mapa para encontrar produtos rapidamente pelo ID.
+ *
+ * Isso evita ter que percorrer o CARDAPIO inteiro toda vez
+ * que o usuário clica nos botões de adicionar ou remover.
+ *
+ * Estrutura:
+ * produtoId → { produto, categoriaId, categoriaNome }
+ *
+ * @returns {Map}
+ */
+function createProductMap() {
+  const produtoMap = new Map();
 
-CARDAPIO.forEach((cat) => {
-  const registrar = (p) => PRODUTO_MAP.set(p.id, {
-    produto: p,
-    categoriaId: cat.id,
-    categoriaNome: cat.nome,
+  CARDAPIO.forEach((categoria) => {
+    const registrarProduto = (produto) => {
+      produtoMap.set(produto.id, {
+        produto,
+        categoriaId: categoria.id,
+        categoriaNome: categoria.nome,
+      });
+    };
+
+    if (categoria.produtos) {
+      categoria.produtos.forEach(registrarProduto);
+    }
+
+    if (categoria.subcategorias) {
+      categoria.subcategorias.forEach((subcategoria) => {
+        subcategoria.produtos.forEach(registrarProduto);
+      });
+    }
   });
 
-  if (cat.produtos) cat.produtos.forEach(registrar);
-  if (cat.subcategorias) cat.subcategorias.forEach((sub) => sub.produtos.forEach(registrar));
-});
+  return produtoMap;
+}
 
-// ── Inicialização ─────────────────────────────────────────────────────────────
+/** @type {Map} */
+const PRODUTO_MAP = createProductMap();
+
+// ── Inicialização ──────────────────────────────────────────────────────────
 
 /**
  * Renderiza as tabs de categorias.
+ *
+ * Mantém o mesmo HTML visual original para não alterar o layout.
  */
 function initTabs() {
   const tabsContainer = document.getElementById("category-tabs");
+
   if (!tabsContainer) return;
 
-  tabsContainer.innerHTML = CARDAPIO.map((cat, i) => `
-    <button
-      class="cat-tab ${i === 0 ? "is-active" : ""}"
-      data-cat="${cat.id}"
-      aria-selected="${i === 0}"
-      role="tab"
-      aria-controls="panel-${cat.id}"
-    >
-      ${cat.nome}
-    </button>
-  `).join("");
+  tabsContainer.innerHTML = CARDAPIO.map(
+    (cat, i) => `
+      <button
+        class="cat-tab ${i === 0 ? "is-active" : ""}"
+        type="button"
+        role="tab"
+        data-cat="${cat.id}"
+        aria-selected="${i === 0 ? "true" : "false"}"
+        aria-controls="panel-${cat.id}"
+      >
+        ${cat.nome}
+      </button>
+    `
+  ).join("");
 }
 
 /**
  * Renderiza todos os painéis de categorias.
+ *
+ * Usa htmlPainel(), que deve permanecer com o HTML original dos produtos.
  */
 function initPaineis() {
   const content = document.getElementById("menu-content");
+
   if (!content) return;
 
   const cart = Cart.get();
+
   content.innerHTML = CARDAPIO.map((cat, i) => htmlPainel(cat, cart, i === 0)).join("");
 }
 
@@ -547,27 +603,36 @@ function initPaineis() {
  */
 function initEventosTabs() {
   const tabsContainer = document.getElementById("category-tabs");
+
   if (!tabsContainer) return;
 
-  tabsContainer.addEventListener("click", (e) => {
-    const tab = e.target.closest(".cat-tab");
+  tabsContainer.addEventListener("click", (event) => {
+    const tab = event.target.closest(".cat-tab");
+
     if (!tab) return;
 
-    const catId = tab.dataset.cat;
+    activateTab(tab, tabsContainer);
+  });
+}
 
-    // Atualiza tabs
-    tabsContainer.querySelectorAll(".cat-tab").forEach((t) => {
-      t.classList.toggle("is-active", t === tab);
-      t.setAttribute("aria-selected", t === tab ? "true" : "false");
-    });
+function activateTab(tab, tabsContainer) {
+  const catId = tab.dataset.cat;
 
-    // Atualiza painéis
-    document.querySelectorAll(".cat-panel").forEach((panel) => {
-      panel.classList.toggle("is-active", panel.id === `panel-${catId}`);
-    });
+  tabsContainer.querySelectorAll(".cat-tab").forEach((currentTab) => {
+    const isActive = currentTab === tab;
 
-    // Garante que a tab ativa fique visível no scroll horizontal
-    tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    currentTab.classList.toggle("is-active", isActive);
+    currentTab.setAttribute("aria-selected", String(isActive));
+  });
+
+  document.querySelectorAll(".cat-panel").forEach((panel) => {
+    panel.classList.toggle("is-active", panel.id === `panel-${catId}`);
+  });
+
+  tab.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+    inline: "center",
   });
 }
 
@@ -575,177 +640,241 @@ function initEventosTabs() {
  * Inicializa eventos de accordion de subcategorias.
  */
 function initEventosAccordion() {
-  document.getElementById("menu-content").addEventListener("click", (e) => {
-    const toggle = e.target.closest(".subcategory-toggle");
+  const menuContent = document.getElementById("menu-content");
+
+  if (!menuContent) return;
+
+  menuContent.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".subcategory-toggle");
+
     if (!toggle) return;
 
-    const bodyId = toggle.getAttribute("aria-controls");
-    const body = document.getElementById(bodyId);
-    if (!body) return;
-
-    const aberto = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!aberto));
-    body.classList.toggle("is-open", !aberto);
+    toggleSubcategoria(toggle);
   });
 }
 
+function toggleSubcategoria(toggle) {
+  const bodyId = toggle.getAttribute("aria-controls");
+  const body = document.getElementById(bodyId);
+
+  if (!body) return;
+
+  const isOpen = toggle.getAttribute("aria-expanded") === "true";
+  const nextState = !isOpen;
+
+  toggle.setAttribute("aria-expanded", String(nextState));
+  body.classList.toggle("is-open", nextState);
+}
+
+// ── Quantidade / Carrinho ──────────────────────────────────────────────────
+
 /**
- * Inicializa eventos dos botões +/-.
- * Usa delegação de evento no menu-content para eficiência.
+ * Atualiza o carrinho com base na ação do botão clicado.
+ *
+ * Mantém o mesmo HTML dos botões +/-.
+ */
+function updateCartByAction(produtoId, acao) {
+  const entry = PRODUTO_MAP.get(produtoId);
+
+  if (!entry) return;
+
+  if (acao === "plus") {
+    Cart.add({
+      id: produtoId,
+      nome: entry.produto.nome,
+      preco: entry.produto.preco,
+      categoriaId: entry.categoriaId,
+      categoriaNome: entry.categoriaNome,
+    });
+
+    return;
+  }
+
+  if (acao === "minus") {
+    Cart.remove(produtoId);
+  }
+}
+
+function handleQuantityClick(event) {
+  const btn = event.target.closest(".qty-btn");
+
+  if (!btn) return;
+
+  const produtoId = btn.dataset.productId;
+  const acao = btn.dataset.action;
+
+  updateCartByAction(produtoId, acao);
+  updateQuantityElements(produtoId, getProductQuantity(produtoId));
+}
+
+/**
+ * Inicializa eventos dos botões +/- dentro do cardápio principal.
  */
 function initEventosQtd() {
   const menuContent = document.getElementById("menu-content");
+
   if (!menuContent) return;
 
-  menuContent.addEventListener("click", (e) => {
-    const btn = e.target.closest(".qty-btn");
-    if (!btn) return;
+  menuContent.addEventListener("click", handleQuantityClick);
+}
 
-    const produtoId = btn.dataset.productId;
-    const acao = btn.dataset.action;
-    const entry = PRODUTO_MAP.get(produtoId);
-    if (!entry) return;
+/**
+ * Inicializa eventos dos botões +/- dentro do painel de busca.
+ */
+function initEventosQtdBusca() {
+  const searchPanel = document.getElementById("search-results-panel");
 
-    if (acao === "plus") {
-      Cart.add({
-        id: produtoId,
-        nome: entry.produto.nome,
-        preco: entry.produto.preco,
-        categoriaId: entry.categoriaId,
-        categoriaNome: entry.categoriaNome,
-      });
-    } else if (acao === "minus") {
-      Cart.remove(produtoId);
-    }
+  if (!searchPanel) return;
 
-    // Atualiza o display de quantidade no DOM sem re-renderizar tudo
-    const novaQty = Cart.get()[produtoId]?.qty || 0;
-    const item = menuContent.querySelector(`.product-item[data-product-id="${produtoId}"]`);
-    if (item) {
-      const qtyEl = item.querySelector(".qty-value");
-      if (qtyEl) qtyEl.textContent = novaQty;
-    }
+  searchPanel.addEventListener("click", handleQuantityClick);
+}
+
+// ── Busca ──────────────────────────────────────────────────────────────────
+
+function getSearchElements() {
+  return {
+    input: document.getElementById("search-input"),
+    tabsWrap: document.getElementById("category-tabs"),
+    menuContent: document.getElementById("menu-content"),
+    searchPanel: document.getElementById("search-results-panel"),
+    emptyState: document.getElementById("menu-empty-state"),
+  };
+}
+
+function normalizeSearchTerm(value) {
+  return value.trim().toLowerCase();
+}
+
+function getProdutosDaCategoria(categoria) {
+  if (categoria.produtos) return categoria.produtos;
+
+  if (!categoria.subcategorias) return [];
+
+  return categoria.subcategorias.flatMap((subcategoria) => subcategoria.produtos);
+}
+
+function buscarProdutos(termo) {
+  const resultados = [];
+
+  CARDAPIO.forEach((cat) => {
+    const produtosEncontrados = getProdutosDaCategoria(cat).filter((produto) =>
+      produto.nome.toLowerCase().includes(termo)
+    );
+
+    if (produtosEncontrados.length === 0) return;
+
+    resultados.push({
+      cat,
+      produtos: produtosEncontrados,
+    });
   });
+
+  return resultados;
+}
+
+function showDefaultMenuView({ tabsWrap, menuContent, searchPanel, emptyState }) {
+  if (tabsWrap) tabsWrap.style.display = "";
+  if (menuContent) menuContent.style.display = "";
+  if (searchPanel) searchPanel.classList.remove("is-active");
+  if (emptyState) emptyState.style.display = "none";
+}
+
+function showSearchMode({ tabsWrap, menuContent, searchPanel }) {
+  if (tabsWrap) tabsWrap.style.display = "none";
+  if (menuContent) menuContent.style.display = "none";
+  if (searchPanel) searchPanel.classList.add("is-active");
+}
+
+function renderEmptySearch(searchPanel, emptyState) {
+  searchPanel.innerHTML = "";
+
+  if (emptyState) {
+    emptyState.style.display = "block";
+  }
+
+  createLucideIcons();
+}
+
+function renderSearchResults(searchPanel, emptyState, resultados) {
+  const cart = Cart.get();
+
+  if (emptyState) {
+    emptyState.style.display = "none";
+  }
+
+  searchPanel.innerHTML = resultados
+    .map(
+      ({ cat, produtos }) => `
+        <section class="search-category">
+          <h2>${cat.nome}</h2>
+
+          ${produtos.map((p) => htmlProduto(p, cart[p.id]?.qty || 0)).join("")}
+        </section>
+      `
+    )
+    .join("");
+
+  createLucideIcons();
 }
 
 /**
  * Inicializa a busca global em tempo real.
- * Quando há termo: oculta tabs + painéis e mostra resultados globais.
- * Quando limpa: restaura estado normal.
+ *
+ * Quando há termo:
+ * - oculta tabs e painéis principais
+ * - mostra resultados globais
+ *
+ * Quando o campo fica vazio:
+ * - restaura a visualização normal do cardápio
  */
 function initBusca() {
-  const input       = document.getElementById("search-input");
-  const tabsWrap    = document.getElementById("category-tabs");
-  const menuContent = document.getElementById("menu-content");
-  const searchPanel = document.getElementById("search-results-panel");
-  const emptyState  = document.getElementById("menu-empty-state");
+  const searchElements = getSearchElements();
+  const { input, searchPanel, emptyState } = searchElements;
 
   if (!input || !searchPanel) return;
 
   input.addEventListener("input", () => {
-    const termo = input.value.trim().toLowerCase();
+    const termo = normalizeSearchTerm(input.value);
 
     if (!termo) {
-      // Restaura visualização normal
-      tabsWrap.style.display = "";
-      menuContent.style.display = "";
-      searchPanel.classList.remove("is-active");
-      emptyState.style.display = "none";
+      showDefaultMenuView(searchElements);
       return;
     }
 
-    // Entra no modo busca
-    tabsWrap.style.display = "none";
-    menuContent.style.display = "none";
-    searchPanel.classList.add("is-active");
+    showSearchMode(searchElements);
 
-    const cart = Cart.get();
-    const resultados = [];
-
-    CARDAPIO.forEach((cat) => {
-      const produtosDaCat = [];
-
-      const checar = (p) => {
-        if (p.nome.toLowerCase().includes(termo)) produtosDaCat.push(p);
-      };
-
-      if (cat.produtos) cat.produtos.forEach(checar);
-      if (cat.subcategorias) cat.subcategorias.forEach((sub) => sub.produtos.forEach(checar));
-
-      if (produtosDaCat.length > 0) {
-        resultados.push({ cat, produtos: produtosDaCat });
-      }
-    });
+    const resultados = buscarProdutos(termo);
 
     if (resultados.length === 0) {
-      searchPanel.innerHTML = "";
-      emptyState.style.display = "block";
-      lucide.createIcons();
+      renderEmptySearch(searchPanel, emptyState);
       return;
     }
 
-    emptyState.style.display = "none";
-
-    searchPanel.innerHTML = resultados
-      .map(
-        ({ cat, produtos }) => `
-          <div class="search-group">
-            <p class="search-group-header">${cat.nome}</p>
-            <ul class="products-list">
-              ${produtos.map((p) => htmlProduto(p, cart[p.id]?.qty || 0)).join("")}
-            </ul>
-          </div>`
-      )
-      .join("");
-
-    lucide.createIcons();
+    renderSearchResults(searchPanel, emptyState, resultados);
   });
 }
+
+// ── Restauração de estado ──────────────────────────────────────────────────
 
 /**
- * Inicializa eventos dos botões +/- no painel de busca.
- * (Reutiliza delegação — o search-results-panel está fora do menu-content)
+ * Restaura as quantidades dos produtos a partir do carrinho salvo.
+ *
+ * Útil quando o usuário volta para o cardápio depois de navegar
+ * por outras páginas do projeto.
  */
-function initEventosQtdBusca() {
-  const searchPanel = document.getElementById("search-results-panel");
-  if (!searchPanel) return;
-
-  searchPanel.addEventListener("click", (e) => {
-    const btn = e.target.closest(".qty-btn");
-    if (!btn) return;
-
-    const produtoId = btn.dataset.productId;
-    const acao = btn.dataset.action;
-    const entry = PRODUTO_MAP.get(produtoId);
-    if (!entry) return;
-
-    if (acao === "plus") {
-      Cart.add({
-        id: produtoId,
-        nome: entry.produto.nome,
-        preco: entry.produto.preco,
-        categoriaId: entry.categoriaId,
-        categoriaNome: entry.categoriaNome,
-      });
-    } else if (acao === "minus") {
-      Cart.remove(produtoId);
-    }
-
-    const novaQtyBusca = Cart.get()[produtoId]?.qty || 0;
-    const item = searchPanel.querySelector(`.product-item[data-product-id="${produtoId}"]`);
-    if (item) {
-      const qtyEl = item.querySelector(".qty-value");
-      if (qtyEl) qtyEl.textContent = novaQtyBusca;
-    }
+function restoreCartQuantities() {
+  Object.entries(Cart.get()).forEach(([produtoId, item]) => {
+    updateQuantityElements(produtoId, item.qty);
   });
 }
 
-// ── Bootstrap ─────────────────────────────────────────────────────────────────
+// ── Bootstrap ──────────────────────────────────────────────────────────────
 
 (function init() {
   initTabs();
   initPaineis();
-  lucide.createIcons();
+
+  createLucideIcons();
 
   initEventosTabs();
   initEventosAccordion();
@@ -753,15 +882,9 @@ function initEventosQtdBusca() {
   initBusca();
   initEventosQtdBusca();
 
-  // Sincroniza badges, barra de pedido e quantidades no DOM
-  // com o carrinho já persistido (ex: usuário voltou de outra página).
   // Cart.syncBadges() é chamado pelo common.js no DOMContentLoaded,
-  // mas chamamos de novo aqui após renderizar os produtos no DOM.
+  // mas chamamos novamente aqui após renderizar os produtos no DOM.
   Cart.syncBadges();
 
-  // Restaura quantidades nos controles +/- a partir do localStorage
-  Object.entries(Cart.get()).forEach(([produtoId, item]) => {
-    document.querySelectorAll(`.product-item[data-product-id="${produtoId}"] .qty-value`)
-      .forEach((el) => { el.textContent = item.qty; });
-  });
+  restoreCartQuantities();
 })();
