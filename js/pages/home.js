@@ -3,66 +3,91 @@
  * Lógica exclusiva da página inicial (index.html).
  *
  * Responsabilidades:
- *  - Preencher dados de contato, endereço e tempos estimados
- *  - Exibir o horário de funcionamento do dia atual
- *  - Gerenciar o modal de horários
- *  - Verificar se o estabelecimento está aberto e exibir modal de aviso
+ * - Preencher dados de contato, endereço e tempos estimados
+ * - Exibir o horário de funcionamento do dia atual
+ * - Verificar se o estabelecimento está aberto
+ * - Exibir modal de aviso quando a loja estiver fechada
  *
  * Dependências (nesta ordem no HTML):
- *  config.js → common.js → utils/formatters.js → pages/home.js
+ * config.js → common.js → utils/formatters.js → pages/home.js
  */
 
-// ── Lógica de negócio ─────────────────────────────────────────────────────────
+// ── Seletores ───────────────────────────────────────────────────────────────
+
+const TEL_SELECTOR = "[data-tel]";
+const ADDRESS_SELECTOR = "[data-endereco]";
+const DELIVERY_TIME_SELECTOR = "[data-tempo-entrega]";
+const PICKUP_TIME_SELECTOR = "[data-tempo-retirada]";
+const TODAY_HOURS_SELECTOR = "[data-horario-hoje]";
+const TODAY_OPENING_SELECTOR = "[data-abre-hoje]";
+
+const CLOSED_MODAL_ID = "closed-modal";
+const CLOSED_OK_BUTTON_ID = "closed-ok";
+
+// ── Utilidades ──────────────────────────────────────────────────────────────
 
 /**
- * Verifica se o estabelecimento está aberto no momento atual.
- * Suporta horários que ultrapassam a meia-noite (ex: 18:00 – 02:00).
- * @returns {boolean}
+ * Retorna o horário de funcionamento do dia atual.
+ *
+ * A ordem de CONFIG.horarios segue o padrão do JavaScript:
+ * 0 = Domingo, 1 = Segunda, ..., 6 = Sábado.
+ *
+ * @returns {{ dia: string, abertura: string, fechamento: string } | undefined}
  */
-function estaAberto() {
-  const agora = new Date();
-  const hoje  = CONFIG.horarios[agora.getDay()];
-  if (!hoje) return false;
-
-  const [hAbre,  mAbre]  = hoje.abertura.split(":").map(Number);
-  const [hFecha, mFecha] = hoje.fechamento.split(":").map(Number);
-
-  const agoraMin = agora.getHours() * 60 + agora.getMinutes();
-  const abreMin  = hAbre  * 60 + mAbre;
-  let   fechaMin = hFecha * 60 + mFecha;
-
-  // Ajuste para horários que passam da meia-noite
-  if (fechaMin <= abreMin) fechaMin += 1440;
-
-  return agoraMin >= abreMin && agoraMin <= fechaMin;
+function getHorarioHoje() {
+  return CONFIG.horarios[new Date().getDay()];
 }
 
-// ── Preenchimento de dados ────────────────────────────────────────────────────
+/**
+ * Abre um modal do tipo dialog com animação.
+ *
+ * @param {HTMLDialogElement} modal
+ */
+function openModal(modal) {
+  modal.showModal();
+
+  requestAnimationFrame(() => {
+    modal.classList.add("is-open");
+  });
+}
 
 /**
- * Preenche o link de telefone com o número do CONFIG.
+ * Fecha um modal do tipo dialog respeitando a transição CSS.
+ *
+ * @param {HTMLDialogElement} modal
+ */
+function closeModal(modal) {
+  modal.classList.remove("is-open");
+
+  modal.addEventListener("transitionend", () => modal.close(), { once: true });
+}
+
+// ── Preenchimento de dados ─────────────────────────────────────────────────
+
+/**
+ * Preenche o link de telefone com o número definido no CONFIG.
  */
 function initContato() {
   const { numero, formatado } = CONFIG.contato;
-  const telLink = document.querySelector("[data-tel]");
+  const telLink = document.querySelector(TEL_SELECTOR);
 
-  if (telLink) {
-    telLink.href        = `tel:+${numero}`;
-    telLink.textContent = formatado;
-  }
+  if (!telLink) return;
+
+  telLink.href = `tel:+${numero}`;
+  telLink.textContent = formatado;
 }
 
 /**
- * Preenche o link de endereço com o texto e URL do Google Maps do CONFIG.
+ * Preenche o link de endereço com o texto e URL do Google Maps definidos no CONFIG.
  */
 function initEndereco() {
   const { texto, mapLink } = CONFIG.endereco;
-  const enderecoLink = document.querySelector("[data-endereco]");
+  const enderecoLink = document.querySelector(ADDRESS_SELECTOR);
 
-  if (enderecoLink) {
-    enderecoLink.href        = mapLink;
-    enderecoLink.textContent = texto;
-  }
+  if (!enderecoLink) return;
+
+  enderecoLink.href = mapLink;
+  enderecoLink.textContent = texto;
 }
 
 /**
@@ -71,98 +96,65 @@ function initEndereco() {
 function initTempos() {
   const { entrega, retirada } = CONFIG.tempos;
 
-  const elEntrega  = document.querySelector("[data-tempo-entrega]");
-  const elRetirada = document.querySelector("[data-tempo-retirada]");
+  const deliveryTimeElement = document.querySelector(DELIVERY_TIME_SELECTOR);
+  const pickupTimeElement = document.querySelector(PICKUP_TIME_SELECTOR);
 
-  if (elEntrega)  elEntrega.textContent  = `${entrega} · tempo estimado de entrega`;
-  if (elRetirada) elRetirada.textContent = `${retirada} · retirada e consumo no local`;
+  if (deliveryTimeElement) {
+    deliveryTimeElement.textContent = `${entrega} · tempo estimado de entrega`;
+  }
+
+  if (pickupTimeElement) {
+    pickupTimeElement.textContent = `${retirada} · retirada e consumo no local`;
+  }
 }
 
 /**
- * Exibe o horário de hoje na faixa de funcionamento da home.
+ * Exibe o horário de funcionamento do dia atual na home.
  */
 function initHorarioHoje() {
-  const hoje = CONFIG.horarios[new Date().getDay()];
-  const el   = document.querySelector("[data-horario-hoje]");
+  const horarioHoje = getHorarioHoje();
+  const todayHoursElement = document.querySelector(TODAY_HOURS_SELECTOR);
 
-  if (el && hoje) {
-    el.textContent = `Atendimento hoje das ${hoje.abertura} às ${hoje.fechamento}`;
-  }
+  if (!todayHoursElement || !horarioHoje) return;
+
+  todayHoursElement.textContent = `Atendimento hoje das ${horarioHoje.abertura} às ${horarioHoje.fechamento}`;
 }
 
-// ── Modais ────────────────────────────────────────────────────────────────────
+// ── Modal de loja fechada ──────────────────────────────────────────────────
 
 /**
- * Inicializa o modal de horários completos da semana.
- * Preenche a lista e configura abertura/fechamento.
- */
-function initModalHorarios() {
-  const lista   = document.getElementById("hours-list");
-  const modal   = document.getElementById("hours-modal");
-  const openBtn = document.querySelector(".hours-link");
-  const okBtn   = document.querySelector(".modal-ok");
-
-  if (!modal || !openBtn) return;
-
-  // Preenche a lista de horários da semana
-  if (lista) {
-    lista.innerHTML = CONFIG.horarios
-      .map(
-        ({ dia, abertura, fechamento }) => `
-          <li>
-            <span>${dia}</span>
-            <span>
-              <i data-lucide="clock-3"></i>
-              ${abertura} – ${fechamento}
-            </span>
-          </li>`
-      )
-      .join("");
-
-    lucide.createIcons();
-  }
-
-  openBtn.addEventListener("click", () => {
-    modal.showModal();
-    requestAnimationFrame(() => modal.classList.add("is-open"));
-  });
-
-  okBtn?.addEventListener("click", () => {
-    modal.classList.remove("is-open");
-    modal.addEventListener("transitionend", () => modal.close(), { once: true });
-  });
-}
-
-/**
- * Exibe o modal de "estabelecimento fechado" se fora do horário.
- * Deve ser chamado por último para não bloquear o carregamento da página.
+ * Exibe o modal de "estabelecimento fechado" se estiver fora do horário.
+ *
+ * A verificação de loja aberta usa Store.isOpen(), centralizada no common.js.
+ * Assim evitamos duplicar regra de horário em mais de um arquivo.
  */
 function initModalFechado() {
-  if (estaAberto()) return;
+  if (Store.isOpen()) return;
 
-  const modal  = document.getElementById("closed-modal");
-  const btnOk  = document.getElementById("closed-ok");
-  const elAbre = document.querySelector("[data-abre-hoje]");
+  const modal = document.getElementById(CLOSED_MODAL_ID);
+  const okButton = document.getElementById(CLOSED_OK_BUTTON_ID);
+  const todayOpeningElement = document.querySelector(TODAY_OPENING_SELECTOR);
+  const horarioHoje = getHorarioHoje();
 
   if (!modal) return;
 
-  if (elAbre) {
-    elAbre.textContent = CONFIG.horarios[new Date().getDay()].abertura;
+  if (todayOpeningElement && horarioHoje) {
+    todayOpeningElement.textContent = horarioHoje.abertura;
   }
 
-  modal.showModal();
-  requestAnimationFrame(() => modal.classList.add("is-open"));
+  openModal(modal);
 
-  btnOk?.addEventListener("click", () => {
-    modal.classList.remove("is-open");
-    modal.addEventListener("transitionend", () => modal.close(), { once: true });
+  okButton?.addEventListener("click", () => {
+    closeModal(modal);
   });
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────────
+
 initContato();
 initEndereco();
 initTempos();
 initHorarioHoje();
-initModalHorarios();
-initModalFechado(); // deve ser o último — exibe modal de aviso se fechado
+
+// Deve ser o último para não bloquear o carregamento dos dados da página.
+initModalFechado();
