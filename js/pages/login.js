@@ -2,103 +2,307 @@
  * pages/login.js
  * Controla o comportamento do formulário de login.
  *
- * Dependências (nesta ordem no HTML):
- *  config.js → auth.js → utils/validators.js → pages/login.js
+ * Responsabilidades:
+ * - Redirecionar usuário já logado
+ * - Alternar visibilidade da senha
+ * - Validar campos de e-mail e senha
+ * - Exibir feedback de erro
+ * - Simular autenticação enquanto o backend não existe
  *
- * TODO: substituir o bloco `simulateSuccess` pelo fetch() real
- *       apontando para o endpoint de autenticação do Supabase.
+ * Dependências (nesta ordem no HTML):
+ * config.js → auth.js → utils/validators.js → pages/login.js
+ *
+ * TODO: substituir o bloco `simulateLoginRequest()` pelo fetch() real
+ * apontando para o endpoint de autenticação do Supabase.
  */
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Se já estiver logado, redireciona imediatamente para o destino
-  if (Auth.isLoggedIn()) {
-    window.location.replace(Auth.getRedirectUrl());
+// ── Seletores ───────────────────────────────────────────────────────────────
+
+const LOGIN_FORM_ID = "login-form";
+const LOGIN_EMAIL_ID = "login-email";
+const LOGIN_PASSWORD_ID = "login-password";
+const TOGGLE_PASSWORD_ID = "toggle-password";
+const EMAIL_ERROR_ID = "email-error";
+const PASSWORD_ERROR_ID = "password-error";
+const LOGIN_FEEDBACK_ID = "login-feedback";
+const LOGIN_BUTTON_ID = "btn-login";
+
+const LOADING_BUTTON_TEXT = "Entrando...";
+const DEFAULT_BUTTON_TEXT = "ENTRAR";
+const FAKE_API_DELAY_MS = 300;
+
+// ── Utilidades ──────────────────────────────────────────────────────────────
+
+/**
+ * Inicializa os ícones do Lucide se a biblioteca estiver disponível.
+ *
+ * @param {Element | Element[] | NodeList | null} nodes
+ */
+function createLucideIcons(nodes = null) {
+  if (typeof lucide === "undefined") return;
+
+  if (nodes) {
+    lucide.createIcons({ nodes });
     return;
   }
 
-  // ── Elementos ──────────────────────────────────────────────────────────────
-  const form          = document.getElementById("login-form");
-  const emailInput    = document.getElementById("login-email");
-  const passwordInput = document.getElementById("login-password");
-  const toggleBtn     = document.getElementById("toggle-password");
-  const emailError    = document.getElementById("email-error");
-  const passwordError = document.getElementById("password-error");
-  const formFeedback  = document.getElementById("login-feedback");
-  const submitBtn     = document.getElementById("btn-login");
+  lucide.createIcons();
+}
 
-  // ── Toggle de visibilidade da senha ───────────────────────────────────────
-  toggleBtn.addEventListener("click", () => {
-    const isVisible = passwordInput.type === "text";
-    passwordInput.type = isVisible ? "password" : "text";
-    toggleBtn.setAttribute("aria-pressed", String(!isVisible));
-    toggleBtn.setAttribute("aria-label", isVisible ? "Mostrar senha" : "Ocultar senha");
+/**
+ * Retorna todos os elementos usados pelo formulário de login.
+ *
+ * Centralizar a busca dos elementos evita repetição e deixa claro
+ * quais partes do HTML este arquivo espera encontrar.
+ */
+function getLoginElements() {
+  return {
+    form: document.getElementById(LOGIN_FORM_ID),
+    emailInput: document.getElementById(LOGIN_EMAIL_ID),
+    passwordInput: document.getElementById(LOGIN_PASSWORD_ID),
+    toggleButton: document.getElementById(TOGGLE_PASSWORD_ID),
+    emailError: document.getElementById(EMAIL_ERROR_ID),
+    passwordError: document.getElementById(PASSWORD_ERROR_ID),
+    formFeedback: document.getElementById(LOGIN_FEEDBACK_ID),
+    submitButton: document.getElementById(LOGIN_BUTTON_ID),
+  };
+}
 
-    const iconEl = toggleBtn.querySelector("i[data-lucide]");
-    if (iconEl) {
-      iconEl.setAttribute("data-lucide", isVisible ? "eye" : "eye-off");
-      lucide.createIcons({ nodes: [iconEl] });
-    }
+/**
+ * Redireciona imediatamente se o usuário já estiver logado.
+ *
+ * @returns {boolean} true quando houve redirecionamento
+ */
+function redirectIfAlreadyLoggedIn() {
+  if (!Auth.isLoggedIn()) return false;
+
+  window.location.replace(Auth.getRedirectUrl());
+  return true;
+}
+
+/**
+ * Oculta a mensagem geral de feedback do formulário.
+ *
+ * @param {HTMLElement} formFeedback
+ */
+function hideFormFeedback(formFeedback) {
+  formFeedback.classList.remove("is-visible");
+}
+
+/**
+ * Define o estado visual de carregamento do botão.
+ *
+ * @param {HTMLButtonElement} submitButton
+ */
+function setLoadingState(submitButton) {
+  submitButton.disabled = true;
+  submitButton.textContent = LOADING_BUTTON_TEXT;
+}
+
+/**
+ * Restaura o estado original do botão de login.
+ *
+ * @param {HTMLButtonElement} submitButton
+ */
+function resetSubmitButton(submitButton) {
+  submitButton.disabled = false;
+  submitButton.textContent = DEFAULT_BUTTON_TEXT;
+  createLucideIcons(submitButton.querySelectorAll("i[data-lucide]"));
+}
+
+/**
+ * Exibe uma mensagem geral de erro no formulário.
+ *
+ * @param {HTMLElement} formFeedback
+ * @param {string} message
+ */
+function showFormError(formFeedback, message) {
+  formFeedback.textContent = message;
+  formFeedback.classList.add("is-visible");
+}
+
+// ── Toggle de senha ────────────────────────────────────────────────────────
+
+/**
+ * Alterna a visibilidade do campo de senha.
+ *
+ * Também atualiza atributos ARIA e o ícone do botão para manter
+ * boa acessibilidade e feedback visual.
+ */
+function togglePasswordVisibility(passwordInput, toggleButton) {
+  const isVisible = passwordInput.type === "text";
+
+  passwordInput.type = isVisible ? "password" : "text";
+  toggleButton.setAttribute("aria-pressed", String(!isVisible));
+  toggleButton.setAttribute("aria-label", isVisible ? "Mostrar senha" : "Ocultar senha");
+
+  const iconElement = toggleButton.querySelector("i[data-lucide]");
+
+  if (!iconElement) return;
+
+  iconElement.setAttribute("data-lucide", isVisible ? "eye" : "eye-off");
+  createLucideIcons([iconElement]);
+}
+
+/**
+ * Inicializa o botão de mostrar/ocultar senha.
+ */
+function initPasswordToggle({ passwordInput, toggleButton }) {
+  if (!passwordInput || !toggleButton) return;
+
+  toggleButton.addEventListener("click", () => {
+    togglePasswordVisibility(passwordInput, toggleButton);
   });
+}
 
-  // ── Validação por campo ────────────────────────────────────────────────────
-  // Delega para Validators — sem duplicação de lógica entre formulários.
+// ── Validação ──────────────────────────────────────────────────────────────
 
-  const validateEmail    = () => Validators.validarEmail(emailInput, emailError);
-  const validatePassword = () => Validators.validarSenha(passwordInput, passwordError);
+/**
+ * Cria as funções de validação do formulário.
+ *
+ * A validação real fica no módulo Validators,
+ * evitando duplicação de regras entre formulários.
+ */
+function createValidators({ emailInput, passwordInput, emailError, passwordError }) {
+  return {
+    validateEmail: () => Validators.validarEmail(emailInput, emailError),
+    validatePassword: () => Validators.validarSenha(passwordInput, passwordError),
+  };
+}
 
-  // Valida ao sair do campo (blur) para UX progressiva
+/**
+ * Inicializa a validação progressiva dos campos.
+ *
+ * Os campos são validados ao perder o foco, melhorando a experiência
+ * sem mostrar erro antes do usuário interagir.
+ */
+function initFieldValidation(elements, validators) {
+  const { emailInput, passwordInput } = elements;
+  const { validateEmail, validatePassword } = validators;
+
+  if (!emailInput || !passwordInput) return;
+
   emailInput.addEventListener("blur", validateEmail);
   passwordInput.addEventListener("blur", validatePassword);
+}
 
-  // Limpa o feedback geral ao digitar em qualquer campo
+/**
+ * Remove o feedback geral quando o usuário começa a corrigir os campos.
+ */
+function initFeedbackReset({ emailInput, passwordInput, formFeedback }) {
+  if (!emailInput || !passwordInput || !formFeedback) return;
+
   [emailInput, passwordInput].forEach((input) => {
-    input.addEventListener("input", () => {
-      formFeedback.classList.remove("is-visible");
-    });
+    input.addEventListener("input", () => hideFormFeedback(formFeedback));
   });
+}
 
-  // ── Submit ─────────────────────────────────────────────────────────────────
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+/**
+ * Valida o formulário inteiro antes de tentar login.
+ *
+ * @returns {boolean}
+ */
+function isFormValid(validators) {
+  const emailOk = validators.validateEmail();
+  const passwordOk = validators.validatePassword();
 
-    const emailOk    = validateEmail();
-    const passwordOk = validatePassword();
-    if (!emailOk || !passwordOk) return;
+  return emailOk && passwordOk;
+}
 
-    // Estado de carregamento
-    submitBtn.disabled     = true;
-    submitBtn.textContent  = "Entrando...";
+// ── Autenticação simulada ──────────────────────────────────────────────────
 
-    /*
-     * Simulação de chamada à API (300ms de latência fake).
-     * TODO: substituir pelo fetch() ou SDK do Supabase quando o backend estiver pronto.
-     * Para testar o fluxo de sucesso, altere `simulateSuccess` para true.
-     */
-    const simulateSuccess = false;
+/**
+ * Simula uma chamada de autenticação.
+ *
+ * TODO: substituir por fetch() ou SDK do Supabase quando o backend estiver pronto.
+ *
+ * Para testar o fluxo de sucesso, altere `simulateSuccess` para true.
+ *
+ * @returns {Promise<boolean>}
+ */
+function simulateLoginRequest() {
+  const simulateSuccess = false;
 
+  return new Promise((resolve) => {
     setTimeout(() => {
-      if (simulateSuccess) {
-        Auth.login({
-          name:  "Usuário Teste",
-          email: emailInput.value.trim(),
-        });
-        window.location.replace(Auth.getRedirectUrl());
-        return;
-      }
-
-      // Credenciais inválidas — exibe feedback e restaura o botão
-      formFeedback.textContent = "E-mail ou senha incorretos. Tente novamente.";
-      formFeedback.classList.add("is-visible");
-      submitBtn.disabled = false;
-
-      submitBtn.innerHTML = `
-        <i data-lucide="circle-check-big"></i>
-        ENTRAR
-      `;
-      lucide.createIcons({ nodes: submitBtn.querySelectorAll("i[data-lucide]") });
-
-      // Move foco para o e-mail para facilitar a correção (acessibilidade)
-      emailInput.focus();
-    }, 300);
+      resolve(simulateSuccess);
+    }, FAKE_API_DELAY_MS);
   });
+}
+
+/**
+ * Cria os dados da sessão simulada.
+ *
+ * @param {HTMLInputElement} emailInput
+ * @returns {{ name: string, email: string }}
+ */
+function createMockUserSession(emailInput) {
+  return {
+    name: "Usuário Teste",
+    email: emailInput.value.trim(),
+  };
+}
+
+/**
+ * Trata o sucesso do login.
+ */
+function handleLoginSuccess(emailInput) {
+  Auth.login(createMockUserSession(emailInput));
+  window.location.replace(Auth.getRedirectUrl());
+}
+
+/**
+ * Trata erro de login e restaura a interface.
+ */
+function handleLoginError({ emailInput, formFeedback, submitButton }) {
+  showFormError(formFeedback, "E-mail ou senha incorretos. Tente novamente.");
+  resetSubmitButton(submitButton);
+
+  // Move foco para o e-mail para facilitar a correção (acessibilidade).
+  emailInput.focus();
+}
+
+// ── Submit ─────────────────────────────────────────────────────────────────
+
+/**
+ * Inicializa o submit do formulário de login.
+ */
+function initFormSubmit(elements, validators) {
+  const { form, submitButton } = elements;
+
+  if (!form || !submitButton) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!isFormValid(validators)) return;
+
+    setLoadingState(submitButton);
+
+    const isAuthenticated = await simulateLoginRequest();
+
+    if (isAuthenticated) {
+      handleLoginSuccess(elements.emailInput);
+      return;
+    }
+
+    handleLoginError(elements);
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (redirectIfAlreadyLoggedIn()) return;
+
+  const elements = getLoginElements();
+
+  if (!elements.form) return;
+
+  const validators = createValidators(elements);
+
+  initPasswordToggle(elements);
+  initFieldValidation(elements, validators);
+  initFeedbackReset(elements);
+  initFormSubmit(elements, validators);
 });
