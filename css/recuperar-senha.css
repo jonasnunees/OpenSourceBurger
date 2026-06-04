@@ -246,8 +246,18 @@
 
 /* ══ Painel de sucesso ══ */
 /*
-  hidden + aria-hidden="true" por padrão.
-  JS remove ambos quando o e-mail é enviado com sucesso.
+  O atributo [hidden] aplica display:none por padrão no navegador,
+  mas qualquer display explícito no CSS vence por especificidade.
+  Por isso declaramos display:none explicitamente aqui para garantir
+  que o painel fique oculto até o JS remover o atributo hidden.
+*/
+.recover-success[hidden] {
+  display: none;
+}
+
+/*
+  Quando o JS remove o atributo hidden, esta regra entra em vigor
+  e exibe o painel com o layout correto + animação de entrada.
 */
 .recover-success {
   display: flex;
