@@ -337,7 +337,7 @@
   width: 100%;
   min-height: 56px;
   border-radius: var(--radius-pill);
-  background: var(--status-success);
+  background: var(--primary-color);
   color: #fff;
   border: none;
   font-family: var(--font-display);
@@ -356,7 +356,7 @@
 }
 
 .btn-finalize:hover {
-  background: #388e3c;
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
