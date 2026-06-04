@@ -10,7 +10,7 @@
  * Dependências (carregadas antes deste script no HTML):
  *  - js/config.js        → configurações globais do projeto
  *  - js/auth.js          → serviço de autenticação
- *  - js/utils/validators.js → validarEmail() (usada se disponível)
+ *  - js/utils/validators.js → Validators.validarEmail(), Validators.clearFieldError()
  *  - js/common.js        → drawer, whatsapp, lucide.createIcons()
  */
 
@@ -32,39 +32,7 @@
     return;
   }
 
-  /* ══ Validação de e-mail ══ */
-
-  /**
-   * Regex de validação de e-mail.
-   * Cobre os casos mais comuns: usuario@dominio.ext
-   * Usa validarEmail() do validators.js se disponível,
-   * caso contrário aplica esta regex como fallback seguro.
-   */
-  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  /**
-   * Retorna true se o e-mail for válido.
-   * Prioriza validarEmail() do validators.js quando disponível.
-   * @param {string} value
-   * @returns {boolean}
-   */
-  function isEmailValid(value) {
-    if (typeof validarEmail === 'function') {
-      return validarEmail(value);
-    }
-    return EMAIL_REGEX.test(value);
-  }
-
   /* ══ Helpers de UI ══ */
-
-  /**
-   * Exibe ou limpa a mensagem de erro inline do campo de e-mail.
-   * @param {string} message - String vazia limpa o estado de erro.
-   */
-  function setEmailError(message) {
-    emailError.textContent = message;
-    emailInput.setAttribute('aria-invalid', message ? 'true' : 'false');
-  }
 
   /**
    * Exibe ou oculta o bloco de feedback geral do formulário.
@@ -87,25 +55,12 @@
   /* ══ Validação do campo ══ */
 
   /**
-   * Valida o campo de e-mail e aplica feedback visual.
-   * Retorna true se válido.
+   * Valida o campo de e-mail delegando para Validators.validarEmail(),
+   * que aplica o feedback visual diretamente no DOM e retorna booleano.
    * @returns {boolean}
    */
   function validateEmail() {
-    const value = emailInput.value.trim();
-
-    if (!value) {
-      setEmailError('Informe seu e-mail.');
-      return false;
-    }
-
-    if (!isEmailValid(value)) {
-      setEmailError('Informe um e-mail válido. Ex: nome@dominio.com');
-      return false;
-    }
-
-    setEmailError('');
-    return true;
+    return Validators.validarEmail(emailInput, emailError);
   }
 
   /* ══ Painel de sucesso ══ */
@@ -141,7 +96,7 @@
   /* ══ Limpeza de erro ao digitar ══ */
   emailInput.addEventListener('input', function () {
     if (emailInput.getAttribute('aria-invalid') === 'true') {
-      setEmailError('');
+      Validators.clearFieldError(emailInput, emailError);
     }
     setFeedback('');
   });
