@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      noindex: página de recuperação de senha não deve ser indexada.
+      É um fluxo de autenticação interno, sem valor de descoberta orgânica.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Recupere o acesso à sua conta no Open Source Burger informando seu e-mail cadastrado."
+    />
+    <title>Recuperar Senha — Open Source Burger</title>
+
+    <link rel="canonical" href="https://opensourceburger.com.br/recuperar-senha.html" />
+
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/recuperar-senha.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer (menu lateral) ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="index.html">
+          <img
+            src="assets/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item">
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <a
+        href="login.html"
+        class="menu-btn"
+        aria-label="Voltar para o login"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+
+      <!--
+        h1 na topbar: padrão do projeto.
+        Descreve claramente a seção atual para o usuário e leitores de tela.
+      -->
+      <h1 class="topbar-title">Esqueci minha senha</h1>
+
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="recover-main" id="main-content">
+      <div class="recover-section">
+
+        <!--
+          Painel padrão: formulário de recuperação.
+          Visível por padrão. Ocultado via JS após envio bem-sucedido.
+        -->
+        <section
+          class="recover-form-block"
+          id="recover-form-panel"
+          aria-labelledby="recover-heading"
+        >
+          <h2 id="recover-heading" class="recover-form-block__title">
+            Informe seu e-mail abaixo para iniciar a recuperação da senha
+          </h2>
+
+          <!--
+            aria-live="polite": anuncia erros gerais sem roubar o foco.
+            Usado para feedback de e-mail não encontrado, erro de servidor, etc.
+          -->
+          <div
+            id="recover-feedback"
+            class="recover-feedback"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <form
+            id="recover-form"
+            class="recover-form"
+            novalidate
+            aria-label="Formulário de recuperação de senha"
+          >
+            <!-- Campo: e-mail -->
+            <div class="form-field">
+              <!--
+                Label visualmente oculta (padrão do projeto),
+                mas presente para acessibilidade e semântica correta.
+              -->
+              <label for="recover-email">Seu e-mail</label>
+              <input
+                type="email"
+                id="recover-email"
+                name="email"
+                placeholder="Seu e-mail"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="recover-email-error"
+              />
+              <span
+                id="recover-email-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Botão de envio -->
+            <button
+              type="submit"
+              id="btn-recover"
+              class="btn-base btn-primary btn-recover"
+            >
+              <i data-lucide="circle-check-big"></i>
+              Recuperar senha
+            </button>
+          </form>
+
+          <!--
+            Link "Lembrei minha senha": volta para o login.
+            Usa <a> pois é uma navegação real, não uma ação de formulário.
+          -->
+          <a href="login.html" class="remembered-link">
+            Lembrei minha senha..
+          </a>
+        </section>
+
+        <!-- ══ Painel de sucesso ══ -->
+        <!--
+          Oculto por padrão via aria-hidden e display:none.
+          Revelado via JS após envio bem-sucedido do formulário.
+          Foco é movido programaticamente para o heading deste painel.
+        -->
+        <section
+          class="recover-success"
+          id="recover-success-panel"
+          aria-labelledby="success-heading"
+          aria-hidden="true"
+          hidden
+        >
+          <div class="recover-success__icon" aria-hidden="true">
+            <i data-lucide="mail-check"></i>
+          </div>
+          <h2 id="success-heading" class="recover-success__title">
+            E-mail enviado!
+          </h2>
+          <p class="recover-success__text">
+            Se o endereço informado estiver cadastrado, você receberá as
+            instruções para redefinir sua senha em instantes. Verifique também
+            a caixa de spam.
+          </p>
+          <a href="login.html" class="btn-base btn-primary btn-recover">
+            <i data-lucide="arrow-left"></i>
+            Voltar para o login
+          </a>
+        </section>
+
+        <!-- ══ Divisor ══ -->
+        <div class="recover-divider" aria-hidden="true">
+          <span>Ou entre em contato conosco</span>
+        </div>
+
+        <!-- ══ Contato por telefone ══ -->
+        <!--
+          Usa <address> pois representa informação de contato,
+          conforme especificação HTML5. Melhora semântica e SEO.
+          O href tel: permite discagem direta em dispositivos móveis.
+        -->
+        <address class="recover-contact">
+          <a
+            href="tel:+5522998110-4103"
+            class="recover-contact__link"
+            aria-label="Ligar para (22) 9-98110-4103"
+          >
+            <i data-lucide="phone" aria-hidden="true"></i>
+            <span>(22) 9-98110-4103</span>
+          </a>
+        </address>
+
+      </div>
+    </main>
+
+    <!-- 1. Dados globais -->
+    <script src="js/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="js/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Utilitários — validarEmail() usado em recuperar-senha.js -->
+    <script src="js/utils/validators.js"></script>
+    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <script src="js/common.js"></script>
+    <!-- 6. Script da página -->
+    <script src="js/pages/recuperar-senha.js"></script>
+  </body>
+</html>
