@@ -124,30 +124,80 @@
       </button>
       <h1 class="topbar-title">Meu Carrinho</h1>
       <div style="width: 48px"></div>
-      <!-- Spacer para centralizar o título -->
     </header>
 
     <main class="cart-container">
-      <!-- Estado vazio -->
-      <section class="empty-cart-state">
+
+      <!-- ── Estado: carrinho vazio ── -->
+      <section class="empty-cart-state" aria-label="Carrinho vazio">
         <div class="cart-icon-container">
           <i data-lucide="shopping-basket" class="empty-icon"></i>
         </div>
         <h2>SEU CARRINHO ESTÁ VAZIO</h2>
         <p>ADICIONE ITENS</p>
-
         <div class="cart-hint">
           <span>Escolha os seus hambúrgueres favoritos no menu</span>
         </div>
       </section>
 
+      <!-- ── Estado: carrinho com itens (injetado pelo JS) ── -->
+      <section
+        id="cart-items-state"
+        class="cart-items-state"
+        aria-label="Itens no carrinho"
+        aria-live="polite"
+      >
+        <ul
+          id="cart-items-list"
+          class="cart-items-list"
+          aria-label="Lista de produtos no carrinho"
+        >
+          <!-- Itens injetados por renderCart() -->
+        </ul>
+      </section>
+
+      <!-- ── Botão Continuar Comprando (sempre visível) ── -->
       <section class="cart-actions">
-        <a href="index.html" class="btn-primary-action">
-          <i data-lucide="utensils"></i> CONTINUAR COMPRANDO
+        <a href="cardapio.html" class="btn-primary-action">
+          <i data-lucide="arrow-left"></i> CONTINUAR COMPRANDO
         </a>
       </section>
 
-      <section class="store-status-info">
+      <!-- ── Resumo do pedido (injetado pelo JS quando há itens) ── -->
+      <section
+        id="cart-summary"
+        class="cart-summary"
+        aria-label="Resumo do pedido"
+        style="display: none"
+      >
+        <div class="cart-summary-row">
+          <span class="summary-items-label">Itens:</span>
+          <span class="summary-items-count" aria-live="polite">0 itens</span>
+        </div>
+        <div class="cart-summary-row">
+          <span class="summary-items-value-label">Subtotal:</span>
+          <span class="summary-items-value" aria-live="polite">R$ 0,00</span>
+        </div>
+        <div class="cart-summary-row">
+          <span class="cart-summary-total-label">Valor Total do Pedido:</span>
+          <span class="cart-summary-total summary-total-value" aria-live="polite">R$ 0,00</span>
+        </div>
+      </section>
+
+      <!-- ── Botão Finalizar Pedido (visível apenas com itens) ── -->
+      <a
+        id="btn-finalize"
+        href="#"
+        class="btn-finalize"
+        aria-label="Finalizar pedido"
+        style="display: none"
+      >
+        <i data-lucide="circle-check-big"></i>
+        FINALIZAR PEDIDO
+      </a>
+
+      <!-- ── Informações da loja ── -->
+      <section class="store-status-info" aria-label="Informações da loja">
         <div class="status-badge" id="status-badge">
           <i data-lucide="store"></i>
           <span id="status-text">Carregando status...</span>
@@ -171,14 +221,14 @@
       </section>
     </main>
 
-    <!-- Modal de horários (o mesmo da Home) -->
+    <!-- ── Modal de Horários ── -->
     <dialog id="hours-modal" class="hours-modal">
       <h2>Horários de Atendimento</h2>
       <ul class="hours-list" id="hours-list"></ul>
       <button class="modal-ok">OK</button>
     </dialog>
 
-    <!-- Scripts -->
+    <!-- ── Scripts ── -->
     <script src="js/config.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/common.js"></script>
