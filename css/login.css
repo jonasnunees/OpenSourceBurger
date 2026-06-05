@@ -1,15 +1,11 @@
 /* ── Login Page ── */
-
-:root {
-  --input-height: 52px;
-  --input-bg: #1e2028;
-  --input-border: rgba(255, 255, 255, 0.12);
-  --input-border-focus: var(--primary-color);
-  --label-color: rgba(255, 255, 255, 0.75);
-  --loyalty-bg: #2c2408;
-  --loyalty-border: rgba(230, 170, 40, 0.35);
-  --loyalty-text: #f0c040;
-}
+/*
+  Tokens globais usados neste arquivo (definidos em base.css):
+  --input-height, --input-bg, --label-color, --border-input,
+  --primary-color, --primary-hover, --status-error, --text-muted,
+  --text-main, --radius-sm, --radius-md, --radius-pill,
+  --font-body, --font-display, --transition-fast, --space-*
+*/
 
 /* ── Layout principal ── */
 
@@ -93,7 +89,7 @@
   min-height: var(--input-height);
   padding: 0 48px 0 14px;
   background: var(--input-bg);
-  border: 1.5px solid var(--input-border);
+  border: 1.5px solid var(--border-input);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
@@ -110,7 +106,7 @@
 .form-field input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
   -webkit-text-fill-color: var(--text-main);
-  border-color: var(--input-border);
+  border-color: var(--border-input);
 }
 
 .form-field input::placeholder {
@@ -118,7 +114,7 @@
 }
 
 .form-field input:focus {
-  border-color: var(--input-border-focus);
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15);
 }
 
@@ -267,8 +263,15 @@
 }
 
 /* ── Banner de fidelidade ── */
-
+/*
+  Variáveis de cor do banner definidas localmente — são tokens de
+  negócio muito específicos, sem uso em outros componentes globais.
+*/
 .loyalty-banner {
+  --loyalty-bg: #2c2408;
+  --loyalty-border: rgba(230, 170, 40, 0.35);
+  --loyalty-text: #f0c040;
+
   display: flex;
   align-items: flex-start;
   gap: var(--space-md);
