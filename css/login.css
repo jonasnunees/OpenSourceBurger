@@ -1,8 +1,17 @@
 /* ── Login Page ── */
 
 :root {
-  --input-height: 54px;
+  --input-height: 52px;
+  --input-bg: #1e2028;
+  --input-border: rgba(255, 255, 255, 0.12);
+  --input-border-focus: var(--primary-color);
+  --label-color: rgba(255, 255, 255, 0.75);
+  --loyalty-bg: #2c2408;
+  --loyalty-border: rgba(230, 170, 40, 0.35);
+  --loyalty-text: #f0c040;
 }
+
+/* ── Layout principal ── */
 
 .login-main {
   min-height: calc(100dvh - var(--topbar-height));
@@ -10,130 +19,135 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 24px 48px;
+  padding: 36px 24px 56px;
   background: var(--bg-dark);
 }
 
 .login-section {
   width: 100%;
-  max-width: 430px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
 }
 
-/* ── Bloco: Primeiro acesso ── */
-.login-block {
-  margin-bottom: 40px;
+/* ── Cabeçalho: logo + título + subtítulo ── */
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
   text-align: center;
 }
 
-.login-block__title {
+.login-header__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  /* Leve brilho para destacar o logo no fundo escuro */
+  filter: drop-shadow(0 4px 12px rgba(230, 126, 34, 0.35));
+}
+
+.login-header__title {
   font-family: var(--font-body);
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   font-weight: 700;
   color: var(--text-main);
-  margin-bottom: 16px;
-  line-height: 1.3;
-}
-.btn-register {
-  width: 100%;
-  min-height: var(--input-height);
-  /* Cores azul removidas para seguir o padrão btn-primary */
+  line-height: 1.25;
+  margin: 0;
 }
 
-.btn-register svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2.2;
-  flex-shrink: 0;
+.login-header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
 }
 
-/* ── Bloco: Formulário de login ── */
-.login-form-block {
-  text-align: center;
-}
+/* ── Formulário ── */
 
-.login-form-block__title {
-  font-family: var(--font-body);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 20px;
-  line-height: 1.3;
-}
-
-/* ── Form ── */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-lg);
 }
 
+/* Grupo de campo: label + input (+ toggle opcional) */
 .form-field {
-  position: relative;
   display: flex;
   flex-direction: column;
+  gap: var(--space-xs);
+  position: relative;
 }
 
-/* Labels visíveis apenas para leitores de tela */
 .form-field label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--label-color);
+  /* Labels visíveis — sem sr-only nesta página */
 }
 
 .form-field input {
   width: 100%;
   min-height: var(--input-height);
-  padding: 0 50px 0 16px;
-  background: #fff;
-  border: 2px solid transparent;
+  padding: 0 48px 0 14px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 1rem;
-  color: #1a1a1a;
+  font-size: var(--font-size-base);
+  color: var(--text-main);
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  /* Garante que o autofill do browser não mude a cor de fundo */
+  -webkit-text-fill-color: var(--text-main);
+}
+
+/* Autofill override — evita o fundo branco/azul padrão do browser */
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  -webkit-text-fill-color: var(--text-main);
+  border-color: var(--input-border);
 }
 
 .form-field input::placeholder {
-  color: #9e9e9e;
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .form-field input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.18);
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15);
 }
 
 /* Estado de erro */
 .form-field input[aria-invalid="true"] {
-  border-color: #e53935;
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px rgba(217, 56, 56, 0.12);
 }
 
 /* Mensagem de erro inline */
 .field-error {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #ef5350;
-  margin-top: 4px;
-  text-align: left;
-  padding-left: 4px;
-  min-height: 18px;
+  min-height: 16px;
   display: block;
+  padding-left: 2px;
 }
 
-/* Botão toggle de senha */
+/* ── Botão toggle de senha ── */
+
 .toggle-password {
   position: absolute;
   right: 12px;
-  top: calc(var(--input-height) / 2);
+  /* Centraliza verticalmente no input; se o label estiver acima, soma a altura dele (~22px gap xs) */
+  top: calc(22px + var(--space-xs) + (var(--input-height) / 2));
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  color: #757575;
+  color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -141,35 +155,58 @@
   padding: 4px;
   border-radius: 4px;
   transition: color var(--transition-fast);
-  /* Alinha com o campo, ignorando possível mensagem de erro abaixo */
-  /* Usa marginBottom do parent como referência */
 }
 
 .toggle-password:hover,
 .toggle-password:focus-visible {
   color: var(--primary-color);
-  outline: 2px solid rgba(245, 196, 0, 0.4);
+  outline: 2px solid rgba(230, 126, 34, 0.35);
   outline-offset: 2px;
 }
 
 .toggle-password svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   stroke-width: 2;
 }
 
-/* Ajuste: campo de senha tem botão absoluto, precisa de posição relativa no wrapper */
-.form-field--password {
-  position: relative;
+/* ── Linha: "Esqueci minha senha" ── */
+
+.form-forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  /* Margem negativa sutil para aproximar do campo senha acima */
+  margin-top: calc(-1 * var(--space-sm));
 }
 
-/* ── Feedback geral de erro (ex: credenciais inválidas) ── */
+.forgot-link {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.forgot-link:hover,
+.forgot-link:focus-visible {
+  color: var(--text-main);
+  outline: none;
+}
+
+/* ── Feedback geral de erro (credenciais inválidas) ── */
+
 .login-feedback {
-  background: rgba(229, 57, 53, 0.12);
-  border: 1px solid rgba(229, 57, 53, 0.4);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 0.88rem;
+  background: rgba(217, 56, 56, 0.1);
+  border: 1px solid rgba(217, 56, 56, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: var(--font-size-sm);
   color: #ef5350;
   text-align: center;
   display: none;
@@ -178,42 +215,130 @@
 .login-feedback.is-visible {
   display: block;
 }
-.btn-login {
+
+/* ── Botões ── */
+
+.btn-login,
+.btn-register {
   width: 100%;
   min-height: var(--input-height);
-  /* Cores verde removidas para seguir o padrão btn-primary */
 }
 
 .btn-login:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
-.btn-login svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2.5;
-  flex-shrink: 0;
-}
-
-/* ── Link "Esqueceu a senha?" ── */
-.forgot-link {
-  display: inline-block;
-  margin-top: 20px;
+/* Botão secundário: "Criar conta" — outline sobre dark */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--input-height);
+  padding: 12px 28px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-pill);
   color: var(--text-main);
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* ── Banner de fidelidade ── */
+
+.loyalty-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  background: var(--loyalty-bg);
+  border: 1px solid var(--loyalty-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.loyalty-banner__icon {
+  flex-shrink: 0;
+  color: var(--loyalty-text);
+  margin-top: 2px;
+}
+
+.loyalty-banner__icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.loyalty-banner__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.loyalty-banner__title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--loyalty-text);
+  line-height: 1.3;
+}
+
+.loyalty-banner__text {
+  font-size: var(--font-size-xs);
+  color: rgba(240, 192, 64, 0.75);
+  line-height: 1.55;
+}
+
+.loyalty-banner__text strong {
+  color: var(--loyalty-text);
+  font-weight: 700;
+}
+
+/* ── Link "Continuar como visitante" ── */
+
+.guest-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-body);
+  text-align: center;
+  justify-content: center;
   transition: color var(--transition-fast);
 }
 
-.forgot-link:hover,
-.forgot-link:focus-visible {
-  color: var(--primary-color);
+.guest-link:hover,
+.guest-link:focus-visible {
+  color: var(--text-main);
   outline: none;
+}
+
+.guest-link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  flex-shrink: 0;
 }

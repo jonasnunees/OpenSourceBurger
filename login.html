@@ -148,10 +148,6 @@
         <i data-lucide="menu"></i>
       </button>
 
-      <!--
-        h1 na topbar: mantém o padrão do projeto.
-        O título "LOGIN" corresponde à seção atual da página.
-      -->
       <h1 class="topbar-title">Login</h1>
 
       <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
@@ -163,23 +159,35 @@
     <!-- ══ Conteúdo principal ══ -->
     <main class="login-main" id="main-content">
       <div class="login-section">
-        <!-- Bloco 1: Novo usuário -->
-        <section class="login-block" aria-labelledby="register-heading">
-          <h2 id="register-heading" class="login-block__title">
-            Seu primeiro pedido?
-          </h2>
 
-          <a href="cadastro.html" class="btn-base btn-primary">
-            <i data-lucide="user-round"></i>
-            Cadastre-se
-          </a>
-        </section>
+        <!-- ── Cabeçalho da página ── -->
+        <header class="login-header">
+          <!--
+            Logo pequeno centralizado no topo do formulário.
+            alt vazio: elemento decorativo — o contexto da página já
+            comunica que se trata do Open Source Burger.
+          -->
+          <img
+            src="assets/logo.webp"
+            alt=""
+            class="login-header__logo"
+            aria-hidden="true"
+            width="52"
+            height="52"
+          />
+          <h2 class="login-header__title">Bem-vindo à Lanchonete</h2>
+          <p class="login-header__subtitle">
+            Faça login para aproveitar nossos benefícios
+          </p>
+        </header>
 
-        <!-- Bloco 2: Formulário de login -->
-        <section class="login-form-block" aria-labelledby="login-heading">
-          <h2 id="login-heading" class="login-form-block__title">
-            Já é cadastrado?
-          </h2>
+        <!-- ── Formulário de login ── -->
+        <!--
+          aria-labelledby aponta para o h2 do cabeçalho acima,
+          associando semanticamente o formulário ao contexto da seção.
+        -->
+        <section aria-labelledby="login-section-title">
+          <h3 id="login-section-title" class="sr-only">Formulário de login</h3>
 
           <!--
             aria-live="polite": anuncia erros gerais do formulário
@@ -200,17 +208,12 @@
           >
             <!-- Campo: e-mail -->
             <div class="form-field">
-              <!--
-                Label visualmente oculta (sr-only implícito via CSS),
-                mas presente para leitores de tela e semântica correta.
-                O placeholder complementa, mas não substitui o label.
-              -->
-              <label for="login-email">Seu e-mail</label>
+              <label for="login-email">E-mail</label>
               <input
                 type="email"
                 id="login-email"
                 name="email"
-                placeholder="Seu e-mail"
+                placeholder="seu@email.com"
                 autocomplete="email"
                 inputmode="email"
                 required
@@ -228,12 +231,12 @@
 
             <!-- Campo: senha -->
             <div class="form-field form-field--password">
-              <label for="login-password">Sua senha</label>
+              <label for="login-password">Senha</label>
               <input
                 type="password"
                 id="login-password"
                 name="password"
-                placeholder="Sua senha"
+                placeholder="••••••••"
                 autocomplete="current-password"
                 required
                 aria-required="true"
@@ -254,7 +257,7 @@
                 aria-pressed="false"
                 aria-controls="login-password"
               >
-                <i data-lucide="eye"></i>
+                <i data-lucide="eye" aria-hidden="true"></i>
               </button>
               <span
                 id="password-error"
@@ -264,18 +267,56 @@
               ></span>
             </div>
 
-            <!-- Botão entrar -->
-            <button type="submit" id="btn-login" class="btn-base btn-primary">
-              <i data-lucide="circle-check-big"></i>
+            <!-- "Esqueci minha senha" alinhado à direita, abaixo do campo senha -->
+            <div class="form-forgot-row">
+              <a href="recuperar-senha.html" class="forgot-link">
+                Esqueci minha senha
+              </a>
+            </div>
+
+            <!-- CTA primário: Entrar -->
+            <button
+              type="submit"
+              id="btn-login"
+              class="btn-base btn-primary btn-login"
+            >
+              <i data-lucide="circle-check-big" aria-hidden="true"></i>
               Entrar
             </button>
-          </form>
 
-          <!-- Link de recuperação de senha -->
-          <a href="recuperar-senha.html" class="forgot-link">
-            Esqueceu a senha?
-          </a>
+            <!-- CTA secundário: Criar conta (outline) -->
+            <a href="cadastro.html" class="btn-outline btn-register">
+              Criar conta
+            </a>
+          </form>
         </section>
+
+        <!-- ── Banner: aviso sobre o Programa de Fidelidade ── -->
+        <!--
+          role="note": semântica de informação complementar, não crítica.
+          Leitores de tela anunciam o conteúdo sem interromper o fluxo.
+        -->
+        <aside class="loyalty-banner" role="note" aria-label="Dica sobre o Programa de Fidelidade">
+          <span class="loyalty-banner__icon" aria-hidden="true">
+            <i data-lucide="star" aria-hidden="true"></i>
+          </span>
+          <div class="loyalty-banner__body">
+            <p class="loyalty-banner__title">
+              Você vai perder pontos de fidelidade!
+            </p>
+            <p class="loyalty-banner__text">
+              Clientes cadastrados acumulam pontos a cada pedido e trocam por
+              <strong>descontos e brindes</strong>. Não fique de fora!
+            </p>
+          </div>
+        </aside>
+
+        <!-- ── Link: continuar sem login ── -->
+        <a href="cardapio.html" class="guest-link">
+          Continuar como visitante
+          <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+        </a>
+
       </div>
     </main>
 
