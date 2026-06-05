@@ -226,6 +226,15 @@
   white-space: nowrap;
 }
 
+/* Detalhes da personalização — exibidos entre o header e o footer do item */
+.cart-item-personalizacao {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: var(--space-xs) var(--space-lg) var(--space-sm);
+  border-top: 1px solid var(--border-subtle);
+}
+
 .btn-customize {
   display: inline-flex;
   align-items: center;
@@ -338,7 +347,7 @@
   min-height: 56px;
   border-radius: var(--radius-pill);
   background: var(--primary-color);
-  color: #fff;
+  color: var(--text-main);
   border: none;
   font-family: var(--font-display);
   font-size: 1.25rem;

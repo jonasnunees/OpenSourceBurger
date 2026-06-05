@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Personalize seu pedido no Open Source Burger." />
+    <title>Personalizar Pedido — Open Source Burger</title>
+
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/cardapio.css" />
+    <link rel="stylesheet" href="css/personalizar.css" />
+  </head>
+  <body>
+    <!-- ── Drawer ── -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="index.html">
+          <img
+            src="assets/logo.webp"
+            alt="Open Source Burger"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i><span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i><span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i><span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i><span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i><span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item">
+            <i data-lucide="user-round"></i><span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i><span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i><span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i><span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a href="https://github.com/jonasnunees" target="_blank">Jonas Nunes</a>
+        </p>
+        <p class="drawer-icons">
+          Ícones por <a href="https://lucide.dev" target="_blank">Lucide</a>
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ── Topbar ── -->
+    <header class="topbar">
+      <button
+        class="menu-btn"
+        id="menu-btn"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+      <h1 class="topbar-title" id="personalizar-titulo">Personalizar</h1>
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho"
+      >
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ── Conteúdo principal ── -->
+    <main class="personalizar-container">
+
+      <!-- Tabs de navegação (injetadas pelo JS) -->
+      <nav
+        id="personalizar-tabs"
+        class="personalizar-tabs"
+        role="tablist"
+        aria-label="Seções de personalização"
+      ></nav>
+
+      <!-- Painéis de conteúdo (injetados pelo JS) -->
+      <div id="personalizar-content"></div>
+
+    </main>
+
+    <!-- ── Botão fixo de confirmar ── -->
+    <footer class="personalizar-footer">
+      <button id="btn-adicionar" type="button" aria-live="polite">
+        <i data-lucide="shopping-cart"></i>
+        <span class="btn-add-label">ADICIONAR R$ 0,00</span>
+      </button>
+    </footer>
+
+    <!-- ── Scripts ── -->
+    <script src="js/config.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/common.js"></script>
+    <script src="js/pages/cardapio.js"></script>
+    <script src="js/pages/personalizar.js"></script>
+  </body>
+</html>

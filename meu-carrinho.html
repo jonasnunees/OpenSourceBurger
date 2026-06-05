@@ -163,7 +163,7 @@
         </a>
       </section>
 
-      <!-- ── Resumo do pedido (injetado pelo JS quando há itens) ── -->
+      <!-- ── Resumo do pedido ── -->
       <section
         id="cart-summary"
         class="cart-summary"
@@ -184,7 +184,7 @@
         </div>
       </section>
 
-      <!-- ── Botão Finalizar Pedido (visível apenas com itens) ── -->
+      <!-- ── Botão Finalizar Pedido ── -->
       <a
         id="btn-finalize"
         href="#"
@@ -228,10 +228,14 @@
       <button class="modal-ok">OK</button>
     </dialog>
 
-    <!-- ── Scripts ── -->
+    <!-- ── Scripts ──
+         cardapio.js carregado antes de meu-carrinho.js para expor
+         CARDAPIO e PRODUTO_MAP, usados para verificar personalizavel.
+    ── -->
     <script src="js/config.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/common.js"></script>
+    <script src="js/pages/cardapio.js"></script>
     <script src="js/pages/meu-carrinho.js"></script>
   </body>
 </html>

@@ -1,0 +1,495 @@
+/* ═══════════════════════════════════════════
+   personalizar.css
+   Estilos específicos da página de personalização.
+   Depende de base.css e cardapio.css para variáveis,
+   reset, topbar, drawer e padrão de tabs/qty-pill.
+   ═══════════════════════════════════════════ */
+
+/* ── Layout principal ───────────────────────────────────────────────────── */
+
+.personalizar-container {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  /* Espaço para o botão fixo de rodapé */
+  padding-bottom: calc(var(--bottom-bar-height) + var(--space-xl));
+}
+
+/* ── Header do produto ──────────────────────────────────────────────────── */
+
+.personalizar-header {
+  padding: var(--space-lg) var(--gutter) var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.personalizar-produto-nome {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+/* ── Tabs de navegação ──────────────────────────────────────────────────── */
+/* Reutiliza .cat-tab e .is-active do cardapio.css */
+
+.personalizar-tabs {
+  position: sticky;
+  top: var(--topbar-height);
+  z-index: 7;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.personalizar-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Painéis de conteúdo ────────────────────────────────────────────────── */
+
+.personalizar-panel {
+  display: none;
+  padding: var(--space-lg) var(--gutter);
+  animation: panelFadeIn 0.2s ease;
+}
+
+.personalizar-panel.is-active {
+  display: block;
+}
+
+/* ── Fieldset de opções ─────────────────────────────────────────────────── */
+
+.opcoes-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--space-xl);
+}
+
+.opcoes-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+/* ── Badges de contexto ─────────────────────────────────────────────────── */
+
+.opcoes-badge {
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.opcoes-badge.obrigatorio {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.opcoes-badge.limite {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-input);
+}
+
+.opcoes-badge.opcional {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-input);
+}
+
+.opcoes-badge.info {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-input);
+}
+
+/* ── Lista de opções (checkboxes e radios) ──────────────────────────────── */
+
+.opcoes-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.opcao-item {
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.opcao-item.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.opcao-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  min-height: 48px;
+}
+
+.opcao-label:hover {
+  background: var(--bg-card);
+}
+
+/* Esconde o input nativo */
+.opcao-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Indicador visual customizado */
+.opcao-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-medium);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  position: relative;
+}
+
+/* Radio: círculo interno */
+input[type="radio"] + .opcao-check::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+input[type="radio"]:checked + .opcao-check {
+  border-color: var(--primary-color);
+}
+
+input[type="radio"]:checked + .opcao-check::after {
+  opacity: 1;
+}
+
+/* Checkbox: checkmark */
+input[type="checkbox"] + .opcao-check::after {
+  content: "";
+  width: 6px;
+  height: 11px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+input[type="checkbox"]:checked + .opcao-check {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+input[type="checkbox"]:checked + .opcao-check::after {
+  opacity: 1;
+}
+
+/* Focus visível para acessibilidade */
+.opcao-input:focus-visible + .opcao-check {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.opcao-nome {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.opcao-preco {
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
+/* ── Ingredientes fixos ─────────────────────────────────────────────────── */
+
+.ingredientes-aviso {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--primary-color);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+  line-height: 1.4;
+}
+
+.ingredientes-aviso svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--primary-color);
+}
+
+.fixos-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.fixo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.fixo-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--primary-color);
+  stroke-width: 2.5;
+}
+
+.ingredientes-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ── Observação livre ───────────────────────────────────────────────────── */
+
+.obs-textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  padding: var(--space-md) var(--space-lg);
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--transition-fast);
+  line-height: 1.5;
+  margin-top: var(--space-md);
+}
+
+.obs-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.obs-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.obs-contador {
+  display: block;
+  text-align: right;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* ── Leve Também ────────────────────────────────────────────────────────── */
+
+.leve-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.leve-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  transition: border-color var(--transition-fast);
+}
+
+.leve-item:has(.leve-qty-value:not(:empty)):not(:has(.leve-qty-value[textContent="0"])) {
+  border-color: var(--primary-color);
+}
+
+.leve-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-topbar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.leve-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.leve-nome {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.leve-nome strong {
+  color: var(--primary-color);
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+}
+
+.leve-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Reutiliza qty-pill do cardapio.css */
+.leve-qty {
+  flex-shrink: 0;
+}
+
+/* ── Botão fixo no rodapé ───────────────────────────────────────────────── */
+
+.personalizar-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-md) var(--gutter);
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 40;
+}
+
+#btn-adicionar {
+  width: 100%;
+  min-height: var(--bottom-bar-height);
+  border-radius: var(--radius-pill);
+  background: var(--primary-color);
+  color: var(--text-main);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+}
+
+#btn-adicionar:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+#btn-adicionar:active {
+  transform: translateY(0);
+}
+
+#btn-adicionar svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
+}
+
+/* ── Botão personalizar no cardápio ─────────────────────────────────────── */
+/* Aplicado em cardapio.css via este arquivo para não modificar cardapio.css */
+
+.btn-personalizar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--text-main);
+  text-decoration: none;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-personalizar:hover {
+  background: var(--primary-hover);
+  transform: scale(1.08);
+}
+
+.btn-personalizar svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+}
+
+/* ── Responsividade ─────────────────────────────────────────────────────── */
+
+@media (min-width: 480px) {
+  .personalizar-produto-nome {
+    font-size: 1.6rem;
+  }
+
+  .opcao-label {
+    padding: var(--space-lg) var(--space-xl);
+  }
+}
