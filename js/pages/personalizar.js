@@ -636,13 +636,16 @@ function mostrarToastLimite(mensagem) {
   }
 
   toast.textContent = mensagem;
+
+  // Entra: desce suavemente do topo para a posição final
   toast.style.opacity = "1";
   toast.style.transform = "translateX(-50%) translateY(0)";
 
   clearTimeout(toast._timer);
   toast._timer = setTimeout(() => {
+    // Sai: sobe de volta para cima
     toast.style.opacity = "0";
-    toast.style.transform = "translateX(-50%) translateY(20px)";
+    toast.style.transform = "translateX(-50%) translateY(-16px)";
   }, 2000);
 }
 

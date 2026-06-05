@@ -493,3 +493,25 @@ input[type="checkbox"]:checked + .opcao-check::after {
     padding: var(--space-lg) var(--space-xl);
   }
 }
+
+/* ── Toast de limite (override do global) ───────────────────────────────── */
+
+/*
+ * O toast global do base.css aparece na parte inferior com fundo laranja,
+ * o que conflita visualmente com o botão "Adicionar" desta página.
+ *
+ * Aqui sobrescrevemos apenas o necessário: posição no topo, cor neutra
+ * e animação de cima para baixo.
+ */
+#personalizar-toast {
+  top: calc(var(--topbar-height) + var(--space-3xl));
+  bottom: auto;
+  background: var(--primary-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-input);
+  box-shadow: var(--shadow-md);
+  /* Estado inicial: acima da tela */
+  transform: translateX(-50%) translateY(-16px);
+  opacity: 0;
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
