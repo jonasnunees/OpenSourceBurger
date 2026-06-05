@@ -142,7 +142,6 @@ function getTabsParaProduto(produto) {
   return [
     { id: "tab-ingredientes", label: "Ingredientes" },
     { id: "tab-adicionais",   label: "Adicionais"   },
-    { id: "tab-observacoes",  label: "Observações"  },
     { id: "tab-leve-tambem",  label: "Leve Também"  },
   ];
 }
@@ -422,7 +421,7 @@ function renderPainelSorvete(produto) {
   });
 }
 
-// ── Painel: Ingredientes fixos (sanduíches) ───────────────────────────────────
+// ── Painel: Ingredientes fixos + Observações (sanduíches) ────────────────────
 
 function renderPainelIngredientes(produto) {
   const panel = document.getElementById("panel-tab-ingredientes");
@@ -430,10 +429,7 @@ function renderPainelIngredientes(produto) {
 
   panel.innerHTML = `
     <div class="opcoes-fieldset">
-      <p class="opcoes-legend">
-        Ingredientes inclusos
-        <span class="opcoes-badge info">Não removíveis</span>
-      </p>
+      <p class="opcoes-legend">Ingredientes do lanche</p>
       <p class="ingredientes-aviso">
         <i data-lucide="info" aria-hidden="true"></i>
         Para remover um ingrediente, utilize o campo de observação.
@@ -446,68 +442,7 @@ function renderPainelIngredientes(produto) {
           </li>`).join("")}
       </ul>
     </div>
-    <div class="opcoes-fieldset">
-      <p class="opcoes-legend">Ingredientes do lanche</p>
-      <p class="ingredientes-desc">${produto.desc || ""}</p>
-    </div>`;
 
-  if (typeof lucide !== "undefined") lucide.createIcons();
-}
-
-// ── Painel: Adicionais (sanduíches) ──────────────────────────────────────────
-
-function renderPainelAdicionais(produto) {
-  const panel = document.getElementById("panel-tab-adicionais");
-  if (!panel) return;
-
-  panel.innerHTML = `
-    <fieldset class="opcoes-fieldset">
-      <legend class="opcoes-legend">
-        Adicionar ingredientes
-        <span class="opcoes-badge opcional">Opcional</span>
-      </legend>
-      <ul class="opcoes-list">
-        ${produto.adicionais.map((ad) => `
-          <li class="opcao-item">
-            <label class="opcao-label" for="${ad.id}">
-              <input
-                type="checkbox"
-                id="${ad.id}"
-                value="${ad.id}"
-                data-nome="${ad.nome}"
-                data-preco="${ad.preco}"
-                class="opcao-input opcao-adicional"
-              />
-              <span class="opcao-check"></span>
-              <span class="opcao-nome">${ad.nome}</span>
-              <span class="opcao-preco">+ ${formatarPreco(ad.preco)}</span>
-            </label>
-          </li>`).join("")}
-      </ul>
-    </fieldset>`;
-
-  panel.addEventListener("change", (e) => {
-    const cb = e.target.closest(".opcao-adicional");
-    if (!cb) return;
-
-    const marcados = [...document.querySelectorAll(".opcao-adicional:checked")];
-    estado.adicionaisSel = marcados.map((c) => ({
-      id:    c.value,
-      nome:  c.dataset.nome,
-      preco: parseFloat(c.dataset.preco),
-    }));
-
-    atualizarBotaoTotal();
-  });
-}
-
-// ── Painel: Observações (sanduíches) ─────────────────────────────────────────
-
-function renderPainelObservacoes(produto) {
-  const panel = document.getElementById("panel-tab-observacoes");
-  if (!panel) return;
-
-  panel.innerHTML = `
     <fieldset class="opcoes-fieldset">
       <legend class="opcoes-legend">
         Observações rápidas
@@ -560,6 +495,55 @@ function renderPainelObservacoes(produto) {
   textarea?.addEventListener("input", () => {
     estado.obsLivre = textarea.value;
     if (contador) contador.textContent = `${textarea.value.length} / 300`;
+  });
+
+  if (typeof lucide !== "undefined") lucide.createIcons();
+}
+
+// ── Painel: Adicionais (sanduíches) ──────────────────────────────────────────
+
+function renderPainelAdicionais(produto) {
+  const panel = document.getElementById("panel-tab-adicionais");
+  if (!panel) return;
+
+  panel.innerHTML = `
+    <fieldset class="opcoes-fieldset">
+      <legend class="opcoes-legend">
+        Adicionar ingredientes
+        <span class="opcoes-badge opcional">Opcional</span>
+      </legend>
+      <ul class="opcoes-list">
+        ${produto.adicionais.map((ad) => `
+          <li class="opcao-item">
+            <label class="opcao-label" for="${ad.id}">
+              <input
+                type="checkbox"
+                id="${ad.id}"
+                value="${ad.id}"
+                data-nome="${ad.nome}"
+                data-preco="${ad.preco}"
+                class="opcao-input opcao-adicional"
+              />
+              <span class="opcao-check"></span>
+              <span class="opcao-nome">${ad.nome}</span>
+              <span class="opcao-preco">+ ${formatarPreco(ad.preco)}</span>
+            </label>
+          </li>`).join("")}
+      </ul>
+    </fieldset>`;
+
+  panel.addEventListener("change", (e) => {
+    const cb = e.target.closest(".opcao-adicional");
+    if (!cb) return;
+
+    const marcados = [...document.querySelectorAll(".opcao-adicional:checked")];
+    estado.adicionaisSel = marcados.map((c) => ({
+      id:    c.value,
+      nome:  c.dataset.nome,
+      preco: parseFloat(c.dataset.preco),
+    }));
+
+    atualizarBotaoTotal();
   });
 }
 
@@ -685,7 +669,6 @@ function renderPaineis(produto) {
     : [
         `<section class="personalizar-panel is-active" id="panel-tab-ingredientes" aria-label="Ingredientes"></section>`,
         `<section class="personalizar-panel"           id="panel-tab-adicionais"   aria-label="Adicionais"></section>`,
-        `<section class="personalizar-panel"           id="panel-tab-observacoes"  aria-label="Observações"></section>`,
         `<section class="personalizar-panel"           id="panel-tab-leve-tambem"  aria-label="Leve Também"></section>`,
       ];
 
@@ -700,7 +683,6 @@ function renderPaineis(produto) {
   } else {
     renderPainelIngredientes(produto);
     renderPainelAdicionais(produto);
-    renderPainelObservacoes(produto);
     renderPainelLeveTambem(produto);
   }
 
