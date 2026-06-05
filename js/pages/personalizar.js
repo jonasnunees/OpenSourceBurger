@@ -341,6 +341,7 @@ function renderPainelCobertura(produto) {
                 type="checkbox"
                 id="${cob.id}"
                 value="${cob.id}"
+                data-exclusivo="${cob.nome.trim().toLowerCase() === "sem cobertura" ? "true" : "false"}"
                 class="opcao-input opcao-cobertura"
               />
               <span class="opcao-check"></span>
@@ -353,18 +354,50 @@ function renderPainelCobertura(produto) {
   panel.addEventListener("change", (e) => {
     const cb = e.target.closest(".opcao-cobertura");
     if (!cb) return;
-
-    const marcadas = [...document.querySelectorAll(".opcao-cobertura:checked")];
-
-    if (cb.checked && marcadas.length > 2) {
-      cb.checked = false;
-      mostrarToastLimite("Máximo de 2 coberturas");
-      return;
-    }
-
-    estado.coberturasSel = marcadas.map((c) => c.value);
-    atualizarBotaoTotal();
+    handleCoberturaChange(cb);
   });
+}
+
+/**
+ * Gerencia seleção de coberturas com limite de 2 e lógica do "Sem Cobertura".
+ * "Sem Cobertura" é exclusivo: ao marcá-lo, desmarca todas as demais.
+ * Ao marcar qualquer outra cobertura, "Sem Cobertura" é desmarcado.
+ */
+function handleCoberturaChange(checkbox) {
+  const isExclusivo   = checkbox.dataset.exclusivo === "true";
+  const allCheckboxes = document.querySelectorAll(".opcao-cobertura");
+
+  if (checkbox.checked && isExclusivo) {
+    // "Sem Cobertura" marcado → desmarca todas as outras
+    allCheckboxes.forEach((cb) => {
+      if (cb !== checkbox) cb.checked = false;
+    });
+    estado.coberturasSel = [checkbox.value];
+    atualizarBotaoTotal();
+    return;
+  }
+
+  if (checkbox.checked && !isExclusivo) {
+    // Outra cobertura marcada → desmarca "Sem Cobertura"
+    allCheckboxes.forEach((cb) => {
+      if (cb.dataset.exclusivo === "true") cb.checked = false;
+    });
+  }
+
+  // Respeita o limite de 2 coberturas (excluindo a exclusiva do count)
+  const marcadas = [...allCheckboxes].filter(
+    (cb) => cb.checked && cb.dataset.exclusivo !== "true"
+  );
+
+  if (checkbox.checked && marcadas.length > 2) {
+    checkbox.checked = false;
+    mostrarToastLimite("Máximo de 2 coberturas");
+    return;
+  }
+
+  estado.coberturasSel = [...document.querySelectorAll(".opcao-cobertura:checked")]
+    .map((c) => c.value);
+  atualizarBotaoTotal();
 }
 
 // ── Painel: Sorvete (gelados com sorvete) ─────────────────────────────────────
