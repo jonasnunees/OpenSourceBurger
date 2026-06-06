@@ -297,11 +297,11 @@ body {
 }
 
 .qty-btn.btn-minus {
-  color: #e53935;
+  color: var(--status-error);
 }
 
 .qty-btn.btn-plus {
-  color: #4caf50;
+  color: var(--primary-color);
 }
 
 .qty-btn svg {

@@ -179,16 +179,16 @@
 }
 
 .btn-minus:hover {
-  background: #b71c1c;
+  background: var(--status-error);
 }
 
 .btn-plus {
-  background: var(--status-success);
+  background: var(--primary-color);
   color: #fff;
 }
 
 .btn-plus:hover {
-  background: #388e3c;
+  background: var(--primary-hover);
 }
 
 .qty-btn svg {

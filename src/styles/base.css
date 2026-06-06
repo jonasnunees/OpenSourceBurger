@@ -327,7 +327,7 @@ main {
 }
 
 .drawer-header a {
-  display: flex;
+  display: block;
   justify-content: center;
   width: 100%;
 }
@@ -347,6 +347,7 @@ main {
 .drawer-logo {
   width: min(70%, 160px);
   height: auto;
+  margin-inline: auto;
 }
 
 .drawer-nav {

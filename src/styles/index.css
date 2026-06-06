@@ -32,6 +32,7 @@
 .logo {
   width: min(82%, 250px);
   height: auto;
+  margin-inline: auto;
   margin-bottom: 28px;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.65));
 }
