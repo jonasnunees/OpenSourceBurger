@@ -126,12 +126,6 @@
   --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.7);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: var(--font-body);
   background: var(--bg-dark);
