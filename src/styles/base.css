@@ -55,6 +55,11 @@
   font-style: normal;
 }
 
+button, input, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
 :root {
   /* Colors */
   --primary-color: #E67E22;

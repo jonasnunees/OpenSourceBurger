@@ -19,10 +19,24 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
+
+/* Modern Reset Additions */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+img, svg {
+	display: block;
+	max-width: 100%;
+}
+
+/* Typography Reset */
+html {
+	font-size: 100%;
+}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {

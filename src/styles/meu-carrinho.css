@@ -270,7 +270,7 @@
 
 .cart-actions {
   width: 100%;
-  margin-bottom: var(--space-xl);
+  margin-block: var(--space-lg);
 }
 
 .btn-primary-action {
@@ -287,6 +287,7 @@
   justify-content: center;
   align-items: center;
   gap: var(--space-md);
+  line-height: 1;
   transition: background var(--transition-fast);
   text-decoration: none;
 }
