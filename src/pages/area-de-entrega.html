@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Open Source Burger — Peça online ou retire no local em São Pedro da Aldeia. Entrega em 30 min."
+      content="Área de entrega do Open Source Burger em São Pedro da Aldeia. Confira os bairros atendidos e as taxas de entrega."
     />
-    <title>Início — Open Source Burger</title>
+    <title>Área de Entrega — Open Source Burger</title>
 
-    <link rel="canonical" href="https://opensourceburger.com.br/index.html" />
+    <link
+      rel="canonical"
+      href="https://opensourceburger.com.br/area-de-entrega.html"
+    />
 
     <link rel="icon" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/area-de-entrega.css" />
   </head>
   <body>
     <!-- Drawer -->
@@ -22,7 +25,7 @@
       <div class="drawer-header">
         <a href="index.html">
           <img
-            src="assets/logo.webp"
+            src="../assets/images/logo.webp"
             alt="Open Source Burger"
             class="drawer-logo"
             width="160"
@@ -88,7 +91,11 @@
           </a>
         </li>
         <li>
-          <a href="area-de-entrega.html" class="drawer-item">
+          <a
+            href="area-de-entrega.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
             <i data-lucide="circle-dashed"></i>
             <span>Área de Entrega</span>
           </a>
@@ -127,6 +134,7 @@
       </footer>
     </nav>
 
+    <!-- Topbar -->
     <header class="topbar">
       <button
         class="menu-btn"
@@ -137,92 +145,67 @@
       >
         <i data-lucide="menu"></i>
       </button>
+      <h1 class="topbar-title">Área de Entrega</h1>
 
-      <h1>Open Source Burger</h1>
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
     </header>
 
-    <section class="hero">
-      <div class="hero-overlay"></div>
-
-      <div class="hero-content">
-        <img
-          src="assets/logo.webp"
-          alt="Open Source Burger"
-          class="logo"
-          width="250"
-          height="88"
-        />
-
-        <a href="cardapio.html" class="order-button">
-          <i data-lucide="chevron-right"></i>
-          Faça seu pedido online
-        </a>
-
-        <div class="info-box">
-          <p class="info-main">
-            <i data-lucide="phone"></i>
-            <a href="#" data-tel aria-label="Telefone de contato"
-              >Carregando telefone...</a
-            >
-          </p>
-
-          <p class="info-main">
-            <i data-lucide="map-pin"></i>
-            <a href="#" data-endereco target="_blank" rel="noopener noreferrer"
-              >Carregando endereço...</a
-            >
-          </p>
-
-          <div class="info-secondary">
-            <p>
-              <i data-lucide="bike"></i>
-              <span data-tempo-entrega></span>
-            </p>
-
-            <p>
-              <i data-lucide="store"></i>
-              <span data-tempo-retirada></span>
-            </p>
-
-            <p>
-              <i data-lucide="clock-3"></i>
-              <span data-horario-hoje></span>
-            </p>
-          </div>
-
-          <button class="hours-link">Confira os horários de atendimento</button>
-        </div>
+    <!-- Conteúdo -->
+    <main class="delivery-page">
+      <!-- Cidade -->
+      <h2 class="section-label">Cidade</h2>
+      <div class="city-select-wrapper">
+        <select
+          class="city-select"
+          aria-label="Selecionar cidade"
+          id="city-select"
+        >
+          <!-- preenchido via JS -->
+        </select>
+        <i data-lucide="chevrons-up-down"></i>
       </div>
-    </section>
 
-    <dialog id="hours-modal" class="hours-modal">
-      <h2>Horários de Atendimento</h2>
-      <ul class="hours-list" id="hours-list"></ul>
-      <button class="modal-ok">OK</button>
-    </dialog>
+      <!-- Bairros -->
+      <h2 class="section-label">Bairros Atendidos</h2>
 
-    <dialog id="closed-modal" class="hours-modal">
-      <h2>Estamos Fechados</h2>
+      <div class="search-wrapper">
+        <i data-lucide="search"></i>
+        <input
+          type="search"
+          class="search-input"
+          id="search-input"
+          placeholder="Pesquisar..."
+          aria-label="Pesquisar bairro"
+        />
+      </div>
 
-      <p class="closed-message">
-        Nosso delivery está descansando agora, mas você já pode explorar o
-        cardápio e deixar seu pedido pronto para quando abrirmos! 🍔
-      </p>
+      <ul
+        class="neighborhoods-list"
+        id="neighborhoods-list"
+        aria-live="polite"
+        aria-label="Lista de bairros atendidos"
+      >
+        <!-- preenchido via JS -->
+      </ul>
 
-      <p class="closed-hours-hint">
-        Abrimos hoje às <strong data-abre-hoje></strong>
-      </p>
-
-      <button class="modal-ok" id="closed-ok">OK, vou dar uma olhada!</button>
-    </dialog>
+      <div class="empty-state" id="empty-state" aria-live="polite">
+        <i data-lucide="search-x"></i>
+        Nenhum bairro encontrado para "<span id="empty-term"></span>"
+      </div>
+    </main>
 
     <!-- 1. Dados globais -->
-    <script src="js/config.js"></script>
+    <script src="../scripts/config.js"></script>
     <!-- 2. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 3. Comportamentos comuns (drawer, whatsapp, lucide init) -->
-    <script src="js/common.js"></script>
-    <!-- 4. Script da página -->
-    <script src="js/pages/home.js"></script>
+    <!-- 3. Utilitários — formatarMoeda() usado em area-de-entrega.js -->
+    <script src="../scripts/formatters.js"></script>
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <script src="../scripts/common.js"></script>
+    <!-- 5. Script da página -->
+    <script src="../scripts/area-de-entrega.js"></script>
   </body>
 </html>
