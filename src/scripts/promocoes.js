@@ -3,8 +3,8 @@
  * Lógica exclusiva da página de Promoções.
  *
  * Responsabilidades:
- * - Exibir feedback visual ao clicar em uma promoção
- * - Mostrar um toast informando que a promoção foi adicionada ao carrinho
+ * - Adicionar promoções ao carrinho via Cart.add()
+ * - Exibir toast de confirmação após adicionar
  * - Aplicar efeito de revelação nos cards conforme entram na tela
  */
 
@@ -12,15 +12,15 @@
 
 const PROMO_LINK_SELECTOR = ".promo-card__link";
 const PROMO_CARD_SELECTOR = ".promo-card";
-const TOAST_ID = "toast";
+const TOAST_ID            = "toast";
 
 // ── Configurações ───────────────────────────────────────────────────────────
 
-const TOAST_DURATION_MS = 3000;
-const REVEAL_THRESHOLD = 0.15;
+const TOAST_DURATION_MS  = 3000;
+const REVEAL_THRESHOLD   = 0.15;
 const REVEAL_ROOT_MARGIN = "0px 0px -50px 0px";
 
-// ── Toast ──────────────────────────────────────────────────────────────────
+// ── Toast ───────────────────────────────────────────────────────────────────
 
 /**
  * Exibe uma mensagem temporária no toast.
@@ -33,9 +33,7 @@ function showToast(toast, message) {
   toast.classList.add("is-visible");
   toast.removeAttribute("aria-hidden");
 
-  setTimeout(() => {
-    hideToast(toast);
-  }, TOAST_DURATION_MS);
+  setTimeout(() => hideToast(toast), TOAST_DURATION_MS);
 }
 
 /**
@@ -48,15 +46,42 @@ function hideToast(toast) {
   toast.setAttribute("aria-hidden", "true");
 }
 
+// ── Promoções ────────────────────────────────────────────────────────────────
+
+/**
+ * Lê os data-attributes do link e monta o objeto de produto
+ * no formato esperado por Cart.add().
+ *
+ * @param {HTMLAnchorElement} link
+ * @returns {{ id, nome, preco, categoriaId, categoriaNome } | null}
+ */
+function extrairDadosPromo(link) {
+  const id    = link.dataset.promoId;
+  const nome  = link.dataset.promoName;
+  const preco = link.dataset.promoPreco;
+
+  // Dados mínimos obrigatórios para o carrinho funcionar
+  if (!id || !nome || !preco) {
+    console.warn("[promocoes.js] Card sem dados suficientes para adicionar ao carrinho:", link);
+    return null;
+  }
+
+  return {
+    id:            `promo_${id}`,
+    nome,
+    preco,
+    categoriaId:   "promocao",
+    categoriaNome: "Promoção",
+  };
+}
+
 /**
  * Inicializa o clique nas promoções.
- *
- * Por enquanto, o clique apenas exibe um feedback visual.
- * Quando o carrinho de promoções existir, esta função poderá chamar Cart.add().
+ * Adiciona o item ao carrinho e exibe toast de confirmação.
  */
 function initPromoLinks() {
   const promoLinks = document.querySelectorAll(PROMO_LINK_SELECTOR);
-  const toast = document.getElementById(TOAST_ID);
+  const toast      = document.getElementById(TOAST_ID);
 
   if (!promoLinks.length || !toast) return;
 
@@ -64,54 +89,49 @@ function initPromoLinks() {
     link.addEventListener("click", (event) => {
       event.preventDefault();
 
-      const promoName = link.getAttribute("data-promo-name") || "Promoção";
+      const produto = extrairDadosPromo(link);
 
-      showToast(toast, `${promoName} adicionado ao carrinho!`);
+      if (!produto) {
+        showToast(toast, "Não foi possível adicionar esta promoção.");
+        return;
+      }
+
+      Cart.add(produto);
+      showToast(toast, `✓ ${produto.nome} adicionado ao carrinho!`);
     });
   });
 }
 
-// ── Scroll Reveal ──────────────────────────────────────────────────────────
+// ── Scroll Reveal ────────────────────────────────────────────────────────────
 
 /**
  * Revela visualmente um card e para de observá-lo.
- *
- * Isso evita processamento desnecessário depois que o efeito já aconteceu.
  *
  * @param {IntersectionObserverEntry} entry
  * @param {IntersectionObserver} observer
  */
 function revealCard(entry, observer) {
   if (!entry.isIntersecting) return;
-
   entry.target.classList.add("is-revealed");
   observer.unobserve(entry.target);
 }
 
 /**
  * Inicializa o efeito de revelação dos cards conforme entram na tela.
- *
- * O IntersectionObserver observa cada card de promoção e adiciona a classe
- * `is-revealed` quando parte do card fica visível.
  */
 function initScrollReveal() {
   const cards = document.querySelectorAll(PROMO_CARD_SELECTOR);
-
   if (!cards.length) return;
 
-  const observerOptions = {
-    threshold: REVEAL_THRESHOLD,
-    rootMargin: REVEAL_ROOT_MARGIN,
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => revealCard(entry, observer));
-  }, observerOptions);
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach((entry) => revealCard(entry, observer)),
+    { threshold: REVEAL_THRESHOLD, rootMargin: REVEAL_ROOT_MARGIN }
+  );
 
   cards.forEach((card) => observer.observe(card));
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ── Init ─────────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
   initPromoLinks();

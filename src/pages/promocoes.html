@@ -21,7 +21,6 @@
 
     <title>Promoções do Dia | OpenSourceBurger</title>
 
-    <!-- Fonte: Barlow Condensed para títulos (impacto, energético) + Barlow para corpo -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -114,11 +113,7 @@
           </a>
         </li>
         <li>
-          <a
-            href="promocoes.html"
-            class="drawer-item active"
-            aria-current="page"
-          >
+          <a href="promocoes.html" class="drawer-item active" aria-current="page">
             <i data-lucide="star"></i>
             <span>Promoções</span>
           </a>
@@ -183,18 +178,11 @@
       <footer class="drawer-footer">
         <p class="drawer-credit">
           Desenvolvido por
-          <a
-            href="https://github.com/jonasnunees"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Jonas Nunes</a
-          >
+          <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a>
         </p>
         <p class="drawer-icons">
           Ícones por
-          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
-            >Lucide</a
-          >
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
         </p>
       </footer>
     </nav>
@@ -223,22 +211,21 @@
     </header>
 
     <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
-    <main id="main-content" class="main-content">
+    <main id="main-content" class="promotions-content">
       <section
         class="promotions-list"
         aria-label="Lista de promoções disponíveis hoje"
       >
+
         <!-- ========== PROMOÇÃO 1: PICOLÉ ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: 20 unidades de picolé com R$10,00 de desconto"
-        >
+        <article class="promo-card" aria-label="Promoção: 20 unidades de picolé com R$10,00 de desconto">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: 20 unidades de picolé com R$10,00 de desconto"
             data-promo-id="1"
             data-promo-name="20 Unidades de Picolé"
+            data-promo-preco="R$ 40,00"
           >
             <figure class="promo-card__figure">
               <img
@@ -250,44 +237,27 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
-              <h2 class="promo-card__title">
-                20 Unidades de Picolé com R$10,00 de Desconto
-              </h2>
-
-              <!-- Badge de aviso: não é link, apenas informativo -->
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas entrega e retirada"
-              >
+              <h2 class="promo-card__title">20 Unidades de Picolé com R$10,00 de Desconto</h2>
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas entrega e retirada">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Entrega e Retirada
               </div>
-
-              <p class="promo-card__detail">
-                *Picolé: 20 unidades, sai R$2,00 cada.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*Picolé: 20 unidades, sai R$2,00 cada.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
 
         <!-- ========== PROMOÇÃO 2: SUPER COMBO ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: Super Combo com hambúrguer, fritas e bebida"
-        >
+        <article class="promo-card" aria-label="Promoção: Super Combo com hambúrguer, fritas e bebida">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: Super Combo"
             data-promo-id="2"
             data-promo-name="Super Combo"
+            data-promo-preco="R$ 35,00"
           >
             <figure class="promo-card__figure">
               <img
@@ -299,41 +269,27 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
               <h2 class="promo-card__title">Super Combo</h2>
-
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas retirada no local"
-              >
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas retirada no local">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Retirada no Local
               </div>
-
-              <p class="promo-card__detail">
-                *Hambúrguer + batata frita + bebida 350ml por um super preço.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*Hambúrguer + batata frita + bebida 350ml por um super preço.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
 
         <!-- ========== PROMOÇÃO 3: COMBO FAMÍLIA ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: Combo Família com desconto especial"
-        >
+        <article class="promo-card" aria-label="Promoção: Combo Família com desconto especial">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: Combo Família"
             data-promo-id="3"
             data-promo-name="Combo Família"
+            data-promo-preco="R$ 89,90"
           >
             <figure class="promo-card__figure">
               <img
@@ -345,41 +301,27 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
               <h2 class="promo-card__title">Combo Família</h2>
-
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas entrega e retirada"
-              >
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas entrega e retirada">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Entrega e Retirada
               </div>
-
-              <p class="promo-card__detail">
-                *4 hambúrgueres + 2 porções de fritas + 2 refrigerantes 600ml.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*4 hambúrgueres + 2 porções de fritas + 2 refrigerantes 600ml.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
 
         <!-- ========== PROMOÇÃO 4: AÇAÍ 500ml ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: Açaí 500ml com cobertura grátis"
-        >
+        <article class="promo-card" aria-label="Promoção: Açaí 500ml com cobertura grátis">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: Açaí 500ml com cobertura grátis"
             data-promo-id="4"
             data-promo-name="Açaí 500ml"
+            data-promo-preco="R$ 18,00"
           >
             <figure class="promo-card__figure">
               <img
@@ -391,41 +333,27 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
               <h2 class="promo-card__title">Açaí 500ml com Cobertura Grátis</h2>
-
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas entrega"
-              >
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas entrega">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Entrega
               </div>
-
-              <p class="promo-card__detail">
-                *Açaí 500ml com 1 cobertura à escolha inclusa no preço.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*Açaí 500ml com 1 cobertura à escolha inclusa no preço.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
 
         <!-- ========== PROMOÇÃO 5: PIZZA + REFRIGERANTE ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: Pizza grande com refrigerante 2L"
-        >
+        <article class="promo-card" aria-label="Promoção: Pizza grande com refrigerante 2L">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: Pizza grande com refrigerante 2L"
             data-promo-id="5"
             data-promo-name="Pizza + Refrigerante 2L"
+            data-promo-preco="R$ 59,90"
           >
             <figure class="promo-card__figure">
               <img
@@ -437,41 +365,27 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
               <h2 class="promo-card__title">Pizza Grande + Refrigerante 2L</h2>
-
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas entrega e retirada"
-              >
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas entrega e retirada">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Entrega e Retirada
               </div>
-
-              <p class="promo-card__detail">
-                *Pizza grande de até 2 sabores + 1 refrigerante 2L de brinde.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*Pizza grande de até 2 sabores + 1 refrigerante 2L de brinde.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
 
         <!-- ========== PROMOÇÃO 6: SANDUÍCHE DUPLO ========== -->
-        <article
-          class="promo-card"
-          aria-label="Promoção: Sanduíche Duplo com batata frita"
-        >
+        <article class="promo-card" aria-label="Promoção: Sanduíche Duplo com batata frita">
           <a
             href="#"
             class="promo-card__link"
             aria-label="Adicionar ao carrinho: Sanduíche Duplo com batata frita"
             data-promo-id="6"
             data-promo-name="Sanduíche Duplo"
+            data-promo-preco="R$ 29,90"
           >
             <figure class="promo-card__figure">
               <img
@@ -483,30 +397,18 @@
                 loading="lazy"
               />
             </figure>
-
             <div class="promo-card__body">
               <h2 class="promo-card__title">Sanduíche Duplo + Batata Frita</h2>
-
-              <div
-                class="promo-card__badge"
-                role="note"
-                aria-label="Atenção: apenas retirada no local"
-              >
+              <div class="promo-card__badge" role="note" aria-label="Atenção: apenas retirada no local">
                 <span aria-hidden="true">⚠️</span>
                 Apenas Retirada no Local
               </div>
-
-              <p class="promo-card__detail">
-                *Sanduíche duplo + porção de batata frita média por preço
-                especial.*
-              </p>
-
-              <div class="promo-card__cta" aria-hidden="true">
-                Promoção válida hoje — Aproveite!
-              </div>
+              <p class="promo-card__detail">*Sanduíche duplo + porção de batata frita média por preço especial.*</p>
+              <div class="promo-card__cta" aria-hidden="true">Promoção válida hoje — Aproveite!</div>
             </div>
           </a>
         </article>
+
       </section>
     </main>
 
