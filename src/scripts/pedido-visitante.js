@@ -8,7 +8,7 @@
  * - Valida os campos (nome e telefone) inline
  * - Persiste os dados em sessionStorage como 'osb_guest'
  * - Redireciona para o destino definido por ?redirect=
- *   (futuramente: finalizar-pedido.html)
+ *   ou para escolher-modalidade.html como próxima etapa do checkout
  *
  * Dependências: config.js, auth.js, common.js (Cart, UI)
  */
@@ -19,7 +19,7 @@
   // ── Constantes ──────────────────────────────────────────────────────────
 
   const GUEST_KEY      = "osb_guest";
-  const DEFAULT_NEXT   = "finalizar-pedido.html";
+  const DEFAULT_NEXT   = "escolher-modalidade.html";
   const MIN_NAME_LEN   = 3;
   // Telefone com DDD: mínimo 10 dígitos (fixo) ou 11 (celular)
   const MIN_PHONE_DIGITS = 10;
