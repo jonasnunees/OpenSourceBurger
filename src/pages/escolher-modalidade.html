@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      noindex: página de fluxo de checkout não deve ser indexada.
+      É uma etapa transacional interna sem valor de descoberta orgânica.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Escolha como deseja receber seu pedido no Open Source Burger."
+    />
+    <title>Como deseja receber? — Open Source Burger</title>
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/escolher-modalidade.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer (menu lateral) ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item">
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══
+         Padrão "voltar" — mesmo padrão de pedido-visitante.html.
+         href montado pelo JS para preservar o ?redirect= da URL.
+    ══ -->
+    <header class="topbar">
+      <a
+        id="btn-voltar"
+        href="pedido-visitante.html"
+        class="menu-btn"
+        aria-label="Voltar para identificação"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+
+      <h1 class="topbar-title">Pedido</h1>
+
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="modalidade-main" id="main-content">
+      <div class="modalidade-section">
+
+        <!--
+          <fieldset> + <legend>: estrutura semântica correta para um grupo
+          de opções mutuamente exclusivas (radio buttons).
+
+          Benefícios de acessibilidade:
+          - Leitores de tela anunciam o grupo e a posição: "1 de 3"
+          - Navegação por teclado com setas funciona nativamente
+          - Não é necessário nenhum JS para gerenciar o estado selecionado
+        -->
+        <fieldset class="modalidade-fieldset" id="modalidade-fieldset">
+          <legend class="modalidade-legend">
+            Escolha uma opção para prosseguir:
+          </legend>
+
+          <!-- ── Card: Entrega em domicílio ── -->
+          <label class="modalidade-card" for="opcao-entrega">
+            <input
+              type="radio"
+              id="opcao-entrega"
+              name="modalidade"
+              value="entrega"
+              class="modalidade-radio"
+              aria-describedby="entrega-tempo entrega-taxa"
+            />
+            <span class="modalidade-card__icon" aria-hidden="true">
+              <i data-lucide="bike"></i>
+            </span>
+            <span class="modalidade-card__body">
+              <span class="modalidade-card__title">Entrega em domicílio</span>
+              <span class="modalidade-card__meta">
+                <span id="entrega-tempo" class="modalidade-card__meta-item">
+                  <i data-lucide="clock" aria-hidden="true"></i>
+                  Tempo médio:
+                  <strong data-tempo-entrega>--</strong>
+                </span>
+                <span id="entrega-taxa" class="modalidade-card__meta-item">
+                  <i data-lucide="map-pin" aria-hidden="true"></i>
+                  Taxa de entrega:
+                  <strong data-taxa-entrega>a calcular</strong>
+                </span>
+              </span>
+            </span>
+            <span class="modalidade-card__check" aria-hidden="true">
+              <i data-lucide="check"></i>
+            </span>
+          </label>
+
+          <!-- ── Card: Retirar no local ── -->
+          <label class="modalidade-card" for="opcao-retirada">
+            <input
+              type="radio"
+              id="opcao-retirada"
+              name="modalidade"
+              value="retirada"
+              class="modalidade-radio"
+              aria-describedby="retirada-tempo"
+            />
+            <span class="modalidade-card__icon" aria-hidden="true">
+              <i data-lucide="store"></i>
+            </span>
+            <span class="modalidade-card__body">
+              <span class="modalidade-card__title">Retirar no local</span>
+              <span class="modalidade-card__meta">
+                <span id="retirada-tempo" class="modalidade-card__meta-item">
+                  <i data-lucide="clock" aria-hidden="true"></i>
+                  Tempo médio:
+                  <strong data-tempo-retirada>--</strong>
+                </span>
+              </span>
+            </span>
+            <span class="modalidade-card__check" aria-hidden="true">
+              <i data-lucide="check"></i>
+            </span>
+          </label>
+
+          <!-- ── Card: Consumir no local ── -->
+          <label class="modalidade-card" for="opcao-local">
+            <input
+              type="radio"
+              id="opcao-local"
+              name="modalidade"
+              value="local"
+              class="modalidade-radio"
+              aria-describedby="local-tempo"
+            />
+            <span class="modalidade-card__icon" aria-hidden="true">
+              <i data-lucide="utensils"></i>
+            </span>
+            <span class="modalidade-card__body">
+              <span class="modalidade-card__title">Consumir no local</span>
+              <span class="modalidade-card__meta">
+                <span id="local-tempo" class="modalidade-card__meta-item">
+                  <i data-lucide="clock" aria-hidden="true"></i>
+                  Tempo médio:
+                  <strong data-tempo-local>--</strong>
+                </span>
+              </span>
+            </span>
+            <span class="modalidade-card__check" aria-hidden="true">
+              <i data-lucide="check"></i>
+            </span>
+          </label>
+        </fieldset>
+
+        <!-- ── Botão Avançar ──
+             Desabilitado por padrão — habilitado pelo JS ao selecionar
+             qualquer card. Isso força uma escolha explícita antes de
+             prosseguir, evitando um estado indefinido na próxima etapa.
+        ── -->
+        <button
+          type="button"
+          id="btn-avancar"
+          class="btn-base btn-primary btn-avancar"
+          disabled
+          aria-disabled="true"
+        >
+          <i data-lucide="chevron-right" aria-hidden="true"></i>
+          Avançar
+        </button>
+
+      </div>
+    </main>
+
+    <!-- 1. Dados globais -->
+    <script src="../scripts/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init, Cart) -->
+    <script src="../scripts/common.js"></script>
+    <!-- 5. Script da página -->
+    <script src="../scripts/escolher-modalidade.js"></script>
+  </body>
+</html>
