@@ -340,22 +340,8 @@
 }
 
 /* ── Botão Finalizar Pedido ──
-   Estende .btn-primary com dimensões e tipografia específicas.
-   No HTML: <button class="btn-primary btn-finalize"> */
-.btn-finalize {
-  width: 100%;
-  min-height: 56px;
-  font-size: 1.25rem;
-  letter-spacing: 1.5px;
-  gap: var(--space-md);
-  margin-bottom: var(--space-2xl);
-}
+   Estilos herdados de utilities.css */
 
-.btn-finalize svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2.5;
-}
 
 /* ── Status da loja ── */
 .store-status-info {
