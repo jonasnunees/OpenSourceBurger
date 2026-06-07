@@ -1,0 +1,164 @@
+/* =========================
+   PAGE › ÁREA DE ENTREGA
+   Estilos exclusivos da página de consulta de bairros e taxas.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout da página ── */
+.delivery-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--gutter) var(--space-3xl);
+}
+
+/* ── Label de seção ── */
+.section-label {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: var(--space-sm);
+}
+
+/* ── Seletor de cidade ── */
+.city-select-wrapper {
+  position: relative;
+  margin-bottom: var(--space-2xl);
+}
+
+.city-select {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 14px 44px 14px var(--space-lg);
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.city-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.city-select-wrapper svg {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+/* ── Busca de bairro ── */
+.search-wrapper {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+.search-wrapper svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 14px var(--space-lg) 14px 44px;
+  transition: border-color var(--transition-fast);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* ── Lista de bairros ── */
+.neighborhoods-list {
+  list-style: none;
+  display: grid;
+  gap: 0;
+}
+
+.neighborhood-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-xs);
+  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-md);
+  animation: panelFadeIn 0.2s ease;
+}
+
+.neighborhood-item:last-child {
+  border-bottom: none;
+}
+
+.neighborhood-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.neighborhood-left svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: var(--primary-color);
+  stroke-width: 2.2;
+}
+
+.neighborhood-name {
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.neighborhood-fee {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--primary-color);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* ── Estado vazio (sem resultados na busca) ── */
+.empty-state {
+  text-align: center;
+  padding: var(--space-3xl) 0 var(--space-xl);
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+  display: none;
+}
+
+.empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke: rgba(255, 255, 255, 0.15);
+  margin-bottom: var(--space-md);
+  display: block;
+  margin-inline: auto;
+}
