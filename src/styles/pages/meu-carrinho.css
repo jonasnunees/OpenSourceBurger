@@ -40,6 +40,10 @@
   margin: 0;
 }
 
+.empty-icon {
+  margin: auto;
+}
+
 .cart-hint {
   margin-top: var(--space-2xl);
   color: var(--gray-deep);
