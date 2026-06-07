@@ -44,9 +44,26 @@ body {
   pointer-events: none;
 }
 
-/* Override do .search-input para este contexto */
+/* Override do .search-input para este contexto —
+   classe própria do cardápio, não usa .search-input do components/ */
 .search-bar-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 0.95rem;
   padding: 11px var(--space-lg) 11px 42px;
+  transition: border-color var(--transition-fast);
+}
+
+.search-bar-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-bar-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
 }
 
 /* ── Tabs de categorias ──
@@ -277,14 +294,22 @@ body {
 }
 
 /* ── Estado vazio da busca ──
-   Override do .empty-state de components/empty-state.css */
+   Classe própria do cardápio — não herda do .empty-state global.
+   display: none obrigatório aqui pois o nome difere do componente. */
 .menu-empty-state {
+  display: none;
+  text-align: center;
   padding: var(--space-4xl) var(--space-xl);
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
 }
 
 .menu-empty-state svg {
   width: 44px;
   height: 44px;
+  stroke: rgba(255, 255, 255, 0.15);
+  margin: 0 auto var(--space-md);
+  display: block;
 }
 
 /* ── Resultados de busca global ── */
