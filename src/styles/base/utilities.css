@@ -68,3 +68,10 @@
 .btn-primary:active {
   transform: translateY(0);
 }
+
+/* Anel de foco visível para navegação por teclado (WCAG 2.4.7).
+   :focus-visible garante que o anel não apareça em cliques com mouse. */
+.btn-primary:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}

@@ -1,0 +1,108 @@
+/* =========================
+   PAGE › LOCALIZAÇÃO
+   Estilos exclusivos da página de localização e mapa.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.location-page {
+  display: flex;
+  flex-direction: column;
+  /*
+    Ocupa exatamente o espaço restante da viewport após a topbar.
+    dvh cobre browsers móveis modernos (endereço recolhível).
+  */
+  height: calc(100dvh - var(--topbar-height));
+  overflow: hidden;
+}
+
+/* ── Seção de endereço ── */
+.address-section {
+  background: var(--bg-topbar);
+  padding: var(--space-xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  /* Linha separadora sutil entre a topbar e o conteúdo */
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.store-address {
+  font-style: normal; /* <address> é itálico por padrão — sobrescrevemos */
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--text-main);
+  text-align: center;
+  max-width: 560px;
+}
+
+/* ── Botão "Traçar rota" ──
+   Estende .btn-primary com espaçamento e sombra específicos.
+   No HTML: <a class="btn-primary route-btn"> */
+.route-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: var(--text-main);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-md);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  /* Área de toque acessível */
+  min-height: 48px;
+}
+
+.route-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+.route-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.route-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Seção do mapa ── */
+.map-section {
+  flex: 1; /* Ocupa todo o espaço restante abaixo do endereço */
+  position: relative;
+  overflow: hidden;
+}
+
+.map-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ── Responsividade ── */
+@media (min-width: 600px) {
+  .address-section {
+    padding: var(--space-xl) var(--space-2xl);
+  }
+
+  .store-address {
+    font-size: var(--font-size-lg);
+  }
+
+  .route-btn {
+    font-size: var(--font-size-lg);
+    padding: 15px 36px;
+  }
+}
