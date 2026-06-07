@@ -1,0 +1,81 @@
+/* =========================
+   COMPONENTS › ORDER BAR
+   Barra inferior fixa exibida quando há itens no carrinho.
+   Gerenciada globalmente pelo Cart.syncBadges() em common.js.
+========================= */
+
+.order-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-bar-height);
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  z-index: 40;
+  cursor: pointer;
+  text-decoration: none;
+
+  /* Oculto por padrão — JS adiciona .is-visible */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+}
+
+.order-bar.is-visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.order-bar:hover {
+  background: var(--primary-hover);
+}
+
+/* ── Ícone com badge de quantidade ── */
+.order-bar-badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.order-bar-badge svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--text-main);
+  stroke-width: 2;
+}
+
+.order-bar-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  background: #e53935;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* ── Label ── */
+.order-bar-label {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-main);
+}

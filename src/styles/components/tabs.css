@@ -51,3 +51,24 @@
 .tab-panel.is-active {
   display: block;
 }
+
+/* ── Modificador: scroll horizontal ──
+   Usado em contextos com muitas categorias (ex: cardápio).
+   No HTML: <div class="tabs-nav tabs-nav--scroll"> */
+.tabs-nav--scroll {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabs-nav--scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tabs dentro do scroll não crescem — cada uma tem seu tamanho natural */
+.tabs-nav--scroll .tab-btn,
+.tabs-nav--scroll .cat-tab {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}

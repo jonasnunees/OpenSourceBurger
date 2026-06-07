@@ -1,0 +1,48 @@
+/* =========================
+   COMPONENTS › QTY
+   Esqueleto do controle de quantidade (pill com botões +/-).
+   Confirmado em: cardapio, meu-carrinho.
+   Overrides de cor, padding e gap ficam em pages/.
+========================= */
+
+/* ── Pill container ── */
+.qty-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+}
+
+/* ── Botões +/- ── */
+.qty-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  padding: 0;
+}
+
+.qty-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
+}
+
+.qty-btn:active {
+  transform: scale(0.9);
+}
+
+/* ── Valor ── */
+.qty-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

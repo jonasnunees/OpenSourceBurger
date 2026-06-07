@@ -1,0 +1,351 @@
+/* =========================
+   PAGE › CARDÁPIO
+   Estilos exclusivos da página do cardápio.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* Compensa a altura da .order-bar fixa no rodapé desta página */
+body {
+  padding-bottom: var(--bottom-bar-height);
+}
+
+/* ── Token responsivo de imagem de produto ──
+   Escopado no .menu-content para não vazar para outras páginas. */
+.menu-content {
+  --product-img-size: 96px;
+}
+
+/* ── Barra de busca sticky ──
+   Esqueleto base em components/search.css.
+   Override de layout: sticky, fundo e borda inferior. */
+.search-bar-wrapper {
+  position: sticky;
+  top: var(--topbar-height);
+  z-index: 8;
+  background: var(--bg-dark);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.search-bar-inner {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.search-bar-inner svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+/* Override do .search-input para este contexto */
+.search-bar-input {
+  padding: 11px var(--space-lg) 11px 42px;
+}
+
+/* ── Tabs de categorias ──
+   Usa .tabs-nav--scroll de components/tabs.css.
+   Override: posicionada abaixo da barra de busca. */
+.category-tabs {
+  top: calc(var(--topbar-height) + var(--search-bar-height));
+  z-index: 7;
+}
+
+.cat-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  min-height: 44px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cat-tab:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cat-tab.is-active {
+  color: var(--text-main);
+  border-bottom-color: var(--primary-color);
+}
+
+/* ── Conteúdo do cardápio ── */
+.menu-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ── Painel de categoria ──
+   Mesmo comportamento do .tab-panel de components/tabs.css.
+   No HTML pode-se usar .tab-panel diretamente. */
+.cat-panel {
+  display: none;
+}
+
+.cat-panel.is-active {
+  display: block;
+  animation: panelFadeIn 0.2s ease;
+}
+
+/* ── Accordion de subcategoria ── */
+.subcategory {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.subcategory-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gray-deep);
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 13px var(--space-lg);
+  cursor: pointer;
+  text-align: left;
+  min-height: 44px;
+  transition: background var(--transition-fast);
+}
+
+.subcategory-toggle:hover {
+  background: var(--gray-medium);
+}
+
+.subcategory-toggle svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.subcategory-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.subcategory-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.subcategory-body.is-open {
+  max-height: 9999px;
+}
+
+/* ── Lista de produtos ── */
+.products-list {
+  list-style: none;
+}
+
+/* ── Item de produto ── */
+.product-item {
+  display: grid;
+  grid-template-columns: var(--product-img-size) 1fr;
+  grid-template-rows: auto auto;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-dark);
+  transition: background var(--transition-fast);
+}
+
+.product-item:last-child {
+  border-bottom: none;
+}
+
+.product-item:hover {
+  background: var(--bg-card);
+}
+
+/* Imagem ocupa as 2 linhas verticalmente */
+.product-img-wrap {
+  grid-row: 1 / 3;
+  width: var(--product-img-size);
+  height: var(--product-img-size);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-subtle);
+}
+
+/* ── Informações do produto ── */
+.product-info {
+  padding: var(--space-md) var(--space-md) var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.product-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 0.3px;
+}
+
+.product-desc {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Controle de quantidade ──
+   Esqueleto base em components/qty.css.
+   Overrides visuais específicos do cardápio. */
+.qty-control {
+  grid-column: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 6px var(--space-md) var(--space-md);
+}
+
+.qty-pill {
+  gap: 10px;
+  background: var(--gray-dark);
+  padding: 6px 14px;
+  min-height: 40px;
+}
+
+/* Variante com cor no ícone — diferente do carrinho que usa fundo sólido */
+.qty-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.qty-btn.btn-minus {
+  color: var(--status-error);
+}
+
+.qty-btn.btn-plus {
+  color: var(--primary-color);
+}
+
+.qty-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.qty-value {
+  font-size: var(--font-size-lg);
+  min-width: 22px;
+}
+
+/* ── Estado vazio da busca ──
+   Override do .empty-state de components/empty-state.css */
+.menu-empty-state {
+  padding: var(--space-4xl) var(--space-xl);
+}
+
+.menu-empty-state svg {
+  width: 44px;
+  height: 44px;
+}
+
+/* ── Resultados de busca global ── */
+.search-results-panel {
+  display: none;
+}
+
+.search-results-panel.is-active {
+  display: block;
+}
+
+.search-group-header {
+  padding: 10px var(--space-lg) var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-dark);
+}
+
+/* ── Responsividade ── */
+@media (min-width: 480px) {
+  .menu-content {
+    --product-img-size: 108px;
+  }
+
+  .cat-tab {
+    font-size: var(--font-size-sm);
+    padding: 13px var(--space-xl);
+  }
+
+  .product-name {
+    font-size: var(--font-size-base);
+  }
+
+  .product-price {
+    font-size: 1.15rem;
+  }
+
+  .search-bar-wrapper {
+    padding: 14px var(--space-xl);
+  }
+}
+
+@media (min-width: 600px) {
+  .menu-content {
+    --product-img-size: 116px;
+  }
+
+  .subcategory-toggle {
+    padding: 14px var(--space-xl);
+  }
+
+  .product-info {
+    padding: 14px var(--space-lg) var(--space-sm);
+  }
+
+  .qty-control {
+    padding: 6px var(--space-lg) 14px;
+  }
+}

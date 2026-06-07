@@ -26,10 +26,6 @@
   margin-bottom: var(--space-xl);
 }
 
-.empty-icon {
-    margin: auto;
-}
-
 .empty-cart-state h2 {
   font-size: var(--font-size-lg);
   color: var(--gray-medium);
@@ -147,34 +143,20 @@
 }
 
 /* ── Controle de quantidade ──
-   Aguardando cardapio.css para confirmar promoção para components/.
-   Comentário original: "Reaproveitando o padrão qty-pill do cardápio". */
+   Esqueleto base em components/qty.css.
+   Overrides visuais específicos do carrinho. */
 .qty-pill {
-  display: inline-flex;
-  align-items: center;
   gap: var(--space-sm);
   background: var(--bg-topbar);
-  border-radius: var(--radius-pill);
   padding: 4px 8px;
 }
 
-.qty-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+.qty-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
-.qty-btn:active {
-  transform: scale(0.9);
-}
-
+/* Variante com fundo sólido — diferente do cardápio que usa cor no ícone */
 .btn-minus {
   background: var(--status-error);
   color: #fff;
@@ -193,19 +175,9 @@
   background: var(--primary-hover);
 }
 
-.qty-btn svg {
-  width: 14px;
-  height: 14px;
-  stroke-width: 2.5;
-}
-
 .qty-value {
-  font-family: var(--font-display);
   font-size: var(--font-size-base);
-  font-weight: 700;
   min-width: 20px;
-  text-align: center;
-  color: var(--text-main);
 }
 
 /* ── Rodapé do item: subtotal + botão personalizar ── */
@@ -340,8 +312,7 @@
 }
 
 /* ── Botão Finalizar Pedido ──
-   Estilos herdados de utilities.css */
-
+   Estilos herdados do arquivo utilities.css */
 
 /* ── Status da loja ── */
 .store-status-info {
