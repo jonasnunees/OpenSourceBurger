@@ -1,0 +1,173 @@
+/* =========================
+   PAGE › PROMOÇÕES
+   Estilos exclusivos da página de promoções.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout da página ── */
+.promotions-content {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--gutter);
+}
+
+/* ── Lista de cards ── */
+.promotions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Card de promoção ── */
+.promo-card {
+  background-color: var(--bg-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  position: relative;
+
+  /* Estado inicial: embaçado, transparente e deslocado para baixo.
+     A classe .is-revealed adicionada pelo JS remove o efeito. */
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(40px);
+  transition:
+    opacity 0.8s ease,
+    filter 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, filter, transform;
+}
+
+/* Primeiro card e cards revelados aparecem sem efeito */
+.promo-card:first-of-type,
+.promo-card.is-revealed {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* ── Link do card ──
+   Ocupa todo o card — garante área clicável completa */
+.promo-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  outline-offset: 3px;
+}
+
+.promo-card__link:focus-visible {
+  outline: 2px solid var(--primary-color);
+}
+
+/* Zoom sutil na imagem ao passar o mouse */
+.promo-card__link:hover .promo-card__img {
+  transform: scale(1.03);
+}
+
+/* Hover e active no CTA */
+.promo-card__link:hover .promo-card__cta {
+  background-color: var(--primary-hover);
+}
+
+.promo-card__link:active .promo-card__cta {
+  background-color: var(--primary-hover);
+}
+
+/* Ripple ao clicar — overlay via pseudo-elemento */
+.promo-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--primary-glow);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.promo-card__link:active::after,
+.promo-card--pressing .promo-card__link::after {
+  opacity: 1;
+}
+
+/* ── Imagem ── */
+.promo-card__figure {
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 2 / 1;
+  /* Fundo de placeholder enquanto a imagem carrega */
+  background-color: var(--bg-card);
+}
+
+.promo-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-medium);
+  will-change: transform;
+}
+
+/* ── Conteúdo do card ── */
+.promo-card__body {
+  padding: var(--space-lg) var(--space-lg) 0;
+}
+
+.promo-card__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin-bottom: var(--space-md);
+}
+
+/* Badge de destaque — ex: "Só hoje", "Limitado" */
+.promo-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px var(--space-md);
+  background-color: #f5c400;
+  color: #1a1100;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 1;
+  cursor: default;
+  pointer-events: none;
+  margin-bottom: var(--space-md);
+  user-select: none;
+}
+
+.promo-card__detail {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* CTA — rodapé do card com cor primária */
+.promo-card__cta {
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: var(--space-lg);
+  /* Compensa o padding do body para encostar nas bordas */
+  margin: 0 calc(-1 * var(--space-lg));
+  transition: background-color var(--transition-fast);
+}
+
+/* ── Responsividade ── */
+@media (min-width: 480px) {
+  .promo-card__title {
+    font-size: 1.65rem;
+  }
+}
