@@ -75,3 +75,10 @@
   outline: 3px solid var(--primary-color);
   outline-offset: 4px;
 }
+
+/* Variante com bordas arredondadas (radius-md em vez de pill).
+   Usada em contextos onde o botão está dentro de cards ou painéis.
+   No HTML: <button class="btn-primary btn-card"> */
+.btn-card {
+  border-radius: var(--radius-md);
+}

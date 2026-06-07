@@ -1,0 +1,53 @@
+/* =========================
+   COMPONENTS › TABS
+   Sistema de navegação por abas com suporte WAI-ARIA.
+   Uso: tablist/tab/tabpanel com aria-selected e is-active.
+========================= */
+
+/* ── Navegação ── */
+.tabs-nav {
+  display: flex;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-subtle);
+  /* Fica abaixo da topbar fixa e acima do conteúdo */
+  position: sticky;
+  top: var(--topbar-height);
+  z-index: 9;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 14px var(--space-xs);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+  /* Área de toque mínima (WCAG 2.5.5) */
+  min-height: 44px;
+}
+
+.tab-btn:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tab-btn[aria-selected="true"] {
+  color: var(--text-main);
+  border-bottom-color: var(--primary-color);
+}
+
+/* ── Painéis ── */
+.tab-panel {
+  display: none;
+  animation: panelFadeIn 0.2s ease;
+}
+
+.tab-panel.is-active {
+  display: block;
+}

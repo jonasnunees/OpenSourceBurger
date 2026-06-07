@@ -1,0 +1,42 @@
+/* =========================
+   COMPONENTS › SEARCH
+   Esqueleto do padrão input de busca com ícone posicionado.
+   Confirmado em: area-de-entrega, programa-fidelidade.
+   Overrides de contexto (padding, fundo, borda) ficam em pages/.
+========================= */
+
+/* ── Wrapper ── */
+.search-wrapper {
+  position: relative;
+}
+
+/* Ícone de lupa posicionado dentro do input */
+.search-wrapper svg {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+/* ── Input ── */
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  transition: border-color var(--transition-fast);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}

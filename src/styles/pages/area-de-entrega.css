@@ -35,7 +35,6 @@
   border: 1px solid var(--border-input);
   border-radius: var(--radius-md);
   color: var(--text-main);
-  font-family: var(--font-body);
   font-size: 0.95rem;
   padding: 14px 44px 14px var(--space-lg);
   cursor: pointer;
@@ -58,42 +57,18 @@
   pointer-events: none;
 }
 
-/* ── Busca de bairro ── */
+/* ── Override de busca para este contexto ──
+   O esqueleto vem de components/search.css */
 .search-wrapper {
-  position: relative;
   margin-bottom: var(--space-xl);
 }
 
 .search-wrapper svg {
-  position: absolute;
   left: 14px;
-  top: 50%;
-  translate: 0 -50%;
-  width: 18px;
-  height: 18px;
-  stroke: rgba(255, 255, 255, 0.35);
-  pointer-events: none;
 }
 
 .search-input {
-  width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border-input);
-  border-radius: var(--radius-md);
-  color: var(--text-main);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
   padding: 14px var(--space-lg) 14px 44px;
-  transition: border-color var(--transition-fast);
-}
-
-.search-input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
 }
 
 /* ── Lista de bairros ── */
@@ -143,22 +118,4 @@
   color: var(--primary-color);
   white-space: nowrap;
   letter-spacing: 0.5px;
-}
-
-/* ── Estado vazio (sem resultados na busca) ── */
-.empty-state {
-  text-align: center;
-  padding: var(--space-3xl) 0 var(--space-xl);
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 0.9rem;
-  display: none;
-}
-
-.empty-state svg {
-  width: 40px;
-  height: 40px;
-  stroke: rgba(255, 255, 255, 0.15);
-  margin-bottom: var(--space-md);
-  display: block;
-  margin-inline: auto;
 }

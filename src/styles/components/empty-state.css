@@ -1,0 +1,21 @@
+/* =========================
+   COMPONENTS › EMPTY STATE
+   Estado vazio exibido quando uma lista não tem resultados.
+   Confirmado em: area-de-entrega, programa-fidelidade.
+========================= */
+
+.empty-state {
+  display: none;
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+}
+
+.empty-state svg {
+  width: 40px;
+  height: 40px;
+  stroke: rgba(255, 255, 255, 0.15);
+  margin: 0 auto var(--space-md);
+  display: block;
+}

@@ -2,21 +2,24 @@
    MAIN.CSS — Entry Point
    Importa todos os módulos CSS do projeto na ordem correta.
    Este é o único arquivo referenciado pelas páginas HTML.
- 
+
    Ordem importa:
    1. Base (tokens → reset → utilitários)
    2. Componentes globais
    3. Estilos específicos de página (importados no próprio HTML da página)
 ========================= */
- 
+
 /* ── Base ── */
 @import url("./base/fonts.css");
 @import url("./base/variables.css");
 @import url("./base/global.css");
 @import url("./base/utilities.css");
- 
+
 /* ── Componentes Globais ── */
 @import url("./components/topbar.css");
 @import url("./components/drawer.css");
 @import url("./components/modal.css");
 @import url("./components/toast.css");
+@import url("./components/tabs.css");
+@import url("./components/search.css");
+@import url("./components/empty-state.css");

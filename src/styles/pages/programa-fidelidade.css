@@ -1,0 +1,318 @@
+/* =========================
+   PAGE › PROGRAMA DE FIDELIDADE
+   Estilos exclusivos da página de fidelidade.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* Token local — tamanho da imagem de prêmio.
+   Escopo restrito a esta página via seletor raiz da feature. */
+.prizes-panel {
+  --prize-img-size: 88px;
+}
+
+/* ── Painel: Prêmios ── */
+.prizes-panel {
+  padding: 0;
+}
+
+/* Override do search-wrapper para este contexto:
+   adiciona fundo, padding e borda inferior */
+.prizes-panel .search-wrapper {
+  padding: var(--space-lg);
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.prizes-panel .search-wrapper svg {
+  left: 30px;
+}
+
+.prizes-panel .search-input {
+  padding: var(--space-md) var(--space-lg) var(--space-md) 44px;
+}
+
+/* ── Lista de prêmios ── */
+.prizes-list {
+  list-style: none;
+}
+
+.prize-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-dark);
+  transition: background var(--transition-fast);
+  cursor: default;
+}
+
+.prize-item:last-child {
+  border-bottom: none;
+}
+
+.prize-item:hover {
+  background: var(--bg-card);
+}
+
+/* Imagem do prêmio */
+.prize-thumb {
+  width: var(--prize-img-size);
+  height: var(--prize-img-size);
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Placeholder quando não há imagem */
+.prize-thumb-placeholder {
+  width: var(--prize-img-size);
+  height: var(--prize-img-size);
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Informações do prêmio */
+.prize-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+  min-width: 0;
+}
+
+.prize-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.3;
+  /* Evita overflow em nomes longos */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prize-points {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+/* ── Painel: Histórico ── */
+.history-panel {
+  display: none; /* sobrescrito por .is-active */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - var(--topbar-height) - 49px);
+  padding: var(--space-3xl) var(--space-xl);
+  text-align: center;
+  gap: var(--space-xl);
+}
+
+.history-panel.is-active {
+  display: flex;
+}
+
+.history-message {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 280px;
+}
+
+/* Botão de login — variante com border-radius md (não pill).
+   No HTML: <button class="btn-primary btn-card login-btn"> */
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  background: var(--primary-color);
+  color: var(--text-main);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--transition-fast);
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background: var(--primary-hover);
+}
+
+.login-btn:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+.login-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ── Painel: Regulamento ── */
+.rules-panel {
+  padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+}
+
+.rules-intro {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+/* Tabela de pontuação */
+.points-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-2xl);
+  font-size: 0.92rem;
+}
+
+.points-table tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.points-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.points-table td {
+  padding: 14px var(--space-xs);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+/* Coluna de pontuação alinhada à direita */
+.points-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-main);
+}
+
+/* Destaque para linha especial (ex: Sanduíches com 2 pontos) */
+.points-table tr[data-highlight] td {
+  color: var(--primary-color);
+}
+
+/* Seção do regulamento textual */
+.rules-section {
+  margin-top: var(--space-sm);
+}
+
+.rules-heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-xl);
+}
+
+.rules-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* Parágrafos sem ícone não têm comportamento flex */
+.rules-text:not(:has(svg)) {
+  display: block;
+}
+
+.rules-text svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: var(--primary-color);
+  stroke-width: 2;
+}
+
+/* Aviso destacado */
+.rules-highlight {
+  background: #f5c400;
+  color: #1a1100;
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-lg);
+}
+
+/* ── Responsividade ── */
+@media (min-width: 480px) {
+  .prizes-panel {
+    --prize-img-size: 96px;
+  }
+
+  .prize-item {
+    padding: 14px var(--space-xl);
+    gap: var(--space-xl);
+  }
+
+  .prize-name {
+    font-size: var(--font-size-base);
+  }
+
+  .prize-points {
+    font-size: 1.35rem;
+  }
+
+  .rules-panel {
+    padding: var(--space-xl) var(--space-xl) var(--space-3xl);
+  }
+
+  .prizes-panel .search-wrapper {
+    padding: var(--space-lg) var(--space-xl);
+  }
+
+  .prizes-panel .search-wrapper svg {
+    left: 34px;
+  }
+}
+
+@media (min-width: 600px) {
+  .prizes-panel {
+    --prize-img-size: 104px;
+  }
+
+  .prize-item {
+    padding: var(--space-lg) var(--space-xl);
+  }
+
+  .rules-panel {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-xl) var(--space-4xl);
+  }
+}
