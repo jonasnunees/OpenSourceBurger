@@ -8,6 +8,8 @@
  * - Validar campos de e-mail e senha
  * - Exibir feedback de erro
  * - Simular autenticação enquanto o backend não existe
+ * - Ocultar o link "Continuar como visitante" quando o acesso
+ *   não vier do fluxo de checkout (ex: Minha Conta, Meus Pedidos)
  *
  * Dependências (nesta ordem no HTML):
  * config.js → auth.js → utils/validators.js → pages/login.js
@@ -30,6 +32,20 @@ const LOGIN_BUTTON_ID = "btn-login";
 const LOADING_BUTTON_TEXT = "Entrando...";
 const DEFAULT_BUTTON_TEXT = "ENTRAR";
 const FAKE_API_DELAY_MS = 300;
+
+/**
+ * Páginas que fazem parte do fluxo de checkout como visitante.
+ * O link "Continuar como visitante" só é exibido quando o ?redirect=
+ * aponta para uma dessas páginas — ou quando não há redirect algum
+ * e o acesso é direto à página de login (entrada orgânica).
+ *
+ * Adicionar futuras etapas do checkout aqui quando forem criadas.
+ */
+const CHECKOUT_PAGES = [
+  "pedido-visitante.html",
+  "escolher-modalidade.html",
+  "finalizar-pedido.html",
+];
 
 // ── Utilidades ──────────────────────────────────────────────────────────────
 
@@ -119,6 +135,42 @@ function resetSubmitButton(submitButton) {
 function showFormError(formFeedback, message) {
   formFeedback.textContent = message;
   formFeedback.classList.add("is-visible");
+}
+
+// ── Link "Continuar como visitante" ────────────────────────────────────────
+
+/**
+ * Verifica se o parâmetro ?redirect= aponta para uma página
+ * do fluxo de checkout como visitante.
+ *
+ * A verificação usa includes() nas CHECKOUT_PAGES para ser robusta
+ * a variações de path relativo (ex: "pages/pedido-visitante.html"
+ * ou apenas "pedido-visitante.html").
+ *
+ * @returns {boolean}
+ */
+function isCheckoutFlow() {
+  const params   = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+
+  // Sem redirect: acesso direto à página de login — exibe o link
+  if (!redirect) return true;
+
+  return CHECKOUT_PAGES.some((page) => redirect.includes(page));
+}
+
+/**
+ * Oculta o link "Continuar como visitante" quando o login
+ * foi disparado por uma página que não faz parte do checkout.
+ *
+ * Usa display:none em vez de remover o elemento para preservar
+ * o fluxo do DOM e não quebrar scripts que possam referenciar o link.
+ */
+function initGuestLink() {
+  if (isCheckoutFlow()) return; // checkout: exibe normalmente
+
+  const guestLink = document.querySelector(".guest-link");
+  if (guestLink) guestLink.style.display = "none";
 }
 
 // ── Toggle de senha ────────────────────────────────────────────────────────
@@ -301,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const validators = createValidators(elements);
 
+  initGuestLink();
   initPasswordToggle(elements);
   initFieldValidation(elements, validators);
   initFeedbackReset(elements);
