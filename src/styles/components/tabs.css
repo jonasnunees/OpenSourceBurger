@@ -72,3 +72,33 @@
   flex: 0 0 auto;
   white-space: nowrap;
 }
+
+/* ── Cat Tab ──
+   Variante de tab usada no cardápio e na personalização.
+   Confirmado em: cardapio, personalizar. */
+.cat-tab {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 44px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cat-tab:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cat-tab.is-active {
+  color: var(--text-main);
+  border-bottom-color: var(--primary-color);
+}
