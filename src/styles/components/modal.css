@@ -107,3 +107,24 @@
 .modal-ok:hover {
   background: var(--primary-hover);
 }
+
+/* ── Estado: Restaurante Fechado ──
+   Exibido dentro do .hours-modal quando fora do horário de funcionamento */
+.closed-message {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.closed-hours-hint {
+  font-size: var(--font-size-sm);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: var(--space-xl);
+}
+
+.closed-hours-hint strong {
+  color: var(--primary-color);
+}

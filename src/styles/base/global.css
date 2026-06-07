@@ -1,0 +1,29 @@
+/* =========================
+   BASE › GLOBAL
+   Estilos aplicados ao documento inteiro.
+   Depende de variables.css para os tokens.
+   Toda página herda esses estilos automaticamente via main.css.
+========================= */
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: var(--text-main);
+
+  /* Compensa a altura da topbar fixada no topo */
+  padding-top: var(--topbar-height);
+}
+
+main {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Herança de fonte para elementos de formulário —
+   evita o comportamento padrão dos browsers de ignorar font-family */
+button,
+input,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
