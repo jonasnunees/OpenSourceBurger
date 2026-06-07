@@ -4,22 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--
-      noindex: página de login não deve ser indexada por mecanismos de busca.
-      É conteúdo de acesso controlado, não agrega valor de descoberta orgânica.
+      noindex: página de checkout como visitante não deve ser indexada.
+      É um fluxo transacional interno sem valor de descoberta orgânica.
     -->
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
-      content="Acesse sua conta no Open Source Burger para gerenciar pedidos, cupons e muito mais."
+      content="Finalize seu pedido no Open Source Burger sem precisar criar uma conta."
     />
-    <title>Login — Open Source Burger</title>
-
-    <link rel="canonical" href="https://opensourceburger.com.br/login.html" />
+    <title>Pedido como Visitante — Open Source Burger</title>
 
     <link rel="icon" href="../assets/icons/favicon.ico" />
-    <link rel="stylesheet" href="../styles/vendors/reset.css">
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
     <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/pages/login.css" />
+    <link rel="stylesheet" href="../styles/pages/pedido-visitante.css" />
   </head>
   <body>
     <!-- ══ Drawer (menu lateral) ══ -->
@@ -76,11 +74,7 @@
           </a>
         </li>
         <li>
-          <a
-            href="minha-conta.html"
-            class="drawer-item active"
-            aria-current="page"
-          >
+          <a href="minha-conta.html" class="drawer-item">
             <i data-lucide="user-round"></i>
             <span>Minha Conta</span>
           </a>
@@ -137,167 +131,128 @@
       </footer>
     </nav>
 
-    <!-- ══ Topbar ══ -->
+    <!-- ══ Topbar ══
+         Padrão "voltar" — mesmo padrão de recuperar-senha.html.
+         href montado pelo JS para preservar ?redirect= da URL.
+    ══ -->
     <header class="topbar">
-      <button
+      <a
+        id="btn-voltar"
+        href="login.html"
         class="menu-btn"
-        aria-label="Abrir menu"
-        id="menu-btn"
-        aria-expanded="false"
-        aria-controls="drawer"
+        aria-label="Voltar para o login"
       >
-        <i data-lucide="menu"></i>
-      </button>
+        <i data-lucide="arrow-left"></i>
+      </a>
 
-      <h1 class="topbar-title">Login</h1>
+      <h1 class="topbar-title">Pedido</h1>
 
-      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
       </a>
     </header>
 
     <!-- ══ Conteúdo principal ══ -->
-    <main class="login-main" id="main-content">
-      <div class="login-section">
+    <main class="guest-main" id="main-content">
+      <div class="guest-section">
 
-        <!-- ── Cabeçalho da página ── -->
-        <header class="login-header">
-          <!--
-            Logo pequeno centralizado no topo do formulário.
-            alt vazio: elemento decorativo — o contexto da página já
-            comunica que se trata do Open Source Burger.
-          -->
-          <img
-            src="../assets/images/logo.webp"
-            alt=""
-            class="login-header__logo"
-            aria-hidden="true"
-            width="52"
-            height="52"
-          />
-          <h2 class="login-header__title">Bem-vindo à Lanchonete</h2>
-          <p class="login-header__subtitle">
-            Faça login para aproveitar nossos benefícios
-          </p>
-        </header>
-
-        <!-- ── Formulário de login ── -->
-        <!--
-          aria-labelledby aponta para o h2 do cabeçalho acima,
-          associando semanticamente o formulário ao contexto da seção.
-        -->
-        <section aria-labelledby="login-section-title">
-          <h3 id="login-section-title" class="sr-only">Formulário de login</h3>
+        <!-- ── Formulário de identificação ── -->
+        <section aria-labelledby="guest-section-title">
+          <h2 id="guest-section-title" class="sr-only">
+            Identificação do visitante
+          </h2>
 
           <!--
-            aria-live="polite": anuncia erros gerais do formulário
-            para leitores de tela sem roubar o foco bruscamente.
+            aria-live="polite": anuncia feedback geral para leitores de tela
+            sem roubar o foco bruscamente.
           -->
           <div
-            id="login-feedback"
-            class="login-feedback"
+            id="guest-feedback"
+            class="form-feedback"
             role="alert"
             aria-live="polite"
           ></div>
 
           <form
-            id="login-form"
-            class="login-form"
+            id="guest-form"
+            class="guest-form"
             novalidate
-            aria-label="Formulário de login"
+            aria-label="Formulário de identificação do visitante"
           >
-            <!-- Campo: e-mail -->
+            <!-- Campo: nome completo -->
             <div class="form-field">
-              <label for="login-email">E-mail</label>
+              <label for="guest-name">Nome: <span aria-hidden="true">*</span></label>
               <input
-                type="email"
-                id="login-email"
-                name="email"
-                placeholder="seu@email.com"
-                autocomplete="email"
-                inputmode="email"
+                type="text"
+                id="guest-name"
+                name="name"
+                placeholder="Nome completo"
+                autocomplete="name"
+                autocapitalize="words"
                 required
                 aria-required="true"
                 aria-invalid="false"
-                aria-describedby="email-error"
+                aria-describedby="name-error"
+                minlength="3"
               />
               <span
-                id="email-error"
+                id="name-error"
                 class="field-error"
                 role="alert"
                 aria-live="assertive"
               ></span>
             </div>
 
-            <!-- Campo: senha -->
-            <div class="form-field form-field--password">
-              <label for="login-password">Senha</label>
+            <!-- Campo: telefone -->
+            <div class="form-field">
+              <label for="guest-phone">Telefone ou celular: <span aria-hidden="true">*</span></label>
               <input
-                type="password"
-                id="login-password"
-                name="password"
-                placeholder="••••••••"
-                autocomplete="current-password"
+                type="tel"
+                id="guest-phone"
+                name="phone"
+                placeholder="(XX) XXXXX-XXXX"
+                autocomplete="tel"
+                inputmode="numeric"
                 required
                 aria-required="true"
                 aria-invalid="false"
-                aria-describedby="password-error"
+                aria-describedby="phone-error"
               />
-              <!--
-                Toggle de senha:
-                - aria-pressed indica estado ligado/desligado
-                - aria-label descreve a ação atual
-                - aria-controls associa o botão ao campo que controla
-              -->
-              <button
-                type="button"
-                id="toggle-password"
-                class="toggle-password"
-                aria-label="Mostrar senha"
-                aria-pressed="false"
-                aria-controls="login-password"
-              >
-                <i data-lucide="eye" aria-hidden="true"></i>
-              </button>
               <span
-                id="password-error"
+                id="phone-error"
                 class="field-error"
                 role="alert"
                 aria-live="assertive"
               ></span>
             </div>
 
-            <!-- "Esqueci minha senha" alinhado à direita, abaixo do campo senha -->
-            <div class="form-forgot-row">
-              <a href="recuperar-senha.html" class="forgot-link">
-                Esqueci minha senha
-              </a>
-            </div>
-
-            <!-- CTA primário: Entrar -->
+            <!-- CTA: Avançar -->
             <button
               type="submit"
-              id="btn-login"
-              class="btn-base btn-primary btn-login"
+              id="btn-avancar"
+              class="btn-base btn-primary btn-avancar"
             >
-              <i data-lucide="circle-check-big" aria-hidden="true"></i>
-              Entrar
+              <i data-lucide="chevron-right" aria-hidden="true"></i>
+              Avançar
             </button>
-
-            <!-- CTA secundário: Criar conta (outline) -->
-            <a href="cadastro.html" class="btn-outline btn-register">
-              Criar conta
-            </a>
           </form>
         </section>
 
-        <!-- ── Banner: aviso sobre o Programa de Fidelidade ── -->
-        <!--
-          role="note": semântica de informação complementar, não crítica.
-          Leitores de tela anunciam o conteúdo sem interromper o fluxo.
-        -->
-        <aside class="loyalty-banner" role="note" aria-label="Dica sobre o Programa de Fidelidade">
+        <!-- ── Banner: aviso sobre o Programa de Fidelidade ──
+             Mesmo conteúdo e estrutura de login.html (.loyalty-banner).
+             Estilos declarados localmente em pedido-visitante.css
+             para não depender de login.css.
+        ── -->
+        <aside
+          class="loyalty-banner"
+          role="note"
+          aria-label="Dica sobre o Programa de Fidelidade"
+        >
           <span class="loyalty-banner__icon" aria-hidden="true">
             <i data-lucide="star" aria-hidden="true"></i>
           </span>
@@ -312,9 +267,9 @@
           </div>
         </aside>
 
-        <!-- ── Link: continuar sem login ── -->
-        <a href="pedido-visitante.html" class="guest-link">
-          Continuar como visitante
+        <!-- ── Link: criar conta ── -->
+        <a href="cadastro.html" class="register-link">
+          Quero criar uma conta
           <i data-lucide="arrow-up-right" aria-hidden="true"></i>
         </a>
 
@@ -323,15 +278,13 @@
 
     <!-- 1. Dados globais -->
     <script src="../scripts/config.js"></script>
-    <!-- 2. Serviço de autenticação — auth.js deve vir antes de validators e login.js -->
+    <!-- 2. Serviço de autenticação -->
     <script src="../scripts/auth.js"></script>
     <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 4. Utilitários — validarEmail() e validarSenha() usados em login.js -->
-    <script src="../scripts/validators.js"></script>
-    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init, Cart) -->
     <script src="../scripts/common.js"></script>
-    <!-- 6. Script da página -->
-    <script src="../scripts/login.js"></script>
+    <!-- 5. Script da página -->
+    <script src="../scripts/pedido-visitante.js"></script>
   </body>
 </html>

@@ -1,0 +1,155 @@
+/* =========================
+   PAGE › PEDIDO VISITANTE
+   Estilos exclusivos da página de identificação do visitante.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.guest-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
+}
+
+.guest-section {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Formulário ── */
+.guest-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Override de autofill — evita o fundo branco/azul padrão do browser */
+.guest-form .form-field input:-webkit-autofill,
+.guest-form .form-field input:-webkit-autofill:hover,
+.guest-form .form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  -webkit-text-fill-color: var(--text-main);
+  border-color: var(--border-input);
+}
+
+.guest-form .form-field input {
+  -webkit-text-fill-color: var(--text-main);
+}
+
+/* ── Label com asterisco de obrigatório ──
+   O <span aria-hidden="true"> com * é puramente visual.
+   O aria-required="true" no input comunica a obrigatoriedade
+   para leitores de tela sem repetição. */
+.form-field label span[aria-hidden] {
+  color: var(--status-error);
+  margin-left: 2px;
+}
+
+/* ── Botão Avançar ── */
+.btn-avancar {
+  width: 100%;
+  min-height: var(--input-height);
+  margin-top: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.btn-avancar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Banner de fidelidade ──
+   Estrutura idêntica ao .loyalty-banner de login.css.
+   Declarado localmente para não criar acoplamento entre páginas.
+   Tokens de cor definidos como variáveis locais no seletor
+   para facilitar manutenção futura. ── */
+.loyalty-banner {
+  --loyalty-bg: #2c2408;
+  --loyalty-border: rgba(230, 170, 40, 0.35);
+  --loyalty-text: #f0c040;
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  background: var(--loyalty-bg);
+  border: 1px solid var(--loyalty-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.loyalty-banner__icon {
+  flex-shrink: 0;
+  color: var(--loyalty-text);
+  margin-top: 2px;
+}
+
+.loyalty-banner__icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.loyalty-banner__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.loyalty-banner__title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--loyalty-text);
+  line-height: 1.3;
+}
+
+.loyalty-banner__text {
+  font-size: var(--font-size-xs);
+  color: rgba(240, 192, 64, 0.75);
+  line-height: 1.55;
+}
+
+.loyalty-banner__text strong {
+  color: var(--loyalty-text);
+  font-weight: 700;
+}
+
+/* ── Link "Quero criar uma conta" ──
+   Mesmo padrão visual do .guest-link de login.css,
+   renomeado para evitar colisão caso ambos os CSS sejam
+   carregados na mesma sessão futuramente. ── */
+.register-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+.register-link:hover,
+.register-link:focus-visible {
+  color: var(--text-main);
+  outline: none;
+}
+
+.register-link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
