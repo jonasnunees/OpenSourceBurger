@@ -1,7 +1,8 @@
 /* =========================
    COMPONENTS › FORM
    Estrutura base de campos de formulário.
-   Confirmado em: login. Preparado para: cadastro, checkout, contato.
+   Confirmado em: login, recuperar-senha.
+   Preparado para: cadastro, checkout, contato.
 ========================= */
 
 /* ── Grupo de campo: label + input ── */
@@ -37,20 +38,55 @@
 
 .form-field input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15);
+  box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
-/* Estado de erro no campo */
 .form-field input[aria-invalid="true"] {
   border-color: var(--status-error);
-  box-shadow: 0 0 0 3px rgba(217, 56, 56, 0.12);
+  box-shadow: 0 0 0 3px var(--error-glow);
+}
+
+/* ── Modificador light ──
+   Formulário sobre fundo claro (ex: recuperar-senha).
+   No HTML: <div class="form-field form-field--light"> */
+.form-field--light input {
+  background: var(--input-bg-light);
+  border-color: var(--input-border-light);
+  color: var(--input-color-light);
+  padding: 0 var(--space-lg);
+}
+
+.form-field--light input::placeholder {
+  color: var(--input-placeholder-light);
 }
 
 /* ── Mensagem de erro inline ── */
 .field-error {
-  font-size: 0.78rem;
-  color: #ef5350;
+  font-size: var(--font-size-xs);
+  color: var(--error-color-text);
   min-height: 16px;
   display: block;
   padding-left: 2px;
+}
+
+/* ── Feedback geral de formulário ──
+   Banner de erro/sucesso exibido acima do formulário.
+   Confirmado em: login (.login-feedback), recuperar-senha (.recover-feedback).
+   No HTML: <div class="form-feedback form-feedback--error"> */
+.form-feedback {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  display: none;
+}
+
+.form-feedback.is-visible {
+  display: block;
+}
+
+.form-feedback--error {
+  background: rgba(217, 56, 56, 0.1);
+  border: 1px solid rgba(217, 56, 56, 0.35);
+  color: var(--error-color-text);
 }

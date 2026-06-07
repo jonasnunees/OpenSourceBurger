@@ -35,7 +35,7 @@
   width: 52px;
   height: 52px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(230, 126, 34, 0.35));
+  filter: drop-shadow(0 4px 12px var(--primary-glow-strong));
 }
 
 .login-header__title {
@@ -96,7 +96,7 @@
 .toggle-password:hover,
 .toggle-password:focus-visible {
   color: var(--primary-color);
-  outline: 2px solid rgba(230, 126, 34, 0.35);
+  outline: 2px solid var(--primary-glow-strong);
   outline-offset: 2px;
 }
 
@@ -130,22 +130,6 @@
 .forgot-link:focus-visible {
   color: var(--text-main);
   outline: none;
-}
-
-/* ── Feedback geral de erro (credenciais inválidas) ── */
-.login-feedback {
-  background: rgba(217, 56, 56, 0.1);
-  border: 1px solid rgba(217, 56, 56, 0.35);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  font-size: var(--font-size-sm);
-  color: #ef5350;
-  text-align: center;
-  display: none;
-}
-
-.login-feedback.is-visible {
-  display: block;
 }
 
 /* ── Overrides de botões ──

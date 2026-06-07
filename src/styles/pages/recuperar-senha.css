@@ -1,0 +1,206 @@
+/* =========================
+   PAGE › RECUPERAR SENHA
+   Estilos exclusivos da página de recuperação de senha.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* Token local — esta página usa input ligeiramente maior que o padrão global.
+   Aplicado via seletor de escopo para não vazar para outras páginas. */
+.recover-main {
+  --input-height: 54px;
+}
+
+/* ── Layout principal ── */
+.recover-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
+}
+
+.recover-section {
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* ── Bloco do formulário ── */
+.recover-form-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.recover-form-block__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: var(--space-xl);
+  line-height: 1.4;
+}
+
+/* ── Formulário ── */
+.recover-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Override de autofill para o tema claro — evita fundo azul do browser */
+.form-field--light input:-webkit-autofill,
+.form-field--light input:-webkit-autofill:hover,
+.form-field--light input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg-light) inset;
+  -webkit-text-fill-color: var(--input-color-light);
+  border-color: var(--input-border-light);
+}
+
+/* ── Botão recuperar ──
+   Herda de .btn-primary via HTML: <button class="btn-primary btn-recover"> */
+.btn-recover {
+  width: 100%;
+  min-height: var(--input-height);
+}
+
+.btn-recover:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-recover svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* ── Link "Lembrei minha senha" ── */
+.remembered-link {
+  display: inline-block;
+  margin-top: var(--space-xl);
+  color: var(--text-main);
+  font-size: var(--font-size-base);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.remembered-link:hover,
+.remembered-link:focus-visible {
+  color: var(--primary-color);
+  outline: none;
+}
+
+/* ── Divisor ── */
+.recover-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* Linhas decorativas geradas via pseudo-elementos */
+.recover-divider::before,
+.recover-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* ── Contato por telefone ── */
+.recover-contact {
+  font-style: normal; /* <address> é itálico por padrão */
+  display: flex;
+  justify-content: center;
+}
+
+.recover-contact__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  color: var(--text-main);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  text-decoration: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.recover-contact__link:hover,
+.recover-contact__link:focus-visible {
+  color: var(--primary-color);
+  outline: none;
+}
+
+.recover-contact__link svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ── Painel de sucesso ── */
+
+/* Oculto enquanto o atributo hidden estiver presente */
+.recover-success[hidden] {
+  display: none;
+}
+
+/* Exibido com animação quando o JS remove o atributo hidden */
+.recover-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-lg);
+  animation: panelFadeIn var(--transition-medium) ease both;
+}
+
+.recover-success__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--primary-glow);
+  border: 2px solid var(--primary-glow-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recover-success__icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--primary-color);
+  stroke-width: 1.8;
+}
+
+.recover-success__title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.recover-success__text {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 340px;
+}
