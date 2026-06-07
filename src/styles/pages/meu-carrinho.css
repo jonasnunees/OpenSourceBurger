@@ -383,3 +383,110 @@
   width: 20px;
   text-align: center;
 }
+
+/* ── Modal: Loja Fechada ──
+   Mesmo sistema de animação do hours-modal (components/modal.css).
+   Estilos de conteúdo declarados aqui por serem específicos desta página.
+   Tokens locais de cor definidos no seletor para facilitar manutenção. */
+
+.closed-modal {
+  --closed-icon-color: var(--primary-color);
+  --closed-icon-bg: var(--primary-glow);
+  --closed-icon-border: var(--primary-glow-strong);
+
+  width: min(420px, calc(100vw - var(--space-2xl)));
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+
+  /* Animação de entrada — mesma lógica do modal.css */
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition:
+    opacity var(--transition-medium),
+    transform var(--transition-medium);
+}
+
+.closed-modal[open] {
+  display: flex;
+}
+
+.closed-modal.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Ícone circular */
+.closed-modal__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--closed-icon-bg);
+  border: 2px solid var(--closed-icon-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.closed-modal__icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--closed-icon-color);
+  stroke-width: 1.8;
+}
+
+/* Título */
+.closed-modal__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Horário de hoje — preenchido via JS */
+.closed-modal__schedule {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Link para abrir o hours-modal */
+.closed-modal__hours-link {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-body);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition-fast);
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.closed-modal__hours-link:hover,
+.closed-modal__hours-link:focus-visible {
+  color: var(--primary-color);
+  outline: none;
+}
+
+/* Botão OK */
+.closed-modal__ok {
+  width: 100%;
+  min-height: var(--input-height);
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+}

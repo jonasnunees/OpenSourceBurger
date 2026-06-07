@@ -185,10 +185,14 @@
         </div>
       </section>
 
-      <!-- ── Botão Finalizar Pedido ── -->
+      <!-- ── Botão Finalizar Pedido ──
+           href aponta para login.html como destino semântico correto.
+           O JS intercepta o clique e bloqueia a navegação quando a
+           loja estiver fechada, exibindo o closed-modal no lugar.
+      ── -->
       <a
         id="btn-finalize"
-        href="../pages/login.html"
+        href="login.html"
         class="btn-primary"
         aria-label="Finalizar pedido"
         style="display: none"
@@ -221,6 +225,53 @@
         </div>
       </section>
     </main>
+
+    <!-- ── Modal: Loja Fechada ──
+         Exibido ao tentar finalizar o pedido fora do horário.
+         Aberto via JS (showModal()) — nunca por href ou submit.
+         O link interno abre o hours-modal existente para a lista
+         completa de horários, sem duplicar informação.
+    ── -->
+    <dialog
+      id="closed-modal"
+      class="closed-modal"
+      aria-labelledby="closed-modal-title"
+    >
+      <div class="closed-modal__icon" aria-hidden="true">
+        <i data-lucide="info"></i>
+      </div>
+
+      <h2 id="closed-modal-title" class="closed-modal__title">
+        Delivery Online Fechado!
+      </h2>
+
+      <!--
+        Preenchido pelo JS com o horário de hoje via CONFIG.horarios.
+        aria-live="polite": anuncia a atualização para leitores de tela.
+      -->
+      <p
+        class="closed-modal__schedule"
+        id="closed-modal-schedule"
+        aria-live="polite"
+      ></p>
+
+      <button
+        type="button"
+        class="closed-modal__hours-link"
+        id="closed-modal-hours-btn"
+        aria-label="Ver todos os horários de atendimento"
+      >
+        Confira os horários de atendimento
+      </button>
+
+      <button
+        type="button"
+        class="closed-modal__ok btn-base btn-primary"
+        id="closed-modal-ok"
+      >
+        OK
+      </button>
+    </dialog>
 
     <!-- ── Modal de Horários ── -->
     <dialog id="hours-modal" class="hours-modal">

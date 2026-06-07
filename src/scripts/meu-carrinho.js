@@ -10,6 +10,7 @@
  *  - Botão "Personalizar meu pedido": redireciona para personalizar.html?id=
  *    apenas para produtos que possuem personalizavel: true no CARDAPIO
  *  - Status da loja e tempos estimados
+ *  - Bloqueia finalização do pedido quando a loja estiver fechada
  *
  * Dependências (nesta ordem no HTML):
  *  config.js → common.js → pages/cardapio.js → pages/meu-carrinho.js
@@ -286,6 +287,89 @@ function initTemposEstimados() {
   if (elRetirada) elRetirada.textContent = `${CONFIG.tempos.retirada} - Tempo estimado para retirada`;
 }
 
+// ── Finalizar Pedido ─────────────────────────────────────────────────────────
+
+/**
+ * Controla o clique no botão "Finalizar Pedido".
+ *
+ * Fluxo:
+ * - Loja aberta  → navega para login.html (href nativo do <a>)
+ * - Loja fechada → bloqueia a navegação e exibe o closed-modal
+ *
+ * O closed-modal exibe o horário de hoje via CONFIG.horarios e um
+ * botão que abre o hours-modal existente sem duplicar a lista de horários.
+ */
+function initFinalizarPedido() {
+  const btnFinalize    = document.getElementById("btn-finalize");
+  const closedModal    = document.getElementById("closed-modal");
+  const closedSchedule = document.getElementById("closed-modal-schedule");
+  const closedOkBtn    = document.getElementById("closed-modal-ok");
+  const closedHoursBtn = document.getElementById("closed-modal-hours-btn");
+  const hoursModal     = document.getElementById("hours-modal");
+
+  if (!btnFinalize || !closedModal) return;
+
+  // Preenche o horário de hoje no modal uma única vez ao inicializar
+  const hoje = CONFIG.horarios[new Date().getDay()];
+  if (closedSchedule && hoje) {
+    closedSchedule.textContent =
+      `Atendimento hoje das ${hoje.abertura} às ${hoje.fechamento} horas.`;
+  }
+
+  // Intercepta o clique antes de o <a> navegar pelo href
+  btnFinalize.addEventListener("click", (event) => {
+    if (Store.isOpen()) return; // loja aberta: deixa o href agir normalmente
+
+    event.preventDefault();
+    abrirClosedModal();
+  });
+
+  // Botão OK fecha o modal
+  closedOkBtn?.addEventListener("click", fecharClosedModal);
+
+  // Clique no backdrop fecha o modal
+  closedModal.addEventListener("click", (event) => {
+    if (event.target === closedModal) fecharClosedModal();
+  });
+
+  // Tecla Escape — previne o fechamento nativo do <dialog> para que
+  // a animação de saída rode antes de .close() ser chamado
+  closedModal.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    fecharClosedModal();
+  });
+
+  // "Confira os horários" — fecha closed-modal e abre hours-modal
+  closedHoursBtn?.addEventListener("click", () => {
+    fecharClosedModal();
+
+    // Aguarda a transição de saída do closed-modal para abrir o hours-modal
+    closedModal.addEventListener(
+      "transitionend",
+      () => {
+        if (!hoursModal) return;
+        hoursModal.showModal();
+        requestAnimationFrame(() => hoursModal.classList.add("is-open"));
+      },
+      { once: true }
+    );
+  });
+
+  function abrirClosedModal() {
+    closedModal.showModal();
+    requestAnimationFrame(() => closedModal.classList.add("is-open"));
+  }
+
+  function fecharClosedModal() {
+    closedModal.classList.remove("is-open");
+    closedModal.addEventListener(
+      "transitionend",
+      () => closedModal.close(),
+      { once: true }
+    );
+  }
+}
+
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -293,4 +377,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initEventosQtd();
   initStatusLoja();
   initTemposEstimados();
+  initFinalizarPedido();
 });
