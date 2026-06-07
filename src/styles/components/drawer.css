@@ -1,0 +1,145 @@
+/* =========================
+   COMPONENTS › DRAWER
+   Menu de navegação lateral deslizante.
+   Inclui: overlay, drawer, header, nav, footer e créditos.
+========================= */
+
+/* ── Overlay (fundo escurecido) ── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium);
+}
+
+.drawer-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Painel do Drawer ── */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: min(80%, 320px);
+  background: var(--bg-card);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform var(--transition-medium) cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+/* ── Header ── */
+.drawer-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.drawer-header a {
+  display: block;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Botão de fechar visualmente oculto mas acessível */
+.close-drawer-btn {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.drawer-logo {
+  width: min(70%, 160px);
+  height: auto;
+  margin-inline: auto;
+}
+
+/* ── Navegação ── */
+.drawer-nav {
+  list-style: none;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.drawer-nav li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.drawer-item:hover,
+.drawer-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+}
+
+.drawer-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition: stroke var(--transition-fast);
+}
+
+.drawer-item:hover svg,
+.drawer-item.active svg {
+  stroke: var(--primary-color);
+}
+
+/* ── Footer ── */
+.drawer-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.drawer-credit,
+.drawer-icons {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.8;
+}
+
+.drawer-credit a,
+.drawer-icons a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.drawer-credit a:hover,
+.drawer-icons a:hover {
+  color: var(--primary-color);
+}

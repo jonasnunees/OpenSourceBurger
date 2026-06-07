@@ -1,0 +1,70 @@
+/* =========================
+   BASE › UTILITIES
+   Classes utilitárias e componentes atômicos reutilizáveis
+   em qualquer página do projeto.
+========================= */
+
+/* ── Acessibilidade ──
+   Esconde visualmente mas mantém o conteúdo
+   acessível para leitores de tela (WCAG 2.1) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Layout ── */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Botões ── */
+
+/* Base compartilhada entre variantes de botão */
+.btn-base {
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+/* Variante principal — CTA primário do projeto */
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  padding: 12px 28px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  min-height: 48px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}

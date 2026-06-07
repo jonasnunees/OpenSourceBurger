@@ -1,0 +1,37 @@
+/* =========================
+   COMPONENTS › TOAST
+   Notificação temporária exibida na parte inferior da tela.
+   Também contém as @keyframes globais do projeto.
+========================= */
+
+.toast {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+  white-space: nowrap;
+}
+
+/* ── Animações Globais ── */
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

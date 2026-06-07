@@ -1,0 +1,76 @@
+/* =========================
+   BASE › VARIABLES
+   Todas as custom properties (design tokens) do projeto.
+   Alterar aqui reflete em todo o sistema.
+========================= */
+
+:root {
+  /* ── Colors ── */
+  --primary-color: #E67E22;
+  --primary-hover: #D35400;
+  --bg-dark: #060a0f;
+  --bg-card: #1a1a1a;
+  --bg-topbar: #242424;
+  --text-main: #ffffff;
+  --text-secondary: #f1f1f1;
+  --overlay-bg: rgba(0, 0, 0, 0.65);
+  --text-muted: #b3b3b3;
+  --status-error: #d93838;
+  --status-success: #4caf50;
+  --bg-action: #262626;
+  --gray-dark: #333333;
+  --gray-medium: #4a4a4a;
+  --gray-deep: #2b2b2b;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-input: rgba(255, 255, 255, 0.1);
+
+  /* ── Form ── */
+  --input-height: 52px;
+  --input-bg: #1e2028;
+  --label-color: rgba(255, 255, 255, 0.75);
+
+  /* ── Borders ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+
+  /* ── Typography ── */
+  --font-body: 'Nunito', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+
+  /* ── Font Sizes ── */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.4rem;
+
+  /* ── Layout ── */
+  --topbar-height: 72px;
+  --container-narrow: 480px;
+  --gutter: 20px;
+  --bottom-bar-height: 64px;
+  --search-bar-height: 57px;
+  --product-img-size: 96px;
+  --icon-decoration: 5rem;
+
+  /* ── Transitions ── */
+  --transition-fast: 0.25s ease;
+  --transition-medium: 0.35s ease;
+  --transition-slow: 0.7s ease;
+
+  /* ── Spacing ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.7);
+}

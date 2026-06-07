@@ -1,0 +1,109 @@
+/* =========================
+   COMPONENTS › MODAL
+   Modal de horários de funcionamento.
+   Utiliza a API nativa <dialog> com animação de entrada.
+========================= */
+
+.hours-modal {
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-main);
+  padding: 32px 28px 24px;
+  width: min(90%, 360px);
+  box-shadow: var(--shadow-lg);
+
+  /* Centralização via fixed + translate */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+
+  /* Estado inicial da animação de entrada */
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hours-modal.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hours-modal::backdrop {
+  background: var(--overlay-bg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hours-modal.is-open::backdrop {
+  opacity: 1;
+}
+
+.hours-modal h2 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-xl);
+  text-transform: uppercase;
+}
+
+/* ── Lista de Horários ── */
+.hours-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding: 0;
+}
+
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-md);
+}
+
+.hours-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.hours-list li span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hours-list li span:last-child svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  stroke-width: 2.3;
+  opacity: 0.6;
+}
+
+/* ── Botão de confirmação ── */
+.modal-ok {
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-color);
+  color: var(--text-main);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.modal-ok:hover {
+  background: var(--primary-hover);
+}
