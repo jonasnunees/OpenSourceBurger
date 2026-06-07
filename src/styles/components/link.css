@@ -1,0 +1,16 @@
+/* =========================
+   COMPONENTS › LINK
+   Esqueleto de links textuais com underline.
+   Confirmado em: index (.hours-link), meu-carrinho (.hours-link).
+   Overrides de cor, tamanho e espaçamento ficam em pages/.
+========================= */
+
+.hours-link {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0;
+  transition: color var(--transition-fast);
+}

@@ -128,17 +128,13 @@
   stroke-width: 2.3;
 }
 
-/* ── Link de Horários ── */
+/* ── Link de Horários ──
+   Esqueleto base em components/link.css (.text-link).
+   No HTML: <button class="text-link hours-link"> */
 .hours-link {
-  background: transparent;
-  border: none;
-  display: inline-block;
   margin-top: var(--space-xl);
   color: var(--text-main);
-  font-family: var(--font-body);
   font-size: var(--font-size-base);
-  text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-  cursor: pointer;
 }
