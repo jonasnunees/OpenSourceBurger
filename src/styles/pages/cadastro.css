@@ -461,7 +461,7 @@
 .step-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  justify-content: space-between;
 }
 
 /* Botão avançar ocupa todo o espaço disponível */
