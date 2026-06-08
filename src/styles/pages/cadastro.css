@@ -477,8 +477,13 @@
   color: var(--primary-color);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-base);
+  font-family: inherit;
   font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
   cursor: pointer;
+  width: auto;
+  align-self: auto;
   transition:
     border-color var(--transition-fast),
     color var(--transition-fast);
