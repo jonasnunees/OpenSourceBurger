@@ -147,6 +147,8 @@
   height: 13px;
   stroke-width: 2.2;
   flex-shrink: 0;
+  /* Garante que o ícone não intercepte cliques no botão pai */
+  pointer-events: none;
 }
 
 /* Trocar endereço — estilo primário suave */
@@ -194,6 +196,9 @@
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
+  /* z-index garante que o select fique acima do ícone absoluto */
+  position: relative;
+  z-index: 1;
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
@@ -221,6 +226,8 @@
   height: 16px;
   stroke: var(--text-muted);
   stroke-width: 2;
+  /* z-index abaixo do select — decorativo apenas */
+  z-index: 0;
   pointer-events: none;
   flex-shrink: 0;
 }
@@ -300,14 +307,12 @@
   gap: var(--space-lg);
   text-align: center;
 
-  /* Centralização via fixed + translate (padrão modal.css) */
   position: fixed;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
   margin: 0;
 
-  /* Animação de entrada */
   opacity: 0;
   transform: translateY(12px) scale(0.97);
   transition:
@@ -334,7 +339,6 @@
   opacity: 1;
 }
 
-/* Ícone circular */
 .cadastro-modal__icon {
   width: 72px;
   height: 72px;
@@ -371,31 +375,9 @@
   margin: 0;
 }
 
-/* Botão primário: criar conta */
-.cadastro-modal__btn-criar {
+.cadastro-modal__btn-fechar {
   width: 100%;
   min-height: var(--input-height);
   margin-top: var(--space-xs);
   margin-bottom: 0;
-}
-
-/* Botão secundário: continuar sem conta */
-.cadastro-modal__btn-fechar {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: var(--font-size-sm);
-  font-family: var(--font-body);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  cursor: pointer;
-  padding: 0;
-  transition: color var(--transition-fast);
-}
-
-.cadastro-modal__btn-fechar:hover,
-.cadastro-modal__btn-fechar:focus-visible {
-  color: var(--text-main);
-  outline: none;
 }
