@@ -1,0 +1,131 @@
+/* =========================
+   PAGE › ENDEREÇO DE ENTREGA
+   Estilos exclusivos da página de coleta de endereço para entrega.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.endereco-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2xl) var(--gutter) var(--space-3xl);
+}
+
+.endereco-section {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── Formulário ── */
+.endereco-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ── Label com asterisco obrigatório ── */
+.form-field label span[aria-hidden] {
+  color: var(--status-error);
+  margin-left: 2px;
+}
+
+/* ── Dica de campo opcional ── */
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+/* ── Select com ícone customizado ──
+   O <select> nativo é difícil de estilizar — a abordagem padrão
+   do projeto é envolver em .select-wrapper e esconder o indicador
+   nativo via appearance:none, substituindo pelo ícone Lucide. */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper select {
+  width: 100%;
+  min-height: var(--input-height);
+  padding: 0 44px 0 14px; /* espaço à direita para o ícone */
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-family: var(--font-body);
+  color: var(--text-main);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.select-wrapper select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.select-wrapper select[aria-invalid="true"] {
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px var(--error-glow);
+}
+
+/* Estado desabilitado — cidade fixa */
+.select-wrapper select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Opção placeholder do select de bairro */
+.select-wrapper select option[value=""] {
+  color: var(--text-muted);
+}
+
+/* Ícone de seta posicionado absolutamente sobre o select */
+.select-wrapper svg {
+  position: absolute;
+  right: 14px;
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  pointer-events: none; /* não interfere no clique do select */
+  flex-shrink: 0;
+}
+
+/* ── Override de autofill nos inputs ── */
+.endereco-form .form-field input:-webkit-autofill,
+.endereco-form .form-field input:-webkit-autofill:hover,
+.endereco-form .form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  -webkit-text-fill-color: var(--text-main);
+  border-color: var(--border-input);
+}
+
+.endereco-form .form-field input {
+  -webkit-text-fill-color: var(--text-main);
+}
+
+/* ── Botão Avançar ── */
+.btn-avancar {
+  width: 100%;
+  min-height: var(--input-height);
+  margin-top: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.btn-avancar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Informe o endereço de entrega do seu pedido no Open Source Burger."
+    />
+    <title>Endereço de Entrega — Open Source Burger</title>
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/endereco-entrega.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i><span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i><span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i><span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i><span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i><span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item">
+            <i data-lucide="user-round"></i><span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i><span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i><span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i><span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <a
+        id="btn-voltar"
+        href="escolher-modalidade.html"
+        class="menu-btn"
+        aria-label="Voltar para escolha de modalidade"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+
+      <h1 class="topbar-title">Pedido</h1>
+
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="endereco-main" id="main-content">
+      <div class="endereco-section">
+
+        <section aria-labelledby="endereco-titulo">
+          <h2 id="endereco-titulo" class="sr-only">
+            Endereço de entrega
+          </h2>
+
+          <form
+            id="endereco-form"
+            class="endereco-form"
+            novalidate
+            aria-label="Formulário de endereço de entrega"
+          >
+
+            <!-- Campo: Cidade (fixo, valor único) -->
+            <div class="form-field">
+              <label for="cidade">Cidade:</label>
+              <div class="select-wrapper">
+                <select
+                  id="cidade"
+                  name="cidade"
+                  aria-label="Cidade de entrega"
+                  disabled
+                  aria-disabled="true"
+                >
+                  <!-- Populado pelo JS via CONFIG.cidade -->
+                </select>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <!-- Campo: Endereço -->
+            <div class="form-field">
+              <label for="endereco">
+                Endereço (Rua, Av.):
+                <span aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="endereco"
+                name="endereco"
+                placeholder="Endereço"
+                autocomplete="street-address"
+                autocapitalize="words"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="endereco-error"
+              />
+              <span
+                id="endereco-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Campo: Número -->
+            <div class="form-field">
+              <label for="numero">
+                Número:
+                <span aria-hidden="true">*</span>
+              </label>
+              <!--
+                type="text" com inputmode="numeric":
+                abre teclado numérico no mobile mas aceita "S/N"
+                sem rejeitar a entrada como type="number" faria.
+              -->
+              <input
+                type="text"
+                id="numero"
+                name="numero"
+                placeholder="Número"
+                inputmode="numeric"
+                autocomplete="address-line2"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="numero-error"
+                maxlength="10"
+              />
+              <span
+                id="numero-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Campo: Bairro -->
+            <div class="form-field">
+              <label for="bairro">
+                Bairro:
+                <span aria-hidden="true">*</span>
+              </label>
+              <div class="select-wrapper">
+                <select
+                  id="bairro"
+                  name="bairro"
+                  required
+                  aria-required="true"
+                  aria-invalid="false"
+                  aria-describedby="bairro-error"
+                >
+                  <!-- Populado pelo JS via CONFIG.bairros -->
+                </select>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+              </div>
+              <span
+                id="bairro-error"
+                class="field-error"
+                role="alert"
+                aria-live="assertive"
+              ></span>
+            </div>
+
+            <!-- Campo: Complemento (opcional) -->
+            <div class="form-field">
+              <label for="complemento">
+                Complemento, Ponto de Referência, Nº Apto:
+              </label>
+              <input
+                type="text"
+                id="complemento"
+                name="complemento"
+                placeholder="Quadra, Nº Apto, Complemento, Referência"
+                autocomplete="address-line3"
+                autocapitalize="sentences"
+                aria-describedby="complemento-dica"
+                maxlength="100"
+              />
+              <span id="complemento-dica" class="field-hint">
+                Opcional
+              </span>
+            </div>
+
+            <!-- CTA: Avançar -->
+            <button
+              type="submit"
+              id="btn-avancar"
+              class="btn-base btn-primary btn-avancar"
+            >
+              <i data-lucide="chevron-right" aria-hidden="true"></i>
+              Avançar
+            </button>
+
+          </form>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- 1. Dados globais -->
+    <script src="../scripts/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Validadores — Validators.validarObrigatorio() usado no script da página -->
+    <script src="../scripts/validators.js"></script>
+    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init, Cart) -->
+    <script src="../scripts/common.js"></script>
+    <!-- 6. Script da página -->
+    <script src="../scripts/endereco-entrega.js"></script>
+  </body>
+</html>
