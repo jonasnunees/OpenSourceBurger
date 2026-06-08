@@ -1,0 +1,401 @@
+/* =========================
+   PAGE › FINALIZAR PEDIDO ENTREGA
+   Estilos exclusivos da página de finalização para entrega em domicílio.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.finalizar-entrega-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) var(--gutter) var(--space-4xl);
+}
+
+.finalizar-entrega-section {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Bloco genérico de seção ── */
+.finalizar-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.finalizar-bloco__titulo {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+/* ── Textarea de observações ── */
+.finalizar-textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: var(--font-size-base);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.finalizar-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.finalizar-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.finalizar-textarea__contador {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: right;
+  display: block;
+  margin-top: calc(-1 * var(--space-xs));
+}
+
+/* ── Info fixa (entrega, endereço resumido) ── */
+.finalizar-info-fixa {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: var(--input-height);
+  padding: 0 var(--space-lg);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+}
+
+/* Variante para endereço — permite quebra de linha */
+.finalizar-info-fixa--endereco {
+  align-items: flex-start;
+  padding: var(--space-md) var(--space-lg);
+  min-height: unset;
+}
+
+.finalizar-info-fixa--endereco .finalizar-info-fixa__icone {
+  margin-top: 2px;
+}
+
+.finalizar-info-fixa__icone {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.finalizar-info-fixa__icone svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.finalizar-info-fixa__texto {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* ── Ações do endereço ── */
+.endereco-acoes {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.btn-endereco {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-endereco svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2.2;
+  flex-shrink: 0;
+}
+
+/* Trocar endereço — estilo primário suave */
+.btn-endereco--trocar {
+  background: var(--primary-glow);
+  border: 1.5px solid var(--primary-glow-strong);
+  color: var(--primary-color);
+}
+
+.btn-endereco--trocar:hover {
+  background: rgba(230, 126, 34, 0.2);
+  border-color: var(--primary-color);
+}
+
+/* Cadastrar novo — estilo outline neutro */
+.btn-endereco--novo {
+  background: transparent;
+  border: 1.5px solid var(--border-input);
+  color: var(--text-muted);
+}
+
+.btn-endereco--novo:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-main);
+}
+
+/* ── Select com ícone customizado ── */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper select {
+  width: 100%;
+  min-height: var(--input-height);
+  padding: 0 44px 0 14px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-family: var(--font-body);
+  color: var(--text-main);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.select-wrapper select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.select-wrapper select[aria-invalid="true"] {
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px var(--error-glow);
+}
+
+.select-wrapper select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.select-wrapper svg {
+  position: absolute;
+  right: 14px;
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* Dica abaixo do select de bandeira */
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+/* ── Resumo do pedido ── */
+.finalizar-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.finalizar-resumo__linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.finalizar-resumo__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  background: var(--bg-card);
+}
+
+.finalizar-resumo__total-label {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-main);
+}
+
+.finalizar-resumo__total-valor {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
+
+/* ── Botão Finalizar Pedido ── */
+.btn-finalizar {
+  width: 100%;
+  min-height: var(--input-height);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+/* ── Modal: Cadastro necessário ── */
+.cadastro-modal {
+  width: min(420px, calc(100vw - var(--space-2xl)));
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+
+  /* Centralização via fixed + translate (padrão modal.css) */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+
+  /* Animação de entrada */
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition:
+    opacity var(--transition-medium),
+    transform var(--transition-medium);
+}
+
+.cadastro-modal[open] {
+  display: flex;
+}
+
+.cadastro-modal.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cadastro-modal::backdrop {
+  background: var(--overlay-bg);
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.cadastro-modal.is-open::backdrop {
+  opacity: 1;
+}
+
+/* Ícone circular */
+.cadastro-modal__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--primary-glow);
+  border: 2px solid var(--primary-glow-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cadastro-modal__icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--primary-color);
+  stroke-width: 1.8;
+}
+
+.cadastro-modal__title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.cadastro-modal__text {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Botão primário: criar conta */
+.cadastro-modal__btn-criar {
+  width: 100%;
+  min-height: var(--input-height);
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+}
+
+/* Botão secundário: continuar sem conta */
+.cadastro-modal__btn-fechar {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-body);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.cadastro-modal__btn-fechar:hover,
+.cadastro-modal__btn-fechar:focus-visible {
+  color: var(--text-main);
+  outline: none;
+}

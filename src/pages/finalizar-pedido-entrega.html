@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Finalize seu pedido com entrega em domicílio no Open Source Burger."
+    />
+    <title>Finalizar Pedido — Open Source Burger</title>
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/finalizar-pedido-entrega.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <ul class="drawer-nav">
+        <li><a href="cardapio.html" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
+        <li><a href="promocoes.html" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
+        <li><a href="meu-carrinho.html" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
+        <li><a href="meus-pedidos.html" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
+        <li><a href="meus-cupons.html" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
+        <li><a href="minha-conta.html" class="drawer-item"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
+        <li><a href="programa-fidelidade.html" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
+        <li><a href="localizacao.html" class="drawer-item"><i data-lucide="map-pin"></i><span>Localização</span></a></li>
+        <li><a href="area-de-entrega.html" class="drawer-item"><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a></li>
+        <li>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+      <footer class="drawer-footer">
+        <p class="drawer-credit">Desenvolvido por <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a></p>
+        <p class="drawer-icons">Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a></p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <a
+        id="btn-voltar"
+        href="endereco-de-entrega.html"
+        class="menu-btn"
+        aria-label="Voltar para endereço de entrega"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+      <h1 class="topbar-title">Finalizar Pedido</h1>
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="finalizar-entrega-main" id="main-content">
+      <div class="finalizar-entrega-section">
+
+        <!-- ── Observações ── -->
+        <section class="finalizar-bloco" aria-labelledby="obs-titulo">
+          <h2 id="obs-titulo" class="finalizar-bloco__titulo">Observações</h2>
+          <div class="form-field">
+            <label for="observacoes" class="sr-only">Observações para o pedido</label>
+            <textarea
+              id="observacoes"
+              name="observacoes"
+              class="finalizar-textarea"
+              placeholder="Alguma observação para a entrega desse pedido? Digite aqui..."
+              rows="4"
+              maxlength="300"
+              aria-describedby="obs-contador"
+            ></textarea>
+            <span
+              id="obs-contador"
+              class="finalizar-textarea__contador"
+              aria-live="polite"
+              aria-atomic="true"
+            >0 / 300</span>
+          </div>
+        </section>
+
+        <!-- ── Opção de Entrega ── -->
+        <section class="finalizar-bloco" aria-labelledby="entrega-titulo">
+          <h2 id="entrega-titulo" class="finalizar-bloco__titulo">Opção de Entrega</h2>
+          <div class="finalizar-info-fixa" aria-label="Modalidade de entrega">
+            <span class="finalizar-info-fixa__icone" aria-hidden="true">
+              <i data-lucide="bike"></i>
+            </span>
+            <span class="finalizar-info-fixa__texto">Entregar em domicílio</span>
+          </div>
+        </section>
+
+        <!-- ── Endereço de Entrega ── -->
+        <section class="finalizar-bloco" aria-labelledby="endereco-titulo">
+          <h2 id="endereco-titulo" class="finalizar-bloco__titulo">Endereço de Entrega</h2>
+
+          <!--
+            Exibe o endereço preenchido na etapa anterior.
+            Preenchido pelo JS via osb_endereco do sessionStorage.
+          -->
+          <div
+            id="endereco-resumo"
+            class="finalizar-info-fixa finalizar-info-fixa--endereco"
+            aria-label="Endereço de entrega informado"
+          >
+            <span class="finalizar-info-fixa__icone" aria-hidden="true">
+              <i data-lucide="map-pin"></i>
+            </span>
+            <span id="endereco-texto" class="finalizar-info-fixa__texto">—</span>
+          </div>
+
+          <!-- Ações do endereço -->
+          <div class="endereco-acoes">
+            <!--
+              Trocar Endereço: volta para endereco-entrega.html
+              mantendo os dados do sessionStorage para pré-preencher
+              os campos (implementação futura de pré-preenchimento).
+            -->
+            <a
+              href="endereco-de-entrega.html"
+              class="btn-endereco btn-endereco--trocar"
+              aria-label="Trocar endereço de entrega"
+            >
+              <i data-lucide="refresh-cw" aria-hidden="true"></i>
+              Trocar Endereço
+            </a>
+
+            <!--
+              Cadastrar Novo Endereço: disponível apenas para usuários
+              registrados. Abre modal de aviso para visitantes.
+            -->
+            <button
+              type="button"
+              id="btn-novo-endereco"
+              class="btn-endereco btn-endereco--novo"
+              aria-label="Cadastrar novo endereço (requer conta)"
+            >
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Cadastrar Novo Endereço
+            </button>
+          </div>
+        </section>
+
+        <!-- ── Forma de Pagamento ── -->
+        <section class="finalizar-bloco" aria-labelledby="pagamento-titulo">
+          <h2 id="pagamento-titulo" class="finalizar-bloco__titulo">Forma de Pagamento</h2>
+
+          <!-- Select: forma de pagamento -->
+          <div class="form-field">
+            <label for="forma-pagamento" class="sr-only">Forma de pagamento</label>
+            <div class="select-wrapper">
+              <select
+                id="forma-pagamento"
+                name="forma-pagamento"
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="pagamento-error"
+              >
+                <option value="" disabled selected>Selecione a forma de pagamento</option>
+                <option value="credito">Cartão de Crédito (Entregador)</option>
+                <option value="dinheiro">Dinheiro (R$)</option>
+                <option value="debito">Cartão de Débito (Entregador)</option>
+                <option value="pix">Pix (Entregador)</option>
+              </select>
+              <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </div>
+            <span
+              id="pagamento-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+            ></span>
+          </div>
+
+          <!-- Select: bandeira do cartão -->
+          <!--
+            Desabilitado por padrão.
+            Habilitado pelo JS quando Crédito ou Débito é selecionado.
+            aria-disabled reflete o estado para leitores de tela.
+          -->
+          <div class="form-field" id="campo-bandeira">
+            <label for="bandeira" class="sr-only">Bandeira do cartão</label>
+            <div class="select-wrapper">
+              <select
+                id="bandeira"
+                name="bandeira"
+                disabled
+                aria-disabled="true"
+                aria-describedby="bandeira-dica"
+              >
+                <option value="" selected>Selecione uma bandeira</option>
+                <option value="visa">Visa</option>
+                <option value="mastercard">Mastercard</option>
+                <option value="elo">Elo</option>
+                <option value="hipercard">Hipercard</option>
+                <option value="amex">American Express</option>
+                <option value="cabal">Cabal</option>
+              </select>
+              <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </div>
+            <span id="bandeira-dica" class="field-hint">
+              Selecione crédito ou débito para escolher a bandeira
+            </span>
+          </div>
+        </section>
+
+        <!-- ── Resumo do pedido ── -->
+        <section class="finalizar-resumo" aria-labelledby="resumo-titulo" id="finalizar-resumo">
+          <h2 id="resumo-titulo" class="sr-only">Resumo do pedido</h2>
+
+          <div class="finalizar-resumo__linha">
+            <span>Itens:</span>
+            <span id="resumo-valor-itens" aria-live="polite">R$ 0,00</span>
+          </div>
+          <div class="finalizar-resumo__linha">
+            <span>+ Taxa de Entrega:</span>
+            <span id="resumo-taxa" aria-live="polite">R$ 0,00</span>
+          </div>
+
+          <div class="finalizar-resumo__total">
+            <span class="finalizar-resumo__total-label">Total do Pedido</span>
+            <span
+              id="resumo-total"
+              class="finalizar-resumo__total-valor"
+              aria-live="polite"
+            >R$ 0,00</span>
+          </div>
+        </section>
+
+        <!-- ── Botão Finalizar ── -->
+        <button
+          type="button"
+          id="btn-finalizar"
+          class="btn-base btn-primary btn-finalizar"
+        >
+          <i data-lucide="circle-check-big" aria-hidden="true"></i>
+          Finalizar Pedido
+        </button>
+
+      </div>
+    </main>
+
+    <!-- ── Modal: Cadastro necessário ──
+         Exibido ao clicar em "Cadastrar Novo Endereço" como visitante.
+         Informa que a funcionalidade requer conta e oferece ação.
+    ── -->
+    <dialog
+      id="cadastro-modal"
+      class="cadastro-modal"
+      aria-labelledby="cadastro-modal-title"
+    >
+      <div class="cadastro-modal__icon" aria-hidden="true">
+        <i data-lucide="user-round"></i>
+      </div>
+
+      <h2 id="cadastro-modal-title" class="cadastro-modal__title">
+        Funcionalidade exclusiva
+      </h2>
+
+      <p class="cadastro-modal__text">
+        Cadastrar e gerenciar múltiplos endereços está disponível apenas para
+        clientes com conta. Crie a sua gratuitamente e aproveite essa e outras
+        vantagens!
+      </p>
+
+      <a href="cadastro.html" class="btn-base btn-primary cadastro-modal__btn-criar">
+        <i data-lucide="user-round-plus" aria-hidden="true"></i>
+        Criar minha conta
+      </a>
+
+      <button
+        type="button"
+        id="cadastro-modal-ok"
+        class="cadastro-modal__btn-fechar"
+      >
+        Continuar sem conta
+      </button>
+    </dialog>
+
+    <!-- 1. Dados globais -->
+    <script src="../scripts/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Comportamentos comuns -->
+    <script src="../scripts/common.js"></script>
+    <!-- 5. Script da página -->
+    <script src="../scripts/finalizar-pedido-entrega.js"></script>
+  </body>
+</html>
