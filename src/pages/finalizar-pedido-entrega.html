@@ -118,10 +118,6 @@
         <section class="finalizar-bloco" aria-labelledby="endereco-titulo">
           <h2 id="endereco-titulo" class="finalizar-bloco__titulo">Endereço de Entrega</h2>
 
-          <!--
-            Exibe o endereço preenchido na etapa anterior.
-            Preenchido pelo JS via osb_endereco do sessionStorage.
-          -->
           <div
             id="endereco-resumo"
             class="finalizar-info-fixa finalizar-info-fixa--endereco"
@@ -133,13 +129,7 @@
             <span id="endereco-texto" class="finalizar-info-fixa__texto">—</span>
           </div>
 
-          <!-- Ações do endereço -->
           <div class="endereco-acoes">
-            <!--
-              Trocar Endereço: volta para endereco-entrega.html
-              mantendo os dados do sessionStorage para pré-preencher
-              os campos (implementação futura de pré-preenchimento).
-            -->
             <a
               href="endereco-de-entrega.html"
               class="btn-endereco btn-endereco--trocar"
@@ -149,10 +139,6 @@
               Trocar Endereço
             </a>
 
-            <!--
-              Cadastrar Novo Endereço: disponível apenas para usuários
-              registrados. Abre modal de aviso para visitantes.
-            -->
             <button
               type="button"
               id="btn-novo-endereco"
@@ -169,7 +155,6 @@
         <section class="finalizar-bloco" aria-labelledby="pagamento-titulo">
           <h2 id="pagamento-titulo" class="finalizar-bloco__titulo">Forma de Pagamento</h2>
 
-          <!-- Select: forma de pagamento -->
           <div class="form-field">
             <label for="forma-pagamento" class="sr-only">Forma de pagamento</label>
             <div class="select-wrapper">
@@ -196,12 +181,6 @@
             ></span>
           </div>
 
-          <!-- Select: bandeira do cartão -->
-          <!--
-            Desabilitado por padrão.
-            Habilitado pelo JS quando Crédito ou Débito é selecionado.
-            aria-disabled reflete o estado para leitores de tela.
-          -->
           <div class="form-field" id="campo-bandeira">
             <label for="bandeira" class="sr-only">Bandeira do cartão</label>
             <div class="select-wrapper">
@@ -265,8 +244,9 @@
     </main>
 
     <!-- ── Modal: Cadastro necessário ──
-         Exibido ao clicar em "Cadastrar Novo Endereço" como visitante.
-         Informa que a funcionalidade requer conta e oferece ação.
+         Exibido ao clicar em "Cadastrar Novo Endereço".
+         Apenas informa o usuário — sem link para cadastro.
+         O usuário fecha e continua o pedido normalmente.
     ── -->
     <dialog
       id="cadastro-modal"
@@ -287,17 +267,12 @@
         vantagens!
       </p>
 
-      <a href="cadastro.html" class="btn-base btn-primary cadastro-modal__btn-criar">
-        <i data-lucide="user-round-plus" aria-hidden="true"></i>
-        Criar minha conta
-      </a>
-
       <button
         type="button"
         id="cadastro-modal-ok"
-        class="cadastro-modal__btn-fechar"
+        class="btn-base btn-primary cadastro-modal__btn-fechar"
       >
-        Continuar sem conta
+        Entendido
       </button>
     </dialog>
 

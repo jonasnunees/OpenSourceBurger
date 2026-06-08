@@ -3,13 +3,19 @@
  * Script da página de finalização para entrega em domicílio.
  *
  * Responsabilidades:
- * - Valida presença de osb_guest, osb_modalidade e osb_endereco
- * - Exibe o endereço resumido preenchido na etapa anterior
+ * - Exibe o endereço resumido via osb_endereco do sessionStorage
  * - Gerencia seleção de forma de pagamento e bandeira
  * - Habilita/desabilita select de bandeira conforme pagamento
  * - Calcula resumo: subtotal itens + taxa de entrega do bairro
  * - Abre modal de aviso ao clicar em "Cadastrar Novo Endereço"
+ * - Valida sessão e pagamento apenas no momento de finalizar
  * - Monta e envia o pedido ao confirmar
+ *
+ * Estratégia de validação de sessão:
+ * A validação NÃO bloqueia o init() — toda a UI é inicializada
+ * normalmente. A sessão é verificada apenas no clique de finalizar,
+ * evitando que um redirecionamento precoce impeça listeners de serem
+ * registrados (select de pagamento, modal, etc).
  *
  * Dependências: config.js, auth.js, common.js (Cart, UI)
  */
@@ -25,9 +31,6 @@
   const FLUXO_INICIO   = "escolher-modalidade.html";
   const MAX_OBS        = 300;
 
-  /**
-   * Formas de pagamento que requerem seleção de bandeira.
-   */
   const PAGAMENTOS_COM_BANDEIRA = new Set(["credito", "debito"]);
 
   // ── Elementos ───────────────────────────────────────────────────────────
@@ -35,7 +38,6 @@
   const enderecoTexto    = document.getElementById("endereco-texto");
   const selectPagamento  = document.getElementById("forma-pagamento");
   const selectBandeira   = document.getElementById("bandeira");
-  const campoBandeira    = document.getElementById("campo-bandeira");
   const bandeiraDica     = document.getElementById("bandeira-dica");
   const pagamentoError   = document.getElementById("pagamento-error");
   const resumoValorItens = document.getElementById("resumo-valor-itens");
@@ -60,34 +62,22 @@
   }
 
   /**
-   * Valida que todos os dados necessários estão no sessionStorage.
-   * Redireciona para o início do fluxo se qualquer um estiver ausente.
+   * Lê os dados de sessão sem redirecionar.
+   * Retorna null para dados ausentes — cada função consumidora
+   * trata a ausência graciosamente (exibe "—", R$ 0,00, etc).
    *
-   * @returns {{ guest, modalidade, endereco } | null}
+   * @returns {{ guest, modalidade, endereco }}
    */
-  function validarSessao() {
-    const guest      = lerSessao(GUEST_KEY);
-    const modalidade = lerSessao(MODALIDADE_KEY);
-    const endereco   = lerSessao(ENDERECO_KEY);
-
-    if (!guest || !modalidade || !endereco) {
-      window.location.replace(FLUXO_INICIO);
-      return null;
-    }
-
-    return { guest, modalidade, endereco };
+  function lerDadosSessao() {
+    return {
+      guest:      lerSessao(GUEST_KEY),
+      modalidade: lerSessao(MODALIDADE_KEY),
+      endereco:   lerSessao(ENDERECO_KEY),
+    };
   }
 
   // ── Endereço resumido ────────────────────────────────────────────────────
 
-  /**
-   * Monta string legível do endereço para exibição.
-   * Formato: "Rua X, 123 - Bairro, Cidade/UF"
-   * Complemento é incluído apenas quando preenchido.
-   *
-   * @param {object} endereco
-   * @returns {string}
-   */
   function formatarEnderecoResumido(endereco) {
     const { endereco: rua, numero, bairro, cidade, complemento } = endereco;
     const partes = [`${rua}, ${numero}`];
@@ -97,9 +87,10 @@
   }
 
   function preencherEndereco(endereco) {
-    if (enderecoTexto) {
-      enderecoTexto.textContent = formatarEnderecoResumido(endereco);
-    }
+    if (!enderecoTexto) return;
+    enderecoTexto.textContent = endereco
+      ? formatarEnderecoResumido(endereco)
+      : "Nenhum endereço informado";
   }
 
   // ── Resumo financeiro ────────────────────────────────────────────────────
@@ -113,26 +104,15 @@
     return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }
 
-  /**
-   * Calcula e exibe subtotal de itens, taxa de entrega e total.
-   * Redireciona para o carrinho se estiver vazio.
-   *
-   * @param {object} endereco — contém taxa do bairro
-   */
   function preencherResumo(endereco) {
     const itens = Cart.get();
-
-    if (Object.keys(itens).length === 0) {
-      window.location.replace("meu-carrinho.html");
-      return;
-    }
-
     let totalItens = 0;
+
     Object.values(itens).forEach(({ preco, qty }) => {
       totalItens += parsePreco(preco) * qty;
     });
 
-    const taxa  = Number(endereco.taxa) || 0;
+    const taxa  = Number(endereco?.taxa) || 0;
     const total = totalItens + taxa;
 
     if (resumoValorItens) resumoValorItens.textContent = formatarPreco(totalItens);
@@ -142,19 +122,13 @@
 
   // ── Forma de pagamento e bandeira ────────────────────────────────────────
 
-  /**
-   * Habilita ou desabilita o select de bandeira conforme o pagamento.
-   * Quando desabilitado, reseta a seleção e atualiza a dica.
-   */
   function atualizarBandeira() {
     const precisaBandeira = PAGAMENTOS_COM_BANDEIRA.has(selectPagamento.value);
 
     selectBandeira.disabled = !precisaBandeira;
     selectBandeira.setAttribute("aria-disabled", String(!precisaBandeira));
 
-    if (!precisaBandeira) {
-      selectBandeira.value = "";
-    }
+    if (!precisaBandeira) selectBandeira.value = "";
 
     if (bandeiraDica) {
       bandeiraDica.textContent = precisaBandeira
@@ -166,12 +140,9 @@
   function validarPagamento() {
     if (!selectPagamento.value) {
       selectPagamento.setAttribute("aria-invalid", "true");
-      if (pagamentoError) {
-        pagamentoError.textContent = "Selecione a forma de pagamento.";
-      }
+      if (pagamentoError) pagamentoError.textContent = "Selecione a forma de pagamento.";
       return false;
     }
-
     selectPagamento.setAttribute("aria-invalid", "false");
     if (pagamentoError) pagamentoError.textContent = "";
     return true;
@@ -179,13 +150,10 @@
 
   function initPagamento() {
     if (!selectPagamento) return;
-
     selectPagamento.addEventListener("change", () => {
       atualizarBandeira();
       validarPagamento();
     });
-
-    // Estado inicial
     atualizarBandeira();
   }
 
@@ -238,14 +206,14 @@
 
   function montarPedido(sessao) {
     return {
-      visitante:    sessao.guest,
-      modalidade:   sessao.modalidade,
-      endereco:     sessao.endereco,
-      pagamento:    selectPagamento.options[selectPagamento.selectedIndex]?.text ?? "",
-      bandeira:     selectBandeira.disabled ? null : (selectBandeira.value || null),
-      observacoes:  textarea?.value.trim() ?? "",
-      itens:        Cart.get(),
-      criadoEm:     new Date().toISOString(),
+      visitante:   sessao.guest,
+      modalidade:  sessao.modalidade,
+      endereco:    sessao.endereco,
+      pagamento:   selectPagamento.options[selectPagamento.selectedIndex]?.text ?? "",
+      bandeira:    selectBandeira.disabled ? null : (selectBandeira.value || null),
+      observacoes: textarea?.value.trim() ?? "",
+      itens:       Cart.get(),
+      criadoEm:    new Date().toISOString(),
     };
   }
 
@@ -256,12 +224,26 @@
     Cart.clear();
   }
 
-  function handleFinalizar(sessao) {
+  function initFinalizar() {
     if (!btnFinalizar) return;
 
     btnFinalizar.addEventListener("click", () => {
+      // Valida pagamento primeiro
       if (!validarPagamento()) {
         selectPagamento.focus();
+        return;
+      }
+
+      // Valida sessão apenas no momento de confirmar
+      const sessao = lerDadosSessao();
+      if (!sessao.guest || !sessao.modalidade || !sessao.endereco) {
+        window.location.replace(FLUXO_INICIO);
+        return;
+      }
+
+      // Valida carrinho
+      if (Object.keys(Cart.get()).length === 0) {
+        window.location.replace("meu-carrinho.html");
         return;
       }
 
@@ -280,15 +262,15 @@
   // ── Init ─────────────────────────────────────────────────────────────────
 
   function init() {
-    const sessao = validarSessao();
-    if (!sessao) return;
+    // Lê sessão sem bloquear — UI inicializa normalmente mesmo sem dados
+    const { endereco } = lerDadosSessao();
 
-    preencherEndereco(sessao.endereco);
-    preencherResumo(sessao.endereco);
+    preencherEndereco(endereco);
+    preencherResumo(endereco);
     initPagamento();
     initContador();
     initModalCadastro();
-    handleFinalizar(sessao);
+    initFinalizar();
   }
 
   document.addEventListener("DOMContentLoaded", init);
