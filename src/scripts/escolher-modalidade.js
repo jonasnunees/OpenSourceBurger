@@ -8,7 +8,7 @@
  * - Habilita o botão "Avançar" ao selecionar qualquer modalidade
  * - Persiste a modalidade escolhida em sessionStorage como 'osb_modalidade'
  * - Redireciona para a página correta conforme a modalidade:
- *     entrega  → finalizar-pedido-entrega.html
+ *     entrega  → endereco-entrega.html
  *     retirada → finalizar-pedido.html
  *     local    → finalizar-pedido.html
  *
@@ -30,7 +30,7 @@
   const MODALIDADES = {
     entrega:  {
       label: "Entrega em domicílio",
-      destino: "finalizar-pedido-entrega.html",
+      destino: "endereco-de-entrega.html",
     },
     retirada: {
       label:   "Retirar no local",
