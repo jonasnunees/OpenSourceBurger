@@ -466,12 +466,29 @@
 
 /* Botão avançar ocupa todo o espaço disponível */
 .step-nav__next {
-  flex: 1;
   min-height: var(--input-height);
+  padding: 0 var(--space-lg);
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--space-xs);
+  white-space: nowrap;
+  background: transparent;
+  border: 1.5px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.step-nav__next:hover,
+.step-nav__next:focus-visible {
+  border-color: var(--primary-hover);
+  color: var(--text-main);
+  outline: none;
 }
 
 /* Botão voltar: tamanho fixo, estilo fantasma */
