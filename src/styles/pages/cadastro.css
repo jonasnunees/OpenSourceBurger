@@ -468,22 +468,22 @@
 .step-nav__next {
   min-height: var(--input-height);
   padding: 0 var(--space-lg);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
   white-space: nowrap;
   background: transparent;
   border: 1.5px solid var(--primary-color);
-  color: var(--primary-color);
   border-radius: var(--radius-sm);
+  color: var(--primary-color);
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
-  font-family: inherit;
   font-weight: 600;
   letter-spacing: normal;
   text-transform: none;
-  cursor: pointer;
   width: auto;
-  align-self: auto;
+  margin-bottom: 0;
+  cursor: pointer;
   transition:
     border-color var(--transition-fast),
     color var(--transition-fast);
@@ -494,6 +494,8 @@
   border-color: var(--primary-hover);
   color: var(--text-main);
   outline: none;
+  background: transparent;
+  transform: none;
 }
 
 /* Botão voltar: tamanho fixo, estilo fantasma */
