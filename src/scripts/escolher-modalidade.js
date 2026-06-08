@@ -7,8 +7,10 @@
  * - Ajusta o href do botão "Voltar" preservando o ?redirect= da URL
  * - Habilita o botão "Avançar" ao selecionar qualquer modalidade
  * - Persiste a modalidade escolhida em sessionStorage como 'osb_modalidade'
- * - Redireciona para o destino definido por ?redirect=
- *   (futuramente: finalizar-pedido.html)
+ * - Redireciona para a página correta conforme a modalidade:
+ *     entrega  → finalizar-pedido-entrega.html
+ *     retirada → finalizar-pedido.html
+ *     local    → finalizar-pedido.html
  *
  * Dependências: config.js, auth.js, common.js (Cart, UI)
  */
@@ -19,17 +21,25 @@
   // ── Constantes ──────────────────────────────────────────────────────────
 
   const MODALIDADE_KEY = "osb_modalidade";
-  const DEFAULT_NEXT   = "finalizar-pedido.html";
 
   /**
-   * Mapa de modalidades com seus rótulos legíveis.
-   * Usado para salvar no sessionStorage de forma descritiva,
-   * facilitando o consumo na próxima etapa do checkout.
+   * Mapa de modalidades com rótulo legível e página de destino.
+   * Centraliza aqui toda a lógica de roteamento pós-seleção.
+   * Para adicionar uma nova modalidade: basta incluir uma entrada.
    */
   const MODALIDADES = {
-    entrega:  { label: "Entrega em domicílio" },
-    retirada: { label: "Retirar no local"     },
-    local:    { label: "Consumir no local"    },
+    entrega:  {
+      label: "Entrega em domicílio",
+      destino: "finalizar-pedido-entrega.html",
+    },
+    retirada: {
+      label:   "Retirar no local",
+      destino: "finalizar-pedido.html",
+    },
+    local: {
+      label:   "Consumir no local",
+      destino: "finalizar-pedido.html",
+    },
   };
 
   // ── Elementos ───────────────────────────────────────────────────────────
@@ -50,17 +60,23 @@
     return !url.startsWith("http") && !url.startsWith("//");
   }
 
-  function getNextUrl() {
+  /**
+   * Retorna a URL de destino para a modalidade selecionada.
+   * Se houver ?redirect= seguro na URL, ele tem precedência
+   * (permite forçar um destino externo ao fluxo padrão).
+   *
+   * @param {string} valorModalidade
+   * @returns {string}
+   */
+  function getNextUrl(valorModalidade) {
     const redirect = getRedirectParam();
-    return isSafeUrl(redirect) ? redirect : DEFAULT_NEXT;
+    if (isSafeUrl(redirect)) return redirect;
+
+    return MODALIDADES[valorModalidade]?.destino ?? "finalizar-pedido.html";
   }
 
   // ── Botão Voltar ────────────────────────────────────────────────────────
 
-  /**
-   * Monta o href do botão Voltar apontando para pedido-visitante.html
-   * e preservando o ?redirect= para não perder o destino do fluxo.
-   */
   function initBtnVoltar() {
     if (!btnVoltar) return;
 
@@ -70,18 +86,10 @@
       btnVoltar.href =
         `pedido-visitante.html?redirect=${encodeURIComponent(redirect)}`;
     }
-    // Sem redirect: mantém o href padrão "pedido-visitante.html" do HTML
   }
 
   // ── Preenche tempos via CONFIG ───────────────────────────────────────────
 
-  /**
-   * Injeta os valores de CONFIG.tempos nos elementos marcados com
-   * data-tempo-entrega, data-tempo-retirada e data-tempo-local.
-   *
-   * Reutiliza o mesmo padrão de data attributes de meu-carrinho.html,
-   * mantendo consistência na forma de injetar dados do config no DOM.
-   */
   function preencherTempos() {
     const { entrega, retirada } = CONFIG.tempos;
 
@@ -89,7 +97,6 @@
       el.textContent = entrega;
     });
 
-    // Retirada e consumo no local compartilham o mesmo tempo estimado
     document.querySelectorAll("[data-tempo-retirada]").forEach((el) => {
       el.textContent = retirada;
     });
@@ -101,12 +108,6 @@
 
   // ── Habilitar botão ao selecionar ───────────────────────────────────────
 
-  /**
-   * Observa mudanças no fieldset via delegação de evento.
-   * Habilita o botão Avançar quando qualquer radio é selecionado.
-   * Usando "change" no fieldset (delegação) em vez de um listener
-   * por input — mais performático e robusto a cards adicionados dinamicamente.
-   */
   function initSelecao() {
     if (!fieldset || !btnAvancar) return;
 
@@ -122,20 +123,23 @@
 
   /**
    * Salva a modalidade escolhida em sessionStorage.
+   * Formato: { valor: string, label: string, destino: string }
    *
-   * Formato: { valor: "entrega" | "retirada" | "local", label: string }
-   *
-   * Salvar o label evita que a próxima página precise referenciar
-   * o MODALIDADES map novamente para exibir o nome legível ao usuário.
+   * O destino é salvo junto para que páginas futuras possam
+   * reconstruir o fluxo de navegação sem referenciar o mapa local.
    *
    * @param {string} valor
    */
   function salvarModalidade(valor) {
-    const modalidade = {
-      valor,
-      label: MODALIDADES[valor]?.label ?? valor,
-    };
-    sessionStorage.setItem(MODALIDADE_KEY, JSON.stringify(modalidade));
+    const modalidade = MODALIDADES[valor];
+    sessionStorage.setItem(
+      MODALIDADE_KEY,
+      JSON.stringify({
+        valor,
+        label:   modalidade?.label   ?? valor,
+        destino: modalidade?.destino ?? "finalizar-pedido.html",
+      })
+    );
   }
 
   function handleAvancar() {
@@ -145,10 +149,12 @@
 
     if (!selecionado) return;
 
-    salvarModalidade(selecionado.value);
+    const valor = selecionado.value;
+
+    salvarModalidade(valor);
 
     btnAvancar.disabled = true;
-    window.location.href = getNextUrl();
+    window.location.href = getNextUrl(valor);
   }
 
   // ── Init ────────────────────────────────────────────────────────────────

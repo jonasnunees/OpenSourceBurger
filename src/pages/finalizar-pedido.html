@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Finalize seu pedido no Open Source Burger."
+    />
+    <title>Finalizar Pedido — Open Source Burger</title>
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/finalizar-pedido.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i><span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i><span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i><span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i><span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i><span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a href="minha-conta.html" class="drawer-item">
+            <i data-lucide="user-round"></i><span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i><span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i><span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i><span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <a
+        id="btn-voltar"
+        href="escolher-modalidade.html"
+        class="menu-btn"
+        aria-label="Voltar para escolha de modalidade"
+      >
+        <i data-lucide="arrow-left"></i>
+      </a>
+
+      <h1 class="topbar-title">Finalizar Pedido</h1>
+
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="finalizar-main" id="main-content">
+      <div class="finalizar-section">
+
+        <!-- ── Observações ── -->
+        <section class="finalizar-bloco" aria-labelledby="obs-titulo">
+          <h2 id="obs-titulo" class="finalizar-bloco__titulo">Observações</h2>
+          <div class="form-field">
+            <label for="observacoes" class="sr-only">
+              Observações para o pedido
+            </label>
+            <textarea
+              id="observacoes"
+              name="observacoes"
+              class="finalizar-textarea"
+              placeholder="Alguma observação para esse pedido? Digite aqui..."
+              rows="4"
+              maxlength="300"
+              aria-describedby="obs-contador"
+            ></textarea>
+            <span
+              id="obs-contador"
+              class="finalizar-textarea__contador"
+              aria-live="polite"
+              aria-atomic="true"
+            >0 / 300</span>
+          </div>
+        </section>
+
+        <!-- ── Opção de entrega ──
+             Exibe o label da modalidade escolhida (retirada ou consumo no local).
+             Valor fixo — não editável nesta página.
+        ── -->
+        <section class="finalizar-bloco" aria-labelledby="entrega-titulo">
+          <h2 id="entrega-titulo" class="finalizar-bloco__titulo">
+            Opção de entrega
+          </h2>
+          <div class="finalizar-info-fixa" aria-label="Modalidade de entrega">
+            <span class="finalizar-info-fixa__icone" aria-hidden="true">
+              <i id="icone-modalidade" data-lucide="store"></i>
+            </span>
+            <span id="label-modalidade" class="finalizar-info-fixa__texto">
+              —
+            </span>
+          </div>
+        </section>
+
+        <!-- ── Forma de pagamento ──
+             Fixo para retirada e consumo no local.
+        ── -->
+        <section class="finalizar-bloco" aria-labelledby="pagamento-titulo">
+          <h2 id="pagamento-titulo" class="finalizar-bloco__titulo">
+            Forma de pagamento
+          </h2>
+          <div class="finalizar-info-fixa" aria-label="Forma de pagamento">
+            <span class="finalizar-info-fixa__icone" aria-hidden="true">
+              <i data-lucide="credit-card"></i>
+            </span>
+            <span class="finalizar-info-fixa__texto">
+              Pagar no estabelecimento
+            </span>
+          </div>
+        </section>
+
+        <!-- ── Resumo do pedido ── -->
+        <section
+          class="finalizar-resumo"
+          aria-labelledby="resumo-titulo"
+          id="finalizar-resumo"
+        >
+          <h2 id="resumo-titulo" class="sr-only">Resumo do pedido</h2>
+
+          <div class="finalizar-resumo__linha">
+            <span>Itens:</span>
+            <span id="resumo-valor-itens" aria-live="polite">R$ 0,00</span>
+          </div>
+
+          <div class="finalizar-resumo__total">
+            <span class="finalizar-resumo__total-label">Total do Pedido</span>
+            <span
+              id="resumo-total"
+              class="finalizar-resumo__total-valor"
+              aria-live="polite"
+            >R$ 0,00</span>
+          </div>
+        </section>
+
+        <!-- ── Botão Finalizar ── -->
+        <button
+          type="button"
+          id="btn-finalizar"
+          class="btn-base btn-primary btn-finalizar"
+        >
+          <i data-lucide="circle-check-big" aria-hidden="true"></i>
+          Finalizar Pedido
+        </button>
+
+      </div>
+    </main>
+
+    <!-- 1. Dados globais -->
+    <script src="../scripts/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init, Cart) -->
+    <script src="../scripts/common.js"></script>
+    <!-- 5. Script da página -->
+    <script src="../scripts/finalizar-pedido.js"></script>
+  </body>
+</html>

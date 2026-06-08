@@ -1,0 +1,162 @@
+/* =========================
+   PAGE › FINALIZAR PEDIDO
+   Estilos da página de finalização para retirada e consumo no local.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.finalizar-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) var(--gutter) var(--space-4xl);
+}
+
+.finalizar-section {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Bloco genérico de seção ── */
+.finalizar-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.finalizar-bloco__titulo {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+/* ── Textarea de observações ── */
+.finalizar-textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--input-bg);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: var(--font-size-base);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.finalizar-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.finalizar-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Contador de caracteres */
+.finalizar-textarea__contador {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: right;
+  display: block;
+  margin-top: calc(-1 * var(--space-xs));
+}
+
+/* ── Info fixa: modalidade e pagamento ──
+   Estilo de "campo somente leitura" — comunica que não é editável
+   sem usar disabled (que prejudica acessibilidade de leitura). */
+.finalizar-info-fixa {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: var(--input-height);
+  padding: 0 var(--space-lg);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+}
+
+.finalizar-info-fixa__icone {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.finalizar-info-fixa__icone svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.8;
+}
+
+.finalizar-info-fixa__texto {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+/* ── Resumo do pedido ── */
+.finalizar-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.finalizar-resumo__linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.finalizar-resumo__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  background: var(--bg-card);
+}
+
+.finalizar-resumo__total-label {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-main);
+}
+
+.finalizar-resumo__total-valor {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
+
+/* ── Botão Finalizar Pedido ── */
+.btn-finalizar {
+  width: 100%;
+  min-height: var(--input-height);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
