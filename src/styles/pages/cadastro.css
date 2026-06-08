@@ -1,0 +1,546 @@
+/* =========================
+   PAGE › CADASTRO
+   Estilos exclusivos da página de cadastro multistep.
+   Depende de main.css (variáveis, utilitários, form.css) já carregado.
+========================= */
+
+/* ── Layout principal ── */
+.register-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
+}
+
+.register-section {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Cabeçalho: logo + título + subtítulo ── */
+.register-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+.register-header__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px var(--primary-glow-strong));
+}
+
+.register-header__title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.register-header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════
+   BARRA DE PROGRESSO
+   Track cinza + fill laranja animado via width%.
+   Label "Passo X de 5" atualizado via JS.
+══════════════════════════════════════════ */
+.register-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.register-progress__track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.register-progress__fill {
+  height: 100%;
+  width: 20%; /* step 1 de 5 = 20% */
+  background: var(--primary-color);
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.register-progress__label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* ══════════════════════════════════════════
+   FORMULÁRIO MULTISTEP
+   Container com overflow hidden — os steps
+   se movem dentro dele com translateX.
+══════════════════════════════════════════ */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Necessário para conter o overflow das animações de slide */
+  overflow: hidden;
+}
+
+/* ── Step base ──
+   Por padrão todos os steps estão hidden via atributo HTML.
+   JS remove o hidden e aplica as classes de animação. */
+.register-step {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+  /* Estado base para animação */
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+/* Step visível (ativo) */
+.register-step.step--active {
+  display: flex;
+}
+
+/* ── Animações de entrada e saída ──
+   Avançando: novo step entra da direita
+   Voltando:  novo step entra da esquerda
+*/
+
+/* Avançando → step entrando da direita */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Avançando → step saindo para a esquerda */
+@keyframes slideOutLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-100%); opacity: 0; }
+}
+
+/* Voltando → step entrando da esquerda */
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* Voltando → step saindo para a direita */
+@keyframes slideOutRight {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+.step--enter-right { animation-name: slideInRight; }
+.step--exit-left   { animation-name: slideOutLeft; }
+.step--enter-left  { animation-name: slideInLeft; }
+.step--exit-right  { animation-name: slideOutRight; }
+
+/* ══════════════════════════════════════════
+   OVERRIDES DE FORM-FIELD ESPECÍFICOS
+   do cadastro (herdamos tudo de form.css)
+══════════════════════════════════════════ */
+
+/* Input type="date": remove o ícone nativo e normaliza aparência */
+.form-field input[type="date"] {
+  /* Remove aparência nativa em webkit */
+  -webkit-appearance: none;
+  appearance: none;
+  /* Padding simétrico — sem ícone à direita neste campo */
+  padding: 0 14px;
+  color: var(--text-main);
+}
+
+/* Placeholder simulado para date vazio em webkit */
+.form-field input[type="date"]:not(:focus):not([value])::-webkit-datetime-edit {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Override de autofill — evita fundo branco/azul do browser */
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  -webkit-text-fill-color: var(--text-main);
+  border-color: var(--border-input);
+}
+
+.form-field input {
+  -webkit-text-fill-color: var(--text-main);
+}
+
+/* ── Linha dupla (Número + Complemento / Cidade + UF) ── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* Cidade ocupa mais espaço que UF */
+.form-field--grow { grid-column: 1; }
+.form-field--uf   { max-width: 80px; }
+
+/* UF em maiúsculo */
+#reg-uf { text-transform: uppercase; }
+
+/* ── Campo CEP com spinner ── */
+.form-field--cep {
+  position: relative;
+}
+
+.cep-spinner {
+  position: absolute;
+  right: 12px;
+  top: calc(22px + var(--space-xs) + (var(--input-height) / 2));
+  transform: translateY(-50%);
+  color: var(--primary-color);
+  display: none; /* exibido via JS durante a requisição */
+  align-items: center;
+  justify-content: center;
+}
+
+.cep-spinner.is-loading {
+  display: flex;
+}
+
+.cep-spinner svg {
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hint abaixo do CEP */
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+/* ── Toggle de senha (idêntico ao login.css) ── */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: calc(22px + var(--space-xs) + (var(--input-height) / 2));
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.toggle-password:hover,
+.toggle-password:focus-visible {
+  color: var(--primary-color);
+  outline: 2px solid var(--primary-glow-strong);
+  outline-offset: 2px;
+}
+
+.toggle-password svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+/* ══════════════════════════════════════════
+   MEDIDOR DE FORÇA DE SENHA
+══════════════════════════════════════════ */
+.password-strength {
+  display: none; /* exibido via JS quando o campo tem foco ou valor */
+  flex-direction: column;
+  gap: 6px;
+  margin-top: calc(-1 * var(--space-xs));
+}
+
+.password-strength.is-visible {
+  display: flex;
+}
+
+.password-strength__bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.password-strength__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 99px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cores por nível de força */
+.password-strength__fill[data-strength="1"] { width: 25%; background: #e74c3c; }
+.password-strength__fill[data-strength="2"] { width: 50%; background: #e67e22; }
+.password-strength__fill[data-strength="3"] { width: 75%; background: #f1c40f; }
+.password-strength__fill[data-strength="4"] { width: 100%; background: #2ecc71; }
+
+.password-strength__label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.password-strength__label[data-strength="1"] { color: #e74c3c; }
+.password-strength__label[data-strength="2"] { color: #e67e22; }
+.password-strength__label[data-strength="3"] { color: #f1c40f; }
+.password-strength__label[data-strength="4"] { color: #2ecc71; }
+
+/* ── Lista de requisitos de senha ── */
+.senha-requisitos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.requisito {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+.requisito svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke-width: 2;
+  transition: color var(--transition-fast);
+}
+
+/* Requisito atendido */
+.requisito.is-met {
+  color: #2ecc71;
+}
+
+.requisito.is-met svg {
+  color: #2ecc71;
+}
+
+/* ══════════════════════════════════════════
+   CHECKBOXES DE CONSENTIMENTO
+══════════════════════════════════════════ */
+.form-field--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  flex-wrap: wrap; /* permite que o field-error quebre linha */
+}
+
+.form-field--checkbox input[type="checkbox"] {
+  /* Reset completo do checkbox nativo */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px; /* evita encolhimento em flex */
+  border: 1.5px solid var(--border-input);
+  border-radius: 4px;
+  background: var(--input-bg);
+  cursor: pointer;
+  position: relative;
+  margin-top: 2px; /* alinha com a primeira linha do label */
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+
+  /* Sobrescreve o padding do input genérico de form.css */
+  padding: 0;
+  min-height: unset;
+}
+
+.form-field--checkbox input[type="checkbox"]:checked {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Checkmark via pseudo-elemento */
+.form-field--checkbox input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.form-field--checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--primary-glow-strong);
+  outline-offset: 2px;
+}
+
+.form-field--checkbox input[type="checkbox"][aria-invalid="true"] {
+  border-color: var(--status-error);
+  box-shadow: 0 0 0 3px var(--error-glow);
+}
+
+.form-field--checkbox label {
+  font-size: var(--font-size-sm);
+  font-weight: 400; /* override — labels de checkbox são mais leves */
+  color: var(--text-muted);
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* O field-error do checkbox ocupa linha inteira (flex-wrap) */
+.form-field--checkbox .field-error {
+  flex-basis: 100%;
+  padding-left: 26px; /* alinha com o texto do label */
+}
+
+/* Separador visual entre consentimentos obrigatórios e opcional */
+.form-field--optional-check {
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Link dentro do label de consentimento */
+.consent-link {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.consent-link:hover,
+.consent-link:focus-visible {
+  color: var(--primary-hover);
+  outline: none;
+}
+
+/* Label opcional */
+.label-optional {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* ══════════════════════════════════════════
+   NAVEGAÇÃO ENTRE STEPS
+══════════════════════════════════════════ */
+.step-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Botão avançar ocupa todo o espaço disponível */
+.step-nav__next {
+  flex: 1;
+  min-height: var(--input-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+/* Botão voltar: tamanho fixo, estilo fantasma */
+.step-nav__back {
+  min-height: var(--input-height);
+  padding: 0 var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  white-space: nowrap;
+}
+
+/* btn-ghost: variante sem preenchimento para o botão Voltar */
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-main);
+  outline: none;
+}
+
+.step-nav__next svg,
+.step-nav__back svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* No último step o botão muda de label — sem override de estilo necessário */
+
+/* ── Link "Já tenho uma conta" ── */
+/* Herda .guest-link de login.css via main.css.
+   Se não estiver em main.css, declaramos aqui. */
+.register-section .guest-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+.register-section .guest-link:hover,
+.register-section .guest-link:focus-visible {
+  color: var(--text-main);
+  outline: none;
+}
+
+.register-section .guest-link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}

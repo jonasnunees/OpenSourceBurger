@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      noindex: página de cadastro não deve ser indexada.
+      É fluxo de autenticação — sem valor de descoberta orgânica.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Crie sua conta no Open Source Burger e aproveite o programa de fidelidade, promoções exclusivas e muito mais."
+    />
+    <title>Criar Conta — Open Source Burger</title>
+
+    <link rel="canonical" href="https://opensourceburger.com.br/cadastro.html" />
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/cadastro.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer (menu lateral) ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <ul class="drawer-nav">
+        <li>
+          <a href="cardapio.html" class="drawer-item">
+            <i data-lucide="book-open"></i>
+            <span>Cardápio</span>
+          </a>
+        </li>
+        <li>
+          <a href="promocoes.html" class="drawer-item">
+            <i data-lucide="star"></i>
+            <span>Promoções</span>
+          </a>
+        </li>
+        <li>
+          <a href="meu-carrinho.html" class="drawer-item">
+            <i data-lucide="shopping-cart"></i>
+            <span>Meu Carrinho</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-pedidos.html" class="drawer-item">
+            <i data-lucide="clock-9"></i>
+            <span>Meus Pedidos</span>
+          </a>
+        </li>
+        <li>
+          <a href="meus-cupons.html" class="drawer-item">
+            <i data-lucide="ticket"></i>
+            <span>Meus Cupons</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="minha-conta.html"
+            class="drawer-item active"
+            aria-current="page"
+          >
+            <i data-lucide="user-round"></i>
+            <span>Minha Conta</span>
+          </a>
+        </li>
+        <li>
+          <a href="programa-fidelidade.html" class="drawer-item">
+            <i data-lucide="gift"></i>
+            <span>Programa de Fidelidade</span>
+          </a>
+        </li>
+        <li>
+          <a href="localizacao.html" class="drawer-item">
+            <i data-lucide="map-pin"></i>
+            <span>Localização</span>
+          </a>
+        </li>
+        <li>
+          <a href="area-de-entrega.html" class="drawer-item">
+            <i data-lucide="circle-dashed"></i>
+            <span>Área de Entrega</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            data-whatsapp
+            class="drawer-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir pelo WhatsApp"
+          >
+            <i data-lucide="message-circle-more"></i>
+            <span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+
+      <footer class="drawer-footer">
+        <p class="drawer-credit">
+          Desenvolvido por
+          <a
+            href="https://github.com/jonasnunees"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonas Nunes</a
+          >
+        </p>
+        <p class="drawer-icons">
+          Ícones por
+          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
+            >Lucide</a
+          >
+        </p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <button
+        class="menu-btn"
+        aria-label="Abrir menu"
+        id="menu-btn"
+        aria-expanded="false"
+        aria-controls="drawer"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+
+      <h1 class="topbar-title">Criar Conta</h1>
+
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="register-main" id="main-content">
+      <div class="register-section">
+
+        <!-- ── Cabeçalho ── -->
+        <header class="register-header">
+          <img
+            src="../assets/images/logo.webp"
+            alt=""
+            class="register-header__logo"
+            aria-hidden="true"
+            width="52"
+            height="52"
+          />
+          <h2 class="register-header__title">Crie sua conta</h2>
+          <p class="register-header__subtitle">
+            Preencha os dados abaixo para começar
+          </p>
+        </header>
+
+        <!-- ── Barra de progresso ── -->
+        <!--
+          aria-valuenow atualizado via JS conforme o step avança.
+          aria-label descreve o propósito da barra para leitores de tela.
+        -->
+        <div
+          class="register-progress"
+          role="progressbar"
+          aria-valuemin="1"
+          aria-valuemax="5"
+          aria-valuenow="1"
+          aria-label="Progresso do cadastro"
+        >
+          <div class="register-progress__track">
+            <div class="register-progress__fill" id="progress-fill"></div>
+          </div>
+          <p class="register-progress__label" id="progress-label" aria-live="polite">
+            Passo 1 de 5
+          </p>
+        </div>
+
+        <!-- ── Feedback geral ── -->
+        <div
+          id="register-feedback"
+          class="form-feedback form-feedback--error"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <!-- ══════════════════════════════════════════
+             FORMULÁRIO MULTISTEP
+             Cada <fieldset> é um step independente.
+             JS controla visibilidade via classe .step--active.
+             Animação de slide via classes .step--enter e .step--exit.
+        ══════════════════════════════════════════ -->
+        <form
+          id="register-form"
+          class="register-form"
+          novalidate
+          aria-label="Formulário de cadastro"
+        >
+
+          <!-- ════════════════════════
+               STEP 1 — Dados pessoais
+          ════════════════════════ -->
+          <fieldset class="register-step step--active" id="step-1" data-step="1">
+            <legend class="sr-only">Dados pessoais</legend>
+
+            <!-- Nome completo -->
+            <div class="form-field">
+              <label for="reg-nome">Nome completo</label>
+              <input
+                type="text"
+                id="reg-nome"
+                name="nome"
+                placeholder="Seu nome completo"
+                autocomplete="name"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="nome-error"
+              />
+              <span id="nome-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Data de nascimento -->
+            <div class="form-field">
+              <label for="reg-nascimento">Data de nascimento</label>
+              <input
+                type="date"
+                id="reg-nascimento"
+                name="nascimento"
+                autocomplete="bday"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="nascimento-error"
+              />
+              <span id="nascimento-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+          </fieldset>
+
+          <!-- ════════════════════════
+               STEP 2 — Contato
+          ════════════════════════ -->
+          <fieldset class="register-step" id="step-2" data-step="2" hidden>
+            <legend class="sr-only">Contato</legend>
+
+            <!-- Telefone / WhatsApp -->
+            <div class="form-field">
+              <label for="reg-telefone">Telefone / WhatsApp</label>
+              <input
+                type="tel"
+                id="reg-telefone"
+                name="telefone"
+                placeholder="(22) 99999-9999"
+                autocomplete="tel"
+                inputmode="tel"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="telefone-error"
+              />
+              <span id="telefone-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+          </fieldset>
+
+          <!-- ════════════════════════
+               STEP 3 — Endereço
+          ════════════════════════ -->
+          <fieldset class="register-step" id="step-3" data-step="3" hidden>
+            <legend class="sr-only">Endereço de entrega</legend>
+
+            <!-- CEP -->
+            <div class="form-field form-field--cep">
+              <label for="reg-cep">CEP</label>
+              <input
+                type="text"
+                id="reg-cep"
+                name="cep"
+                placeholder="00000-000"
+                autocomplete="postal-code"
+                inputmode="numeric"
+                maxlength="9"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="cep-error cep-hint"
+              />
+              <!--
+                Spinner exibido enquanto a API ViaCEP responde.
+                aria-hidden: elemento puramente visual, sem semântica.
+              -->
+              <span class="cep-spinner" id="cep-spinner" aria-hidden="true">
+                <i data-lucide="loader-circle"></i>
+              </span>
+              <span id="cep-hint" class="field-hint">Preencheremos o endereço automaticamente</span>
+              <span id="cep-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Rua -->
+            <div class="form-field">
+              <label for="reg-rua">Rua</label>
+              <input
+                type="text"
+                id="reg-rua"
+                name="rua"
+                placeholder="Nome da rua"
+                autocomplete="address-line1"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="rua-error"
+              />
+              <span id="rua-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Número + Complemento (linha dupla) -->
+            <div class="form-row">
+              <div class="form-field">
+                <label for="reg-numero">Número</label>
+                <input
+                  type="text"
+                  id="reg-numero"
+                  name="numero"
+                  placeholder="Ex: 123"
+                  autocomplete="address-line2"
+                  inputmode="numeric"
+                  required
+                  aria-required="true"
+                  aria-invalid="false"
+                  aria-describedby="numero-error"
+                />
+                <span id="numero-error" class="field-error" role="alert" aria-live="assertive"></span>
+              </div>
+
+              <div class="form-field">
+                <label for="reg-complemento">
+                  Complemento
+                  <span class="label-optional" aria-label="campo opcional">(opcional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="reg-complemento"
+                  name="complemento"
+                  placeholder="Apto, bloco…"
+                  autocomplete="address-line3"
+                />
+              </div>
+            </div>
+
+            <!-- Bairro -->
+            <div class="form-field">
+              <label for="reg-bairro">Bairro</label>
+              <input
+                type="text"
+                id="reg-bairro"
+                name="bairro"
+                placeholder="Seu bairro"
+                autocomplete="address-level3"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="bairro-error"
+              />
+              <span id="bairro-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Cidade + UF (linha dupla) -->
+            <div class="form-row">
+              <div class="form-field form-field--grow">
+                <label for="reg-cidade">Cidade</label>
+                <input
+                  type="text"
+                  id="reg-cidade"
+                  name="cidade"
+                  placeholder="Sua cidade"
+                  autocomplete="address-level2"
+                  required
+                  aria-required="true"
+                  aria-invalid="false"
+                  aria-describedby="cidade-error"
+                />
+                <span id="cidade-error" class="field-error" role="alert" aria-live="assertive"></span>
+              </div>
+
+              <div class="form-field form-field--uf">
+                <label for="reg-uf">UF</label>
+                <input
+                  type="text"
+                  id="reg-uf"
+                  name="uf"
+                  placeholder="RJ"
+                  autocomplete="address-level1"
+                  maxlength="2"
+                  required
+                  aria-required="true"
+                  aria-invalid="false"
+                  aria-describedby="uf-error"
+                />
+                <span id="uf-error" class="field-error" role="alert" aria-live="assertive"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- ════════════════════════
+               STEP 4 — Acesso à conta
+          ════════════════════════ -->
+          <fieldset class="register-step" id="step-4" data-step="4" hidden>
+            <legend class="sr-only">Acesso à conta</legend>
+
+            <!-- E-mail -->
+            <div class="form-field">
+              <label for="reg-email">E-mail</label>
+              <input
+                type="email"
+                id="reg-email"
+                name="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="reg-email-error"
+              />
+              <span id="reg-email-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Senha -->
+            <div class="form-field form-field--password">
+              <label for="reg-senha">Senha</label>
+              <input
+                type="password"
+                id="reg-senha"
+                name="senha"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="reg-senha-error senha-requisitos"
+              />
+              <button
+                type="button"
+                id="toggle-senha"
+                class="toggle-password"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+                aria-controls="reg-senha"
+              >
+                <i data-lucide="eye" aria-hidden="true"></i>
+              </button>
+              <span id="reg-senha-error" class="field-error" role="alert" aria-live="assertive"></span>
+
+              <!--
+                Medidor de força de senha.
+                aria-live="polite": anuncia mudança de força sem interromper.
+              -->
+              <div class="password-strength" id="password-strength" aria-live="polite">
+                <div class="password-strength__bar">
+                  <div class="password-strength__fill" id="strength-fill"></div>
+                </div>
+                <span class="password-strength__label" id="strength-label"></span>
+              </div>
+
+              <!--
+                Lista de requisitos visuais da senha.
+                Cada item atualiza seu ícone conforme o usuário digita.
+              -->
+              <ul class="senha-requisitos" id="senha-requisitos" aria-label="Requisitos da senha">
+                <li class="requisito" id="req-length" data-requisito="length">
+                  <i data-lucide="circle" aria-hidden="true"></i>
+                  <span>Mínimo 8 caracteres</span>
+                </li>
+                <li class="requisito" id="req-upper" data-requisito="upper">
+                  <i data-lucide="circle" aria-hidden="true"></i>
+                  <span>Uma letra maiúscula</span>
+                </li>
+                <li class="requisito" id="req-lower" data-requisito="lower">
+                  <i data-lucide="circle" aria-hidden="true"></i>
+                  <span>Uma letra minúscula</span>
+                </li>
+                <li class="requisito" id="req-number" data-requisito="number">
+                  <i data-lucide="circle" aria-hidden="true"></i>
+                  <span>Um número</span>
+                </li>
+                <li class="requisito" id="req-special" data-requisito="special">
+                  <i data-lucide="circle" aria-hidden="true"></i>
+                  <span>Um caractere especial (!@#$%^&*)</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Confirmar senha -->
+            <div class="form-field form-field--password">
+              <label for="reg-confirmar-senha">Confirmar senha</label>
+              <input
+                type="password"
+                id="reg-confirmar-senha"
+                name="confirmarSenha"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="confirmar-senha-error"
+              />
+              <button
+                type="button"
+                id="toggle-confirmar-senha"
+                class="toggle-password"
+                aria-label="Mostrar confirmação de senha"
+                aria-pressed="false"
+                aria-controls="reg-confirmar-senha"
+              >
+                <i data-lucide="eye" aria-hidden="true"></i>
+              </button>
+              <span id="confirmar-senha-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+          </fieldset>
+
+          <!-- ════════════════════════
+               STEP 5 — Consentimentos
+          ════════════════════════ -->
+          <fieldset class="register-step" id="step-5" data-step="5" hidden>
+            <legend class="sr-only">Consentimentos</legend>
+
+            <!--
+              Checkboxes de consentimento.
+              .form-field--checkbox: modificador para layout horizontal (checkbox + label).
+            -->
+
+            <!-- Termos de uso (obrigatório) -->
+            <div class="form-field form-field--checkbox">
+              <input
+                type="checkbox"
+                id="reg-termos"
+                name="termos"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="termos-error"
+              />
+              <label for="reg-termos">
+                Li e aceito os
+                <a href="termos-de-uso.html" target="_blank" rel="noopener noreferrer" class="consent-link">
+                  Termos de Uso
+                </a>
+              </label>
+              <span id="termos-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Política de privacidade (obrigatório) -->
+            <div class="form-field form-field--checkbox">
+              <input
+                type="checkbox"
+                id="reg-privacidade"
+                name="privacidade"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="privacidade-error"
+              />
+              <label for="reg-privacidade">
+                Li e aceito a
+                <a href="politica-de-privacidade.html" target="_blank" rel="noopener noreferrer" class="consent-link">
+                  Política de Privacidade
+                </a>
+                (LGPD)
+              </label>
+              <span id="privacidade-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+
+            <!-- Opt-in de marketing (opcional) -->
+            <div class="form-field form-field--checkbox form-field--optional-check">
+              <input
+                type="checkbox"
+                id="reg-marketing"
+                name="marketing"
+              />
+              <label for="reg-marketing">
+                Quero receber promoções e novidades por WhatsApp e e-mail
+                <span class="label-optional" aria-label="campo opcional">(opcional)</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- ── Navegação entre steps ── -->
+          <div class="step-nav">
+            <!--
+              Botão "Voltar": hidden no step 1 via JS.
+              type="button" evita submit acidental.
+            -->
+            <button
+              type="button"
+              id="btn-voltar"
+              class="btn-base btn-ghost step-nav__back"
+              aria-label="Voltar ao passo anterior"
+              hidden
+            >
+              <i data-lucide="arrow-left" aria-hidden="true"></i>
+              Voltar
+            </button>
+
+            <!--
+              Botão "Avançar": muda para "Criar conta" no step 5.
+              data-next usado pelo JS para identificar ação.
+            -->
+            <button
+              type="button"
+              id="btn-avancar"
+              class="btn-base btn-primary step-nav__next"
+              aria-label="Avançar para o próximo passo"
+            >
+              Avançar
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+
+        </form>
+
+        <!-- ── Link: já tenho conta ── -->
+        <a href="login.html" class="guest-link">
+          Já tenho uma conta
+          <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+        </a>
+
+      </div>
+    </main>
+
+    <!-- 1. Dados globais -->
+    <script src="../scripts/config.js"></script>
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 4. Utilitários de validação -->
+    <script src="../scripts/validators.js"></script>
+    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <script src="../scripts/common.js"></script>
+    <!-- 6. Script da página -->
+    <script src="../scripts/cadastro.js"></script>
+  </body>
+</html>
