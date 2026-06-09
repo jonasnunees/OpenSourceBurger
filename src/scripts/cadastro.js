@@ -721,7 +721,7 @@
 
   function init() {
     // ── Botão Avançar ────────────────────────────────────────
-    btnAvancar.addEventListener("click", () => {
+    btnAvancar.addEventListener("click", async () => {
       limparFeedback();
 
       if (!validarStep(currentStep)) {

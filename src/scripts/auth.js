@@ -22,8 +22,8 @@
 const Auth = (() => {
   "use strict";
 
-  const HOME_PAGE  = "index.html";
-  const LOGIN_PAGE = "login.html";
+  const HOME_PAGE  = "/index.html";
+  const LOGIN_PAGE = "/src/pages/login.html";
 
   // ── Sessão ────────────────────────────────────────────────────────────────
 

@@ -132,24 +132,45 @@ const CONFIG = {
  * Usamos a factory `supabase.createClient()` para instanciar.
  */
 const SupabaseClient = (() => {
+  let _client = null;
+
   /**
-   * Cria e retorna o client, ou null se o SDK não estiver carregado.
-   * O guard evita erros silenciosos caso o CDN falhe.
+   * Retorna o client Supabase, inicializando na primeira chamada.
+   * Lazy initialization garante que window.supabase já existe
+   * independente da ordem de execução dos scripts.
    */
-  function init() {
+  function getClient() {
+    if (_client) return _client;
+
     if (typeof window.supabase === "undefined") {
       console.error(
         "[config] SDK do Supabase não encontrado. " +
-        "Verifique se o CDN está carregado antes de config.js."
+        "Verifique se o arquivo libs/supabase.js está carregado."
       );
       return null;
     }
 
-    return window.supabase.createClient(
+    _client = window.supabase.createClient(
       CONFIG.supabase.url,
       CONFIG.supabase.anonKey
     );
+
+    return _client;
   }
 
-  return init();
+  /**
+   * Proxy que intercepta qualquer acesso ao SupabaseClient
+   * e inicializa o client se ainda não foi feito.
+   *
+   * Isso permite usar SupabaseClient.auth.signIn() etc.
+   * sem precisar chamar SupabaseClient.getClient() explicitamente.
+   */
+  return new Proxy({}, {
+    get(_target, prop) {
+      const client = getClient();
+      if (!client) return undefined;
+      const value = client[prop];
+      return typeof value === "function" ? value.bind(client) : value;
+    }
+  });
 })();

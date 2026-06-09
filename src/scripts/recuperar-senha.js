@@ -141,7 +141,7 @@
         // URL para onde o Supabase redireciona após o clique no e-mail.
         // Aponte para a página de redefinição de senha quando ela existir.
         // Por ora, redireciona para o login.
-        redirectTo: `${window.location.origin}/login.html`,
+        redirectTo: `${window.location.origin}/src/pages/redefinir-senha.html`,
       });
 
       // Supabase não informa se o e-mail existe ou não (segurança).

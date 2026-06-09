@@ -331,6 +331,16 @@ function initFormSubmit(elements, validators) {
 document.addEventListener("DOMContentLoaded", () => {
   if (redirectIfAlreadyLoggedIn()) return;
 
+  // Exibe mensagem de senha redefinida com sucesso
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("senha") === "redefinida") {
+    const fb = document.getElementById(LOGIN_FEEDBACK_ID);
+    if (fb) {
+      fb.textContent = "Senha redefinida com sucesso! Faça login com sua nova senha.";
+      fb.classList.add("is-visible", "is-success");
+    }
+  }
+
   const elements = getLoginElements();
 
   if (!elements.form) return;
