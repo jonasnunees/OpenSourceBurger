@@ -272,46 +272,25 @@ function isFormValid(validators) {
  *
  * @returns {Promise<boolean>}
  */
-function simulateLoginRequest() {
-  const simulateSuccess = false;
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(simulateSuccess);
-    }, FAKE_API_DELAY_MS);
-  });
-}
+// ── Autenticação real (Supabase) ───────────────────────────────────────────
 
 /**
- * Cria os dados da sessão simulada.
+ * Autentica o usuário via Supabase Auth.
  *
- * @param {HTMLInputElement} emailInput
- * @returns {{ name: string, email: string }}
+ * @param {string} email
+ * @param {string} password
+ * @returns {Promise<{ success: boolean, errorMessage?: string }>}
  */
-function createMockUserSession(emailInput) {
-  return {
-    name: "Usuário Teste",
-    email: emailInput.value.trim(),
-  };
-}
+async function attemptLogin(email, password) {
+  const { data, error } = await Auth.login(email, password);
 
-/**
- * Trata o sucesso do login.
- */
-function handleLoginSuccess(emailInput) {
-  Auth.login(createMockUserSession(emailInput));
-  window.location.replace(Auth.getRedirectUrl());
-}
+  if (error) {
+    // Supabase retorna "Invalid login credentials" para e-mail ou senha errados.
+    // Normalizamos para uma mensagem amigável em português.
+    return { success: false, errorMessage: "E-mail ou senha incorretos. Tente novamente." };
+  }
 
-/**
- * Trata erro de login e restaura a interface.
- */
-function handleLoginError({ emailInput, formFeedback, submitButton }) {
-  showFormError(formFeedback, "E-mail ou senha incorretos. Tente novamente.");
-  resetSubmitButton(submitButton);
-
-  // Move foco para o e-mail para facilitar a correção (acessibilidade).
-  emailInput.focus();
+  return { success: true };
 }
 
 // ── Submit ─────────────────────────────────────────────────────────────────
@@ -331,14 +310,19 @@ function initFormSubmit(elements, validators) {
 
     setLoadingState(submitButton);
 
-    const isAuthenticated = await simulateLoginRequest();
+    const email    = elements.emailInput.value.trim();
+    const password = elements.passwordInput.value;
 
-    if (isAuthenticated) {
-      handleLoginSuccess(elements.emailInput);
+    const { success, errorMessage } = await attemptLogin(email, password);
+
+    if (success) {
+      window.location.replace(Auth.getRedirectUrl());
       return;
     }
 
-    handleLoginError(elements);
+    showFormError(elements.formFeedback, errorMessage);
+    resetSubmitButton(submitButton);
+    elements.emailInput.focus();
   });
 }
 

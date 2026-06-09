@@ -135,7 +135,20 @@
         Substitua simularEnvio() pela chamada real, por exemplo:
           await auth.recuperarSenha(email);
       */
-      await simularEnvio(email);
+      if (!SupabaseClient) throw new Error("Cliente não inicializado.");
+
+      const { error } = await SupabaseClient.auth.resetPasswordForEmail(email, {
+        // URL para onde o Supabase redireciona após o clique no e-mail.
+        // Aponte para a página de redefinição de senha quando ela existir.
+        // Por ora, redireciona para o login.
+        redirectTo: `${window.location.origin}/login.html`,
+      });
+
+      // Supabase não informa se o e-mail existe ou não (segurança).
+      // Mesmo que o e-mail não exista, retorna sucesso — não vazamos informação.
+      if (error && !error.message.includes("rate limit")) {
+        throw error;
+      }
 
       showSuccessPanel();
 
@@ -155,19 +168,5 @@
       setLoading(false);
     }
   });
-
-  /* ══ Simulação de envio (remover ao integrar com back-end real) ══ */
-
-  /**
-   * Simula uma chamada assíncrona ao servidor com latência de 1.2s.
-   * Substitua por: return auth.recuperarSenha(email);
-   * @param {string} _email
-   * @returns {Promise<void>}
-   */
-  function simularEnvio(_email) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, 1200);
-    });
-  }
 
 })();

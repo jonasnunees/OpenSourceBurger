@@ -634,29 +634,84 @@
   // ══════════════════════════════════════════════════════════
 
   /**
-   * Coleta todos os dados do formulário e simula o cadastro.
-   * TODO: substituir pela integração real com Supabase.
+   * Cadastra o usuário no Supabase Auth e insere o endereço no banco.
+   *
+   * Fluxo:
+   *  1. signUp() com e-mail e senha.
+   *     O campo `data` é lido pelo trigger `handle_new_user` no banco,
+   *     que insere automaticamente a linha em public.profiles.
+   *  2. Insert do endereço em public.enderecos usando o id do novo usuário.
+   *  3. Redireciona para o login com parâmetro de sucesso.
    */
-  function submeterCadastro() {
-    const payload = {
-      nome:          inputNome.value.trim(),
-      nascimento:    inputNascimento.value,
-      telefone:      inputTelefone.value,
-      cep:           inputCep.value,
-      rua:           inputRua.value.trim(),
-      numero:        inputNumero.value.trim(),
-      complemento:   document.getElementById("reg-complemento").value.trim(),
-      bairro:        inputBairro.value.trim(),
-      cidade:        inputCidade.value.trim(),
-      uf:            inputUf.value.trim().toUpperCase(),
-      email:         inputEmail.value.trim().toLowerCase(),
-      marketing:     document.getElementById("reg-marketing").checked,
-    };
+  async function submeterCadastro() {
+    // Desabilita o botão para evitar duplo clique
+    btnAvancar.disabled = true;
+    btnAvancar.textContent = "Criando conta...";
 
-    // TODO: integrar com Auth.register(payload) ou Supabase
-    console.info("[cadastro] payload pronto para envio:", payload);
+    if (!SupabaseClient) {
+      exibirFeedback("Erro interno. Tente novamente em instantes.");
+      btnAvancar.disabled = false;
+      return;
+    }
 
-    // Simulação: redireciona para o login com parâmetro de sucesso
+    const email = inputEmail.value.trim().toLowerCase();
+    const senha = inputSenha.value;
+
+    // ── 1. Cria o usuário no Auth ──────────────────────────
+    const { data: signUpData, error: signUpError } = await SupabaseClient.auth.signUp({
+      email,
+      password: senha,
+      options: {
+        // Esses dados são lidos pelo trigger handle_new_user
+        // e inseridos em public.profiles automaticamente.
+        data: {
+          nome:       inputNome.value.trim(),
+          nascimento: inputNascimento.value,
+          telefone:   inputTelefone.value,
+          marketing:  document.getElementById("reg-marketing").checked,
+        },
+      },
+    });
+
+    if (signUpError) {
+      // E-mail já cadastrado é o erro mais comum
+      const msgAmigavel = signUpError.message.includes("already registered")
+        ? "Este e-mail já está cadastrado. Tente fazer login."
+        : "Não foi possível criar sua conta. Tente novamente.";
+
+      exibirFeedback(msgAmigavel);
+      btnAvancar.disabled = false;
+      atualizarBotoesNav(currentStep);
+      return;
+    }
+
+    const userId = signUpData.user?.id;
+
+    // ── 2. Insere o endereço ───────────────────────────────
+    if (userId) {
+      const { error: enderecoError } = await SupabaseClient
+        .from("enderecos")
+        .insert({
+          user_id:     userId,
+          cep:         inputCep.value,
+          rua:         inputRua.value.trim(),
+          numero:      inputNumero.value.trim(),
+          complemento: document.getElementById("reg-complemento").value.trim(),
+          bairro:      inputBairro.value.trim(),
+          cidade:      inputCidade.value.trim(),
+          uf:          inputUf.value.trim().toUpperCase(),
+          principal:   true,
+        });
+
+      if (enderecoError) {
+        // O usuário foi criado, mas o endereço falhou.
+        // Não bloqueamos o cadastro por isso — o usuário pode
+        // adicionar/corrigir o endereço depois no perfil.
+        console.warn("[cadastro] Endereço não salvo:", enderecoError.message);
+      }
+    }
+
+    // ── 3. Redireciona para o login ────────────────────────
     window.location.href = "login.html?cadastro=sucesso";
   }
 
@@ -677,7 +732,7 @@
 
       if (currentStep === TOTAL_STEPS) {
         // Último step: submete o cadastro
-        submeterCadastro();
+        await submeterCadastro();
         return;
       }
 
