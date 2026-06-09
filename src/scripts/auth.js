@@ -22,8 +22,11 @@
 const Auth = (() => {
   "use strict";
 
-  const HOME_PAGE  = "/index.html";
-  const LOGIN_PAGE = "/src/pages/login.html";
+  // Detecta o base path automaticamente.
+  // Funciona tanto no Live Server (/) quanto no GitHub Pages (/OpenSourceBurger/).
+  const BASE_PATH  = window.location.pathname.split("/src/")[0].split("/index.html")[0];
+  const HOME_PAGE  = `${BASE_PATH}/index.html`;
+  const LOGIN_PAGE = `${BASE_PATH}/src/pages/login.html`;
 
   // ── Sessão ────────────────────────────────────────────────────────────────
 
