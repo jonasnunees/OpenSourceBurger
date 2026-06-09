@@ -1,0 +1,228 @@
+/* =========================
+   PAGE › LEGAL
+   Estilos compartilhados entre termos-de-uso.html
+   e politica-de-privacidade.html.
+   Depende de main.css já carregado antes deste arquivo.
+========================= */
+
+/* ── Layout principal ── */
+.legal-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
+}
+
+.legal-article {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+/* ══════════════════════════════════════════
+   CABEÇALHO DO DOCUMENTO
+══════════════════════════════════════════ */
+.legal-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Badge: ícone + rótulo do tipo de documento */
+.legal-header__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legal-header__badge svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.legal-header__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.legal-header__meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.legal-header__meta time {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Parágrafo introdutório — ligeiramente maior que o corpo */
+.legal-header__intro {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid var(--primary-color);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ══════════════════════════════════════════
+   CORPO DO DOCUMENTO
+══════════════════════════════════════════ */
+.legal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ── Seção individual ── */
+.legal-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.legal-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Título de seção com número destacado */
+.legal-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Número da seção — círculo laranja */
+.legal-section__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+/* Parágrafos do corpo */
+.legal-section p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.legal-section p strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Lista de itens */
+.legal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: var(--space-lg);
+  list-style: none;
+}
+
+.legal-list li {
+  position: relative;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.65;
+  padding-left: var(--space-md);
+}
+
+/* Marcador customizado — traço laranja */
+.legal-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 1.5px;
+  background: var(--primary-color);
+  border-radius: 1px;
+}
+
+.legal-list li strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   RODAPÉ DO DOCUMENTO
+   Links de navegação: voltar ao cadastro
+   e link cruzado entre as páginas legais.
+══════════════════════════════════════════ */
+.legal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.legal-footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.legal-footer__link:hover,
+.legal-footer__link:focus-visible {
+  color: var(--primary-hover);
+  outline: none;
+}
+
+.legal-footer__link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* Variante discreta para o link secundário */
+.legal-footer__link--muted {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.legal-footer__link--muted:hover,
+.legal-footer__link--muted:focus-visible {
+  color: var(--text-main);
+}
