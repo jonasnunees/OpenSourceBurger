@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--
-      noindex: página de redefinição de senha não deve ser indexada.
-      É um fluxo de autenticação interno, sem valor de descoberta orgânica.
-    -->
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
@@ -35,116 +31,40 @@
             height="56"
           />
         </a>
-        <button
-          class="close-drawer-btn"
-          id="close-drawer-btn"
-          aria-label="Fechar menu"
-        >
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
           <i data-lucide="x"></i>
         </button>
       </div>
 
       <ul class="drawer-nav">
+        <li><a href="cardapio.html" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
+        <li><a href="promocoes.html" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
+        <li><a href="meu-carrinho.html" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
+        <li><a href="meus-pedidos.html" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
+        <li><a href="meus-cupons.html" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
+        <li><a href="minha-conta.html" class="drawer-item"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
+        <li><a href="programa-fidelidade.html" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
+        <li><a href="localizacao.html" class="drawer-item"><i data-lucide="map-pin"></i><span>Localização</span></a></li>
+        <li><a href="area-de-entrega.html" class="drawer-item"><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a></li>
         <li>
-          <a href="cardapio.html" class="drawer-item">
-            <i data-lucide="book-open"></i>
-            <span>Cardápio</span>
-          </a>
-        </li>
-        <li>
-          <a href="promocoes.html" class="drawer-item">
-            <i data-lucide="star"></i>
-            <span>Promoções</span>
-          </a>
-        </li>
-        <li>
-          <a href="meu-carrinho.html" class="drawer-item">
-            <i data-lucide="shopping-cart"></i>
-            <span>Meu Carrinho</span>
-          </a>
-        </li>
-        <li>
-          <a href="meus-pedidos.html" class="drawer-item">
-            <i data-lucide="clock-9"></i>
-            <span>Meus Pedidos</span>
-          </a>
-        </li>
-        <li>
-          <a href="meus-cupons.html" class="drawer-item">
-            <i data-lucide="ticket"></i>
-            <span>Meus Cupons</span>
-          </a>
-        </li>
-        <li>
-          <a href="minha-conta.html" class="drawer-item">
-            <i data-lucide="user-round"></i>
-            <span>Minha Conta</span>
-          </a>
-        </li>
-        <li>
-          <a href="programa-fidelidade.html" class="drawer-item">
-            <i data-lucide="gift"></i>
-            <span>Programa de Fidelidade</span>
-          </a>
-        </li>
-        <li>
-          <a href="localizacao.html" class="drawer-item">
-            <i data-lucide="map-pin"></i>
-            <span>Localização</span>
-          </a>
-        </li>
-        <li>
-          <a href="area-de-entrega.html" class="drawer-item">
-            <i data-lucide="circle-dashed"></i>
-            <span>Área de Entrega</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            data-whatsapp
-            class="drawer-item"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Pedir pelo WhatsApp"
-          >
-            <i data-lucide="message-circle-more"></i>
-            <span>Pedir pelo WhatsApp</span>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
           </a>
         </li>
       </ul>
 
       <footer class="drawer-footer">
-        <p class="drawer-credit">
-          Desenvolvido por
-          <a
-            href="https://github.com/jonasnunees"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Jonas Nunes</a
-          >
-        </p>
-        <p class="drawer-icons">
-          Ícones por
-          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer"
-            >Lucide</a
-          >
-        </p>
+        <p class="drawer-credit">Desenvolvido por <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a></p>
+        <p class="drawer-icons">Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a></p>
       </footer>
     </nav>
 
     <!-- ══ Topbar ══ -->
     <header class="topbar">
-      <a
-        href="login.html"
-        class="menu-btn"
-        aria-label="Voltar para o login"
-      >
+      <a href="login.html" class="menu-btn" aria-label="Voltar para o login">
         <i data-lucide="arrow-left"></i>
       </a>
-
       <h1 class="topbar-title">Nova senha</h1>
-
       <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
@@ -155,10 +75,7 @@
     <main class="redefine-main" id="main-content">
       <div class="redefine-section">
 
-        <!--
-          Painel de token inválido ou expirado.
-          Oculto por padrão — exibido pelo JS quando o token não é válido.
-        -->
+        <!-- Painel de token inválido ou expirado -->
         <section
           class="redefine-invalid"
           id="redefine-invalid-panel"
@@ -182,10 +99,7 @@
           </a>
         </section>
 
-        <!--
-          Painel do formulário de nova senha.
-          Oculto por padrão — exibido pelo JS quando o token é válido.
-        -->
+        <!-- Painel do formulário de nova senha -->
         <section
           class="redefine-form-block"
           id="redefine-form-panel"
@@ -197,9 +111,6 @@
             Escolha uma nova senha para sua conta
           </h2>
 
-          <!--
-            aria-live="polite": anuncia erros gerais sem roubar o foco.
-          -->
           <div
             id="redefine-feedback"
             class="redefine-feedback"
@@ -214,7 +125,7 @@
             aria-label="Formulário de redefinição de senha"
           >
 
-            <!-- Campo: nova senha -->
+            <!-- Nova senha -->
             <div class="form-field">
               <label for="redefine-senha" class="sr-only">Nova senha</label>
               <div class="input-password-wrapper">
@@ -247,7 +158,7 @@
               ></span>
             </div>
 
-            <!-- Medidor de força da senha -->
+            <!-- Medidor de força -->
             <div class="password-strength" id="redefine-strength" aria-hidden="true">
               <div class="strength-bar">
                 <div class="strength-fill" id="redefine-strength-fill"></div>
@@ -256,30 +167,30 @@
             </div>
 
             <!-- Checklist de requisitos -->
-            <ul class="password-requirements" aria-label="Requisitos da senha" id="redefine-requirements">
-              <li class="req-item" id="redefine-req-length">
+            <ul class="senha-requisitos" aria-label="Requisitos da senha">
+              <li class="requisito" id="redefine-req-length">
                 <i data-lucide="circle" aria-hidden="true"></i>
                 <span>Mínimo 8 caracteres</span>
               </li>
-              <li class="req-item" id="redefine-req-upper">
+              <li class="requisito" id="redefine-req-upper">
                 <i data-lucide="circle" aria-hidden="true"></i>
                 <span>Uma letra maiúscula</span>
               </li>
-              <li class="req-item" id="redefine-req-lower">
+              <li class="requisito" id="redefine-req-lower">
                 <i data-lucide="circle" aria-hidden="true"></i>
                 <span>Uma letra minúscula</span>
               </li>
-              <li class="req-item" id="redefine-req-number">
+              <li class="requisito" id="redefine-req-number">
                 <i data-lucide="circle" aria-hidden="true"></i>
                 <span>Um número</span>
               </li>
-              <li class="req-item" id="redefine-req-special">
+              <li class="requisito" id="redefine-req-special">
                 <i data-lucide="circle" aria-hidden="true"></i>
                 <span>Um caractere especial (!@#$%^&*)</span>
               </li>
             </ul>
 
-            <!-- Campo: confirmar nova senha -->
+            <!-- Confirmar nova senha -->
             <div class="form-field">
               <label for="redefine-confirmar" class="sr-only">Confirmar nova senha</label>
               <div class="input-password-wrapper">
@@ -312,7 +223,7 @@
               ></span>
             </div>
 
-            <!-- Botão de submit -->
+            <!-- Submit -->
             <button
               type="submit"
               id="btn-redefine"
@@ -328,7 +239,6 @@
       </div>
     </main>
 
-    <!-- SDK Supabase — deve vir antes de config.js -->
     <script src="../scripts/libs/supabase.js"></script>
     <!-- 1. Dados globais -->
     <script src="../scripts/config.js"></script>
@@ -338,7 +248,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- 4. Utilitários de validação -->
     <script src="../scripts/validators.js"></script>
-    <!-- 5. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <!-- 5. Comportamentos comuns -->
     <script src="../scripts/common.js"></script>
     <!-- 6. Script da página -->
     <script src="../scripts/redefinir-senha.js"></script>
