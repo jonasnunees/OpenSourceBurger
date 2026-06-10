@@ -1,0 +1,227 @@
+/* =========================
+   PAGE › MEUS PEDIDOS
+   Depende de: main.css (tokens + account-banner.css já importado)
+========================= */
+
+/* ── Layout principal ── */
+.pedidos-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  padding-bottom: var(--space-3xl);
+}
+
+/* ── Loading ── */
+.pedidos-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4xl);
+  color: var(--text-muted);
+}
+
+.pedidos-loading svg {
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Estado vazio ── */
+.pedidos-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-4xl) var(--space-xl);
+  gap: var(--space-sm);
+}
+
+.pedidos-empty svg {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.pedidos-empty__title {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.pedidos-empty__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.pedidos-empty__link {
+  display: inline-block;
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-xl);
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.pedidos-empty__link:hover {
+  background: var(--primary-hover);
+}
+
+/* ── Lista de pedidos ── */
+.pedidos-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Card de pedido ── */
+.pedido-card {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.pedido-card:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Linha superior: data | número | total */
+.pedido-card__linha-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.pedido-card__data {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.pedido-card__numero {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.pedido-card__total {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+/* Linha inferior: status | avaliação */
+.pedido-card__linha-base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* ── Status ── */
+.pedido-card__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.pedido-card__status svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Cores por status */
+.pedido-card__status[data-status="finalizado"] { color: var(--status-success); }
+.pedido-card__status[data-status="em_preparo"] { color: var(--primary-color);  }
+.pedido-card__status[data-status="a_caminho"]  { color: var(--primary-color);  }
+.pedido-card__status[data-status="pendente"]   { color: var(--text-muted);     }
+.pedido-card__status[data-status="cancelado"]  { color: var(--status-error);   }
+
+/* ── Estrelas de avaliação ── */
+.pedido-card__estrelas {
+  display: flex;
+  gap: 2px;
+}
+
+.pedido-card__estrelas svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.pedido-card__estrela--preenchida {
+  color: #f5c518;
+  fill: #f5c518;
+}
+
+.pedido-card__estrela--vazia {
+  color: var(--text-muted);
+}
+
+/* ── Link avaliar ── */
+.pedido-card__avaliar {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.pedido-card__avaliar:hover {
+  color: var(--primary-hover);
+}
+
+/* ── Botão Mostrar mais ── */
+.pedidos-mais-wrap {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.pedidos-btn-mais {
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
+  padding-inline: var(--space-xl);
+  background: none;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.pedidos-btn-mais:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.pedidos-btn-mais:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

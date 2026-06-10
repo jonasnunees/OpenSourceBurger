@@ -10,10 +10,15 @@
     />
     <title>Meus Pedidos — Open Source Burger</title>
 
+    <link
+      rel="canonical"
+      href="https://opensourceburger.com.br/meus-pedidos.html"
+    />
+
     <link rel="icon" href="../assets/icons/favicon.ico" />
-    <link rel="stylesheet" href="../styles/vendors/reset.css">
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
     <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/account.css" />
+    <link rel="stylesheet" href="../styles/pages/meus-pedidos.css" />
   </head>
   <body>
     <!-- ══ Drawer ══ -->
@@ -40,51 +45,39 @@
       <ul class="drawer-nav">
         <li>
           <a href="cardapio.html" class="drawer-item"
-            ><i data-lucide="book-open"></i><span>Cardápio</span></a
-          >
+            ><i data-lucide="book-open"></i><span>Cardápio</span></a>
         </li>
         <li>
           <a href="promocoes.html" class="drawer-item"
-            ><i data-lucide="star"></i><span>Promoções</span></a
-          >
+            ><i data-lucide="star"></i><span>Promoções</span></a>
         </li>
         <li>
           <a href="meu-carrinho.html" class="drawer-item"
-            ><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a
-          >
+            ><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a>
         </li>
         <li>
-          <a
-            href="meus-pedidos.html"
-            class="drawer-item active"
-            aria-current="page"
-            ><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a
-          >
+          <a href="meus-pedidos.html" class="drawer-item active" aria-current="page"
+            ><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a>
         </li>
         <li>
           <a href="meus-cupons.html" class="drawer-item"
-            ><i data-lucide="ticket"></i><span>Meus Cupons</span></a
-          >
+            ><i data-lucide="ticket"></i><span>Meus Cupons</span></a>
         </li>
         <li>
           <a href="minha-conta.html" class="drawer-item"
-            ><i data-lucide="user-round"></i><span>Minha Conta</span></a
-          >
+            ><i data-lucide="user-round"></i><span>Minha Conta</span></a>
         </li>
         <li>
           <a href="programa-fidelidade.html" class="drawer-item"
-            ><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a
-          >
+            ><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a>
         </li>
         <li>
           <a href="localizacao.html" class="drawer-item"
-            ><i data-lucide="map-pin"></i><span>Localização</span></a
-          >
+            ><i data-lucide="map-pin"></i><span>Localização</span></a>
         </li>
         <li>
           <a href="area-de-entrega.html" class="drawer-item"
-            ><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a
-          >
+            ><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a>
         </li>
         <li>
           <a
@@ -121,91 +114,101 @@
 
     <!-- ══ Topbar ══ -->
     <header class="topbar">
-      <button
+      <a
+        href="minha-conta.html"
         class="menu-btn"
-        aria-label="Abrir menu"
-        id="menu-btn"
-        aria-expanded="false"
-        aria-controls="drawer"
+        aria-label="Voltar para Minha Conta"
       >
-        <i data-lucide="menu"></i>
-      </button>
+        <i data-lucide="arrow-left"></i>
+      </a>
       <h1 class="topbar-title">Meus Pedidos</h1>
-      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
       </a>
     </header>
 
     <!-- ══ Conteúdo principal ══ -->
-    <main class="account-main" id="main-content">
-      <div class="account-container">
-        <header class="account-header">
-          <h2 class="account-header__title">Meus Pedidos</h2>
-          <p class="account-header__subtitle">Histórico dos seus pedidos</p>
-        </header>
+    <main class="pedidos-main" id="main-content">
 
-        <!--
-          Estado vazio: exibido quando não há pedidos no histórico.
-          TODO: quando o backend existir, renderizar a lista .orders-list
-          aqui e ocultar o .empty-state via JS.
-        -->
-        <div
-          class="empty-state"
-          id="orders-empty"
-          role="status"
-          aria-live="polite"
+      <!-- Faixa do usuário -->
+      <div
+        class="account-user-banner"
+        role="region"
+        aria-label="Informações do usuário logado"
+      >
+        <span class="account-user-banner__avatar" aria-hidden="true">
+          <i data-lucide="smile"></i>
+        </span>
+        <span class="account-user-banner__name" id="account-name">—</span>
+        <button
+          type="button"
+          id="btn-logout"
+          class="account-user-banner__logout"
+          aria-label="Sair da conta"
         >
-          <div class="empty-state__icon" aria-hidden="true">
-            <i data-lucide="package-open"></i>
-          </div>
-          <p class="empty-state__title">Nenhum pedido ainda</p>
-          <p class="empty-state__desc">
-            Você ainda não fez nenhum pedido. Que tal experimentar nossos
-            burgers?
-          </p>
-          <a href="#" class="empty-state__cta">
-            <i data-lucide="chevron-right"></i>
-            Ver cardápio
-          </a>
-        </div>
-
-        <!-- Lista de pedidos (populada via JS quando houver dados) -->
-        <ul
-          class="orders-list"
-          id="orders-list"
-          aria-label="Lista de pedidos"
-          hidden
-        ></ul>
+          <i data-lucide="log-out"></i>
+        </button>
       </div>
+
+      <!-- Estado de carregamento -->
+      <div
+        class="pedidos-loading"
+        id="pedidos-loading"
+        aria-live="polite"
+        aria-label="Carregando pedidos"
+      >
+        <i data-lucide="loader-circle"></i>
+      </div>
+
+      <!-- Estado vazio -->
+      <div class="pedidos-empty" id="pedidos-empty" hidden>
+        <i data-lucide="shopping-bag" aria-hidden="true"></i>
+        <p class="pedidos-empty__title">Nenhum pedido encontrado</p>
+        <p class="pedidos-empty__subtitle">
+          Seus pedidos aparecerão aqui após a primeira compra.
+        </p>
+        <a href="cardapio.html" class="pedidos-empty__link">
+          Ver cardápio
+        </a>
+      </div>
+
+      <!-- Lista de pedidos -->
+      <ul
+        class="pedidos-lista"
+        id="pedidos-lista"
+        aria-label="Histórico de pedidos"
+        hidden
+      ></ul>
+
+      <!-- Botão mostrar mais -->
+      <div class="pedidos-mais-wrap" id="pedidos-mais-wrap" hidden>
+        <button
+          type="button"
+          id="btn-mais-pedidos"
+          class="pedidos-btn-mais"
+        >
+          Mostrar mais
+        </button>
+      </div>
+
     </main>
 
+    <!-- 0. SDK Supabase -->
     <script src="../scripts/libs/supabase.js"></script>
-    <!-- 1. Dados globais -->
+    <!-- 1. Dados globais + instância SupabaseClient -->
     <script src="../scripts/config.js"></script>
     <!-- 2. Serviço de autenticação -->
     <script src="../scripts/auth.js"></script>
     <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <!-- 4. Comportamentos comuns -->
     <script src="../scripts/common.js"></script>
-    <!-- 5. Lógica inline da página -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Redireciona para login se não estiver autenticado
-        Auth.requireAuth();
-
-        /*
-         * TODO: buscar pedidos da API do usuário logado.
-         * Exemplo futuro:
-         *   const orders = await fetchOrders(Auth.getSession().id);
-         *   if (orders.length > 0) {
-         *     renderOrders(orders);
-         *     document.getElementById('orders-empty').hidden = true;
-         *     document.getElementById('orders-list').hidden = false;
-         *   }
-         */
-      });
-    </script>
+    <!-- 5. Lógica da página -->
+    <script src="../scripts/meus-pedidos.js"></script>
   </body>
 </html>
