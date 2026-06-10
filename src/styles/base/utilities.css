@@ -123,3 +123,7 @@
   outline: 3px solid rgba(255, 255, 255, 0.4);
   outline-offset: 4px;
 }
+
+[hidden] {
+  display: none !important;
+}
