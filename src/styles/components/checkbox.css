@@ -1,0 +1,91 @@
+/* =========================
+   COMPONENTS › CHECKBOX
+   Checkbox customizado acessível com visual no padrão do projeto.
+   Usado em: meus-dados.html, editar-endereco.html, e qualquer
+   página futura que precise de checkbox estilizado.
+
+   Uso no HTML:
+   <label class="dados-checkbox" for="id-do-input">
+     <input type="checkbox" id="id-do-input" class="dados-checkbox__input" />
+     <span class="dados-checkbox__box" aria-hidden="true"></span>
+     <span class="dados-checkbox__label">Texto</span>
+   </label>
+========================= */
+
+/* Remove o gap padrão do form-field quando usado dentro dele */
+.dados-form__checkbox-field {
+  gap: 0;
+}
+
+.dados-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  /* Touch target confortável */
+  min-height: 44px;
+}
+
+/* Esconde o input nativo mas mantém acessível para teclado e leitores de tela */
+.dados-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Caixa visual customizada */
+.dados-checkbox__box {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-medium);
+  border-radius: 4px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+/* Checkmark via pseudo-elemento */
+.dados-checkbox__box::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border: 2px solid transparent;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+  transition: border-color var(--transition-fast);
+}
+
+/* Estado marcado */
+.dados-checkbox__input:checked + .dados-checkbox__box {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.dados-checkbox__input:checked + .dados-checkbox__box::after {
+  border-color: #fff;
+}
+
+/* Focus visível — acessibilidade teclado */
+.dados-checkbox__input:focus-visible + .dados-checkbox__box {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.dados-checkbox__label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}

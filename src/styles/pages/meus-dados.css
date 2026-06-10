@@ -1,7 +1,7 @@
 /* =========================
    PAGE › MEUS DADOS
    Estilos exclusivos da página de dados pessoais.
-   Depende de: main.css (tokens + form.css + account.css via account-user-banner)
+   Depende de: main.css (tokens + form.css + account-banner + checkbox)
 ========================= */
 
 /* ── Layout principal ── */
@@ -24,7 +24,7 @@
   gap: var(--space-lg);
 }
 
-/* ── Label visível (sobrescreve o sr-only padrão do form.css) ── */
+/* ── Label visível ── */
 .dados-form .form-field label {
   font-size: var(--font-size-sm);
   font-weight: 600;
@@ -35,7 +35,6 @@
 .dados-form input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  /* Mantém o fundo original — evita confusão com campo editável */
   background: var(--input-bg);
 }
 
@@ -45,85 +44,6 @@
   color: var(--text-muted);
   padding-left: 2px;
   display: block;
-}
-
-/* ── Campo de checkbox ── */
-.dados-form__checkbox-field {
-  /* Remove o gap padrão do form-field para o checkbox ficar compacto */
-  gap: 0;
-}
-
-.dados-checkbox {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  cursor: pointer;
-  /* Touch target confortável */
-  min-height: 44px;
-}
-
-/* Esconde o input nativo mas mantém acessível */
-.dados-checkbox__input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Caixa visual customizada */
-.dados-checkbox__box {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--gray-medium);
-  border-radius: 4px;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    background-color var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-/* Checkmark via pseudo-elemento */
-.dados-checkbox__box::after {
-  content: "";
-  display: block;
-  width: 5px;
-  height: 9px;
-  border: 2px solid transparent;
-  border-top: none;
-  border-left: none;
-  transform: rotate(45deg) translateY(-1px);
-  transition: border-color var(--transition-fast);
-}
-
-/* Estado marcado */
-.dados-checkbox__input:checked + .dados-checkbox__box {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.dados-checkbox__input:checked + .dados-checkbox__box::after {
-  border-color: #fff;
-}
-
-/* Focus visível — acessibilidade teclado */
-.dados-checkbox__input:focus-visible + .dados-checkbox__box {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-.dados-checkbox__label {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  line-height: 1.4;
 }
 
 /* ── Feedback geral ── */
