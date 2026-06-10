@@ -16,9 +16,9 @@
     />
 
     <link rel="icon" href="../assets/icons/favicon.ico" />
-    <link rel="stylesheet" href="../styles/vendors/reset.css">
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
     <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/account.css" />
+    <link rel="stylesheet" href="../styles/minha-conta.css" />
   </head>
   <body>
     <!-- ══ Drawer ══ -->
@@ -136,7 +136,11 @@
         <i data-lucide="menu"></i>
       </button>
       <h1 class="topbar-title">Minha Conta</h1>
-      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+      <a
+        href="meu-carrinho.html"
+        class="cart-btn"
+        aria-label="Ver carrinho (0 itens)"
+      >
         <i data-lucide="shopping-cart"></i>
         <span class="cart-badge" aria-hidden="true">0</span>
       </a>
@@ -144,78 +148,140 @@
 
     <!-- ══ Conteúdo principal ══ -->
     <main class="account-main" id="main-content">
-      <div class="account-container">
-        <header class="account-header">
-          <h2 class="account-header__title">Minha Conta</h2>
-          <p class="account-header__subtitle">Seus dados cadastrais</p>
-        </header>
 
-        <!--
-          Dados preenchidos via JS a partir de Auth.getSession().
-          Quando o backend existir, busque os dados aqui e popule os elementos.
-        -->
-        <div class="account-card">
-          <p class="account-card__label">Nome</p>
-          <p class="account-card__value" id="account-name">—</p>
-        </div>
-
-        <div class="account-card">
-          <p class="account-card__label">E-mail</p>
-          <p class="account-card__value" id="account-email">—</p>
-        </div>
-
-        <div class="account-card">
-          <p class="account-card__label">Telefone</p>
-          <p class="account-card__value" id="account-phone">Não informado</p>
-        </div>
-
-        <!-- Botão de logout -->
+      <!-- Faixa com nome do usuário e botão de logout -->
+      <div
+        class="account-user-banner"
+        role="region"
+        aria-label="Informações do usuário logado"
+      >
+        <span class="account-user-banner__avatar" aria-hidden="true">
+          <i data-lucide="smile"></i>
+        </span>
+        <span class="account-user-banner__name" id="account-name">—</span>
         <button
           type="button"
           id="btn-logout"
-          class="btn-logout"
+          class="account-user-banner__logout"
           aria-label="Sair da conta"
         >
           <i data-lucide="log-out"></i>
-          Sair da conta
         </button>
       </div>
+
+      <!-- Menu de opções da conta -->
+      <nav class="account-menu" aria-label="Opções da conta">
+        <ul class="account-menu__list" role="list">
+
+          <li class="account-menu__item">
+            <a href="meus-dados.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="user-round"></i>
+              </span>
+              <span class="account-menu__label">Meus Dados</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <li class="account-menu__item">
+            <a href="meus-pedidos.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="shopping-cart"></i>
+              </span>
+              <span class="account-menu__label">Meus Pedidos</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <li class="account-menu__item">
+            <a href="enderecos.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="house"></i>
+              </span>
+              <span class="account-menu__label">Endereços</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <li class="account-menu__item">
+            <a href="meus-cupons.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="ticket"></i>
+              </span>
+              <span class="account-menu__label">Meus Cupons</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <li class="account-menu__item">
+            <a href="programa-fidelidade.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="gift"></i>
+              </span>
+              <span class="account-menu__label">Meus Pontos</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <li class="account-menu__item">
+            <a href="alterar-senha.html" class="account-menu__link">
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="lock"></i>
+              </span>
+              <span class="account-menu__label">Alterar Senha</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </a>
+          </li>
+
+          <!--
+            Ação destrutiva: <button> em vez de <a> pois não navega —
+            abre modal de confirmação antes de executar qualquer operação.
+          -->
+          <li class="account-menu__item account-menu__item--danger">
+            <button
+              type="button"
+              id="btn-delete-account"
+              class="account-menu__link"
+              aria-label="Excluir minha conta permanentemente"
+            >
+              <span class="account-menu__icon" aria-hidden="true">
+                <i data-lucide="trash-2"></i>
+              </span>
+              <span class="account-menu__label">Excluir Minha Conta</span>
+              <span class="account-menu__arrow" aria-hidden="true">
+                <i data-lucide="chevron-right"></i>
+              </span>
+            </button>
+          </li>
+
+        </ul>
+      </nav>
+
     </main>
 
+    <!-- 0. SDK Supabase -->
     <script src="../scripts/libs/supabase.js"></script>
-    <!-- 1. Dados globais -->
+    <!-- 1. Dados globais + instância SupabaseClient -->
     <script src="../scripts/config.js"></script>
     <!-- 2. Serviço de autenticação -->
     <script src="../scripts/auth.js"></script>
     <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, cart, lucide init) -->
     <script src="../scripts/common.js"></script>
-    <!-- 5. Lógica inline da página -->
-    <script>
-      // Verificação de autenticação — deve ocorrer antes de renderizar o conteúdo.
-      // O redirect preserva a URL atual para retornar após o login.
-      document.addEventListener("DOMContentLoaded", () => {
-        Auth.requireAuth();
-
-        // Se chegou aqui, está logado: popula os dados da sessão
-        const session = Auth.getSession();
-        if (session) {
-          document.getElementById("account-name").textContent =
-            session.name || "—";
-          document.getElementById("account-email").textContent =
-            session.email || "—";
-          if (session.phone) {
-            document.getElementById("account-phone").textContent =
-              session.phone;
-          }
-        }
-
-        // Logout
-        document.getElementById("btn-logout").addEventListener("click", () => {
-          Auth.logout();
-        });
-      });
-    </script>
+    <!-- 5. Lógica da página -->
+    <script src="../scripts/minha-conta.js"></script>
   </body>
 </html>

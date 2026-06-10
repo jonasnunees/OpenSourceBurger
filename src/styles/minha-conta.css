@@ -1,0 +1,177 @@
+/* ============================================================
+   account.css — Página Minha Conta
+   Importado por: minha-conta.html
+   Depende de: main.css → variables.css (tokens via var())
+   ============================================================ */
+
+/* ── Layout principal ─────────────────────────────────────── */
+.account-main {
+  min-height: calc(100dvh - var(--topbar-height));
+}
+
+/* ── Faixa do usuário ─────────────────────────────────────── */
+.account-user-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-block: var(--space-md);
+  padding-inline: var(--space-lg);
+  background-color: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-sm);
+}
+
+.account-user-banner__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.account-user-banner__avatar svg {
+  width: 24px;
+  height: 24px;
+}
+
+.account-user-banner__name {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  /* Evita overflow para nomes longos */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-user-banner__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  /* Touch target mínimo WCAG 2.5.5 */
+  min-width: 44px;
+  min-height: 44px;
+  transition: color var(--transition-fast);
+}
+
+.account-user-banner__logout:hover,
+.account-user-banner__logout:focus-visible {
+  color: var(--text-main);
+}
+
+.account-user-banner__logout:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.account-user-banner__logout svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Menu de navegação ────────────────────────────────────── */
+.account-menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Item ── */
+.account-menu__item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.account-menu__item:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ── Link / Botão base ── */
+.account-menu__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  /* Altura generosa para touch target confortável (WCAG 2.5.5) */
+  min-height: 56px;
+  padding-block: var(--space-lg);
+  padding-inline: var(--space-lg);
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  transition: background-color var(--transition-fast);
+}
+
+.account-menu__link:hover,
+.account-menu__link:focus-visible {
+  background-color: var(--bg-action);
+}
+
+.account-menu__link:focus-visible {
+  /* Outline interno — não vaza além da borda do item */
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+/* ── Ícone à esquerda ── */
+.account-menu__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-main);
+}
+
+.account-menu__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Rótulo (ocupa o espaço restante) ── */
+.account-menu__label {
+  flex: 1;
+}
+
+/* ── Seta à direita ── */
+.account-menu__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.account-menu__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Variante destrutiva (Excluir Minha Conta) ── */
+.account-menu__item--danger .account-menu__link {
+  color: var(--status-error);
+}
+
+.account-menu__item--danger .account-menu__icon {
+  color: var(--status-error);
+}
+
+.account-menu__item--danger .account-menu__link:hover,
+.account-menu__item--danger .account-menu__link:focus-visible {
+  background-color: var(--error-glow);
+}
