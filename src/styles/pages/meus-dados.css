@@ -1,0 +1,187 @@
+/* =========================
+   PAGE › MEUS DADOS
+   Estilos exclusivos da página de dados pessoais.
+   Depende de: main.css (tokens + form.css + account.css via account-user-banner)
+========================= */
+
+/* ── Layout principal ── */
+.dados-main {
+  min-height: calc(100dvh - var(--topbar-height));
+}
+
+/* ── Seção do formulário ── */
+.dados-section {
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ── Formulário ── */
+.dados-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ── Label visível (sobrescreve o sr-only padrão do form.css) ── */
+.dados-form .form-field label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--label-color);
+}
+
+/* ── Campo desabilitado (e-mail somente leitura) ── */
+.dados-form input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  /* Mantém o fundo original — evita confusão com campo editável */
+  background: var(--input-bg);
+}
+
+/* ── Dica de campo (hint) ── */
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding-left: 2px;
+  display: block;
+}
+
+/* ── Campo de checkbox ── */
+.dados-form__checkbox-field {
+  /* Remove o gap padrão do form-field para o checkbox ficar compacto */
+  gap: 0;
+}
+
+.dados-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  /* Touch target confortável */
+  min-height: 44px;
+}
+
+/* Esconde o input nativo mas mantém acessível */
+.dados-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Caixa visual customizada */
+.dados-checkbox__box {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-medium);
+  border-radius: 4px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+/* Checkmark via pseudo-elemento */
+.dados-checkbox__box::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border: 2px solid transparent;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+  transition: border-color var(--transition-fast);
+}
+
+/* Estado marcado */
+.dados-checkbox__input:checked + .dados-checkbox__box {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.dados-checkbox__input:checked + .dados-checkbox__box::after {
+  border-color: #fff;
+}
+
+/* Focus visível — acessibilidade teclado */
+.dados-checkbox__input:focus-visible + .dados-checkbox__box {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.dados-checkbox__label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ── Feedback geral ── */
+.dados-feedback {
+  display: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.dados-feedback.is-visible {
+  display: block;
+}
+
+.dados-feedback.is-error {
+  background: rgba(217, 56, 56, 0.1);
+  border: 1px solid rgba(217, 56, 56, 0.35);
+  color: var(--error-color-text);
+}
+
+.dados-feedback.is-success {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.35);
+  color: var(--status-success);
+}
+
+/* ── Botão Salvar Alterações ── */
+.dados-btn-salvar {
+  width: 100%;
+  min-height: var(--input-height);
+  padding-inline: var(--space-xl);
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    opacity var(--transition-fast);
+  margin-top: var(--space-sm);
+}
+
+.dados-btn-salvar:hover {
+  background: var(--primary-hover);
+}
+
+.dados-btn-salvar:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+.dados-btn-salvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

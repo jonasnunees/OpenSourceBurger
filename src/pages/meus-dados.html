@@ -6,19 +6,19 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
-      content="Gerencie suas informações pessoais no Open Source Burger."
+      content="Gerencie seus dados cadastrais no Open Source Burger."
     />
-    <title>Minha Conta — Open Source Burger</title>
+    <title>Meus Dados — Open Source Burger</title>
 
     <link
       rel="canonical"
-      href="https://opensourceburger.com.br/minha-conta.html"
+      href="https://opensourceburger.com.br/meus-dados.html"
     />
 
     <link rel="icon" href="../assets/icons/favicon.ico" />
     <link rel="stylesheet" href="../styles/vendors/reset.css" />
     <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/pages/minha-conta.css" />
+    <link rel="stylesheet" href="../styles/pages/meus-dados.css" />
   </head>
   <body>
     <!-- ══ Drawer ══ -->
@@ -69,10 +69,7 @@
           >
         </li>
         <li>
-          <a
-            href="minha-conta.html"
-            class="drawer-item active"
-            aria-current="page"
+          <a href="minha-conta.html" class="drawer-item"
             ><i data-lucide="user-round"></i><span>Minha Conta</span></a
           >
         </li>
@@ -126,16 +123,18 @@
 
     <!-- ══ Topbar ══ -->
     <header class="topbar">
-      <button
+      <!--
+        Padrão de páginas internas: <a> com arrow-left no lugar do menu hambúrguer.
+        href aponta para a página pai na hierarquia de navegação.
+      -->
+      <a
+        href="minha-conta.html"
         class="menu-btn"
-        aria-label="Abrir menu"
-        id="menu-btn"
-        aria-expanded="false"
-        aria-controls="drawer"
+        aria-label="Voltar para Minha Conta"
       >
-        <i data-lucide="menu"></i>
-      </button>
-      <h1 class="topbar-title">Minha Conta</h1>
+        <i data-lucide="arrow-left"></i>
+      </a>
+      <h1 class="topbar-title">Meus Dados</h1>
       <a
         href="meu-carrinho.html"
         class="cart-btn"
@@ -147,7 +146,7 @@
     </header>
 
     <!-- ══ Conteúdo principal ══ -->
-    <main class="account-main" id="main-content">
+    <main class="dados-main" id="main-content">
 
       <!-- Faixa com nome do usuário e botão de logout -->
       <div
@@ -169,105 +168,111 @@
         </button>
       </div>
 
-      <!-- Menu de opções da conta -->
-      <nav class="account-menu" aria-label="Opções da conta">
-        <ul class="account-menu__list" role="list">
+      <!-- Formulário de dados pessoais -->
+      <section class="dados-section" aria-labelledby="dados-heading">
+        <h2 id="dados-heading" class="sr-only">Dados pessoais</h2>
 
-          <li class="account-menu__item">
-            <a href="meus-dados.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="user-round"></i>
-              </span>
-              <span class="account-menu__label">Meus Dados</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+        <!-- Feedback de erro ou sucesso -->
+        <div
+          id="dados-feedback"
+          class="dados-feedback"
+          role="alert"
+          aria-live="polite"
+        ></div>
 
-          <li class="account-menu__item">
-            <a href="meus-pedidos.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="shopping-cart"></i>
-              </span>
-              <span class="account-menu__label">Meus Pedidos</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+        <form
+          id="dados-form"
+          class="dados-form"
+          novalidate
+          aria-label="Formulário de dados pessoais"
+        >
 
-          <li class="account-menu__item">
-            <a href="enderecos.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="house"></i>
-              </span>
-              <span class="account-menu__label">Endereços</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+          <!-- Nome completo -->
+          <div class="form-field">
+            <label for="dados-nome">Nome Completo:</label>
+            <input
+              type="text"
+              id="dados-nome"
+              name="nome"
+              autocomplete="name"
+              required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="dados-nome-error"
+            />
+            <span
+              id="dados-nome-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+            ></span>
+          </div>
 
-          <li class="account-menu__item">
-            <a href="meus-cupons.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="ticket"></i>
-              </span>
-              <span class="account-menu__label">Meus Cupons</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+          <!-- E-mail (somente leitura — troca de e-mail requer fluxo dedicado) -->
+          <div class="form-field">
+            <label for="dados-email">E-mail:</label>
+            <input
+              type="email"
+              id="dados-email"
+              name="email"
+              autocomplete="email"
+              disabled
+              aria-disabled="true"
+              aria-describedby="dados-email-hint"
+            />
+            <span id="dados-email-hint" class="field-hint">
+              Para alterar o e-mail, entre em contato com o suporte.
+            </span>
+          </div>
 
-          <li class="account-menu__item">
-            <a href="programa-fidelidade.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="gift"></i>
-              </span>
-              <span class="account-menu__label">Meus Pontos</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+          <!-- Telefone -->
+          <div class="form-field">
+            <label for="dados-telefone">Telefone:</label>
+            <input
+              type="tel"
+              id="dados-telefone"
+              name="telefone"
+              autocomplete="tel"
+              inputmode="numeric"
+              maxlength="15"
+              aria-invalid="false"
+              aria-describedby="dados-telefone-error"
+            />
+            <span
+              id="dados-telefone-error"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+            ></span>
+          </div>
 
-          <li class="account-menu__item">
-            <a href="alterar-senha.html" class="account-menu__link">
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="lock"></i>
+          <!-- Preferências de comunicação -->
+          <div class="form-field dados-form__checkbox-field">
+            <label class="dados-checkbox" for="dados-marketing">
+              <input
+                type="checkbox"
+                id="dados-marketing"
+                name="marketing"
+                class="dados-checkbox__input"
+              />
+              <span class="dados-checkbox__box" aria-hidden="true"></span>
+              <span class="dados-checkbox__label">
+                Receber E-mails de Acompanhamento de Pedido
               </span>
-              <span class="account-menu__label">Alterar Senha</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </a>
-          </li>
+            </label>
+          </div>
 
-          <!--
-            Ação destrutiva: <button> em vez de <a> pois não navega —
-            abre modal de confirmação antes de executar qualquer operação.
-          -->
-          <li class="account-menu__item account-menu__item--danger">
-            <button
-              type="button"
-              id="btn-delete-account"
-              class="account-menu__link"
-              aria-label="Excluir minha conta permanentemente"
-            >
-              <span class="account-menu__icon" aria-hidden="true">
-                <i data-lucide="trash-2"></i>
-              </span>
-              <span class="account-menu__label">Excluir Minha Conta</span>
-              <span class="account-menu__arrow" aria-hidden="true">
-                <i data-lucide="chevron-right"></i>
-              </span>
-            </button>
-          </li>
+          <!-- Botão salvar -->
+          <button
+            type="submit"
+            id="btn-salvar"
+            class="dados-btn-salvar"
+          >
+            Salvar Alterações
+          </button>
 
-        </ul>
-      </nav>
+        </form>
+      </section>
 
     </main>
 
@@ -279,9 +284,11 @@
     <script src="../scripts/auth.js"></script>
     <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 4. Comportamentos comuns (drawer, whatsapp, cart, lucide init) -->
+    <!-- 4. Utilitários de validação -->
+    <script src="../scripts/validators.js"></script>
+    <!-- 5. Comportamentos comuns -->
     <script src="../scripts/common.js"></script>
-    <!-- 5. Lógica da página -->
-    <script src="../scripts/minha-conta.js"></script>
+    <!-- 6. Lógica da página -->
+    <script src="../scripts/meus-dados.js"></script>
   </body>
 </html>
