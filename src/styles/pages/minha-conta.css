@@ -1,86 +1,15 @@
-/* ============================================================
-   account.css — Página Minha Conta
-   Importado por: minha-conta.html
-   Depende de: main.css → variables.css (tokens via var())
-   ============================================================ */
+/* =========================
+   PAGE › MINHA CONTA
+   Estilos exclusivos da página Minha Conta.
+   Depende de: main.css (tokens + account-banner.css já importado)
+========================= */
 
-/* ── Layout principal ─────────────────────────────────────── */
+/* ── Layout principal ── */
 .account-main {
   min-height: calc(100dvh - var(--topbar-height));
 }
 
-/* ── Faixa do usuário ─────────────────────────────────────── */
-.account-user-banner {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding-block: var(--space-md);
-  padding-inline: var(--space-lg);
-  background-color: var(--bg-topbar);
-  border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: var(--space-sm);
-}
-
-.account-user-banner__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--text-muted);
-}
-
-.account-user-banner__avatar svg {
-  width: 24px;
-  height: 24px;
-}
-
-.account-user-banner__name {
-  flex: 1;
-  font-family: var(--font-body);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  /* Evita overflow para nomes longos */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.account-user-banner__logout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-muted);
-  padding: var(--space-sm);
-  border-radius: var(--radius-sm);
-  /* Touch target mínimo WCAG 2.5.5 */
-  min-width: 44px;
-  min-height: 44px;
-  transition: color var(--transition-fast);
-}
-
-.account-user-banner__logout:hover,
-.account-user-banner__logout:focus-visible {
-  color: var(--text-main);
-}
-
-.account-user-banner__logout:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-.account-user-banner__logout svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* ── Menu de navegação ────────────────────────────────────── */
+/* ── Menu de navegação ── */
 .account-menu__list {
   list-style: none;
   padding: 0;
