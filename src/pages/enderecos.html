@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Gerencie seus endereços de entrega no Open Source Burger."
+    />
+    <title>Meus Endereços — Open Source Burger</title>
+
+    <link
+      rel="canonical"
+      href="https://opensourceburger.com.br/enderecos.html"
+    />
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/enderecos.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button
+          class="close-drawer-btn"
+          id="close-drawer-btn"
+          aria-label="Fechar menu"
+        >
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <ul class="drawer-nav">
+        <li><a href="cardapio.html" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
+        <li><a href="promocoes.html" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
+        <li><a href="meu-carrinho.html" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
+        <li><a href="meus-pedidos.html" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
+        <li><a href="meus-cupons.html" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
+        <li><a href="minha-conta.html" class="drawer-item"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
+        <li><a href="programa-fidelidade.html" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
+        <li><a href="localizacao.html" class="drawer-item"><i data-lucide="map-pin"></i><span>Localização</span></a></li>
+        <li><a href="area-de-entrega.html" class="drawer-item"><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a></li>
+        <li>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+      <footer class="drawer-footer">
+        <p class="drawer-credit">Desenvolvido por <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a></p>
+        <p class="drawer-icons">Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a></p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar ══ -->
+    <header class="topbar">
+      <a href="minha-conta.html" class="menu-btn" aria-label="Voltar para Minha Conta">
+        <i data-lucide="arrow-left"></i>
+      </a>
+      <h1 class="topbar-title">Meus Endereços</h1>
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="enderecos-main" id="main-content">
+
+      <!-- Faixa do usuário -->
+      <div class="account-user-banner" role="region" aria-label="Informações do usuário logado">
+        <span class="account-user-banner__avatar" aria-hidden="true">
+          <i data-lucide="smile"></i>
+        </span>
+        <span class="account-user-banner__name" id="account-name">—</span>
+        <button type="button" id="btn-logout" class="account-user-banner__logout" aria-label="Sair da conta">
+          <i data-lucide="log-out"></i>
+        </button>
+      </div>
+
+      <!-- Estado de carregamento -->
+      <div class="enderecos-loading" id="enderecos-loading" aria-live="polite" aria-label="Carregando endereços">
+        <i data-lucide="loader-circle"></i>
+      </div>
+
+      <!-- Lista de endereços -->
+      <ul class="enderecos-lista" id="enderecos-lista" aria-label="Seus endereços cadastrados" hidden></ul>
+
+      <!-- Aviso de limite atingido -->
+      <p class="enderecos-limite" id="enderecos-limite" hidden>
+        Limite de 5 endereços atingido. Exclua um endereço para adicionar outro.
+      </p>
+
+      <!-- Botão novo endereço -->
+      <div class="enderecos-actions" id="enderecos-actions" hidden>
+        <a href="editar-endereco.html" class="enderecos-btn-novo" id="btn-novo-endereco">
+          Novo Endereço
+        </a>
+      </div>
+
+    </main>
+
+    <script src="../scripts/libs/supabase.js"></script>
+    <script src="../scripts/config.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../scripts/common.js"></script>
+    <script src="../scripts/enderecos.js"></script>
+  </body>
+</html>

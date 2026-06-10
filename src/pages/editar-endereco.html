@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Adicione ou edite um endereço de entrega no Open Source Burger."
+    />
+    <title>Endereço — Open Source Burger</title>
+
+    <link rel="icon" href="../assets/icons/favicon.ico" />
+    <link rel="stylesheet" href="../styles/vendors/reset.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/enderecos.css" />
+  </head>
+  <body>
+    <!-- ══ Drawer ══ -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <nav class="drawer" id="drawer" aria-label="Menu de navegação">
+      <div class="drawer-header">
+        <a href="../../index.html">
+          <img
+            src="../assets/images/logo.webp"
+            alt="Open Source Burger — Ir para página inicial"
+            class="drawer-logo"
+            width="160"
+            height="56"
+          />
+        </a>
+        <button class="close-drawer-btn" id="close-drawer-btn" aria-label="Fechar menu">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <ul class="drawer-nav">
+        <li><a href="cardapio.html" class="drawer-item"><i data-lucide="book-open"></i><span>Cardápio</span></a></li>
+        <li><a href="promocoes.html" class="drawer-item"><i data-lucide="star"></i><span>Promoções</span></a></li>
+        <li><a href="meu-carrinho.html" class="drawer-item"><i data-lucide="shopping-cart"></i><span>Meu Carrinho</span></a></li>
+        <li><a href="meus-pedidos.html" class="drawer-item"><i data-lucide="clock-9"></i><span>Meus Pedidos</span></a></li>
+        <li><a href="meus-cupons.html" class="drawer-item"><i data-lucide="ticket"></i><span>Meus Cupons</span></a></li>
+        <li><a href="minha-conta.html" class="drawer-item"><i data-lucide="user-round"></i><span>Minha Conta</span></a></li>
+        <li><a href="programa-fidelidade.html" class="drawer-item"><i data-lucide="gift"></i><span>Programa de Fidelidade</span></a></li>
+        <li><a href="localizacao.html" class="drawer-item"><i data-lucide="map-pin"></i><span>Localização</span></a></li>
+        <li><a href="area-de-entrega.html" class="drawer-item"><i data-lucide="circle-dashed"></i><span>Área de Entrega</span></a></li>
+        <li>
+          <a href="#" data-whatsapp class="drawer-item" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+            <i data-lucide="message-circle-more"></i><span>Pedir pelo WhatsApp</span>
+          </a>
+        </li>
+      </ul>
+      <footer class="drawer-footer">
+        <p class="drawer-credit">Desenvolvido por <a href="https://github.com/jonasnunees" target="_blank" rel="noopener noreferrer">Jonas Nunes</a></p>
+        <p class="drawer-icons">Ícones por <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a></p>
+      </footer>
+    </nav>
+
+    <!-- ══ Topbar — título atualizado via JS ══ -->
+    <header class="topbar">
+      <a href="enderecos.html" class="menu-btn" aria-label="Voltar para Meus Endereços">
+        <i data-lucide="arrow-left"></i>
+      </a>
+      <h1 class="topbar-title" id="topbar-titulo">Novo Endereço</h1>
+      <a href="meu-carrinho.html" class="cart-btn" aria-label="Ver carrinho (0 itens)">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" aria-hidden="true">0</span>
+      </a>
+    </header>
+
+    <!-- ══ Conteúdo principal ══ -->
+    <main class="enderecos-main" id="main-content">
+
+      <!-- Faixa do usuário -->
+      <div class="account-user-banner" role="region" aria-label="Informações do usuário logado">
+        <span class="account-user-banner__avatar" aria-hidden="true">
+          <i data-lucide="smile"></i>
+        </span>
+        <span class="account-user-banner__name" id="account-name">—</span>
+        <button type="button" id="btn-logout" class="account-user-banner__logout" aria-label="Sair da conta">
+          <i data-lucide="log-out"></i>
+        </button>
+      </div>
+
+      <section class="endereco-form-section">
+        <h2 class="sr-only" id="form-heading">Dados do endereço</h2>
+
+        <!-- Feedback geral -->
+        <div
+          id="endereco-feedback"
+          class="endereco-feedback"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <form
+          id="endereco-form"
+          class="endereco-form"
+          novalidate
+          aria-labelledby="form-heading"
+        >
+
+          <!-- Título do endereço -->
+          <div class="form-field">
+            <label for="end-titulo">Identificação:</label>
+            <select id="end-titulo" name="titulo" aria-required="true">
+              <option value="Principal">Principal</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Outros" selected>Outros</option>
+            </select>
+          </div>
+
+          <!-- CEP -->
+          <div class="form-field">
+            <label for="end-cep">CEP:</label>
+            <div class="endereco-cep-wrap">
+              <input
+                type="text"
+                id="end-cep"
+                name="cep"
+                placeholder="00000-000"
+                inputmode="numeric"
+                maxlength="9"
+                autocomplete="postal-code"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="end-cep-error"
+              />
+              <span class="endereco-cep-spinner" id="cep-spinner" aria-hidden="true">
+                <i data-lucide="loader-circle"></i>
+              </span>
+            </div>
+            <span id="end-cep-error" class="field-error" role="alert" aria-live="assertive"></span>
+          </div>
+
+          <!-- Rua -->
+          <div class="form-field">
+            <label for="end-rua">Rua:</label>
+            <input
+              type="text"
+              id="end-rua"
+              name="rua"
+              autocomplete="street-address"
+              required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="end-rua-error"
+            />
+            <span id="end-rua-error" class="field-error" role="alert" aria-live="assertive"></span>
+          </div>
+
+          <!-- Número e Complemento lado a lado -->
+          <div class="endereco-form__row">
+            <div class="form-field">
+              <label for="end-numero">Número:</label>
+              <input
+                type="text"
+                id="end-numero"
+                name="numero"
+                inputmode="numeric"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="end-numero-error"
+              />
+              <span id="end-numero-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+            <div class="form-field">
+              <label for="end-complemento">Complemento:</label>
+              <input
+                type="text"
+                id="end-complemento"
+                name="complemento"
+                placeholder="Apto, Casa..."
+                autocomplete="address-line2"
+              />
+            </div>
+          </div>
+
+          <!-- Bairro -->
+          <div class="form-field">
+            <label for="end-bairro">Bairro:</label>
+            <input
+              type="text"
+              id="end-bairro"
+              name="bairro"
+              required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="end-bairro-error"
+            />
+            <span id="end-bairro-error" class="field-error" role="alert" aria-live="assertive"></span>
+          </div>
+
+          <!-- Cidade e UF lado a lado -->
+          <div class="endereco-form__row">
+            <div class="form-field endereco-form__cidade">
+              <label for="end-cidade">Cidade:</label>
+              <input
+                type="text"
+                id="end-cidade"
+                name="cidade"
+                autocomplete="address-level2"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="end-cidade-error"
+              />
+              <span id="end-cidade-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+            <div class="form-field endereco-form__uf">
+              <label for="end-uf">UF:</label>
+              <input
+                type="text"
+                id="end-uf"
+                name="uf"
+                maxlength="2"
+                autocomplete="address-level1"
+                required
+                aria-required="true"
+                aria-invalid="false"
+                aria-describedby="end-uf-error"
+              />
+              <span id="end-uf-error" class="field-error" role="alert" aria-live="assertive"></span>
+            </div>
+          </div>
+
+          <!-- Checkbox principal -->
+          <div class="form-field dados-form__checkbox-field">
+            <label class="dados-checkbox" for="end-principal">
+              <input
+                type="checkbox"
+                id="end-principal"
+                name="principal"
+                class="dados-checkbox__input"
+              />
+              <span class="dados-checkbox__box" aria-hidden="true"></span>
+              <span class="dados-checkbox__label">Usar como endereço principal</span>
+            </label>
+          </div>
+
+          <!-- Botão salvar -->
+          <button type="submit" id="btn-salvar-endereco" class="endereco-btn-salvar">
+            Salvar Endereço
+          </button>
+
+        </form>
+
+        <!-- Botão excluir — visível apenas no modo edição -->
+        <button
+          type="button"
+          id="btn-excluir-endereco"
+          class="endereco-btn-excluir"
+          hidden
+          aria-label="Excluir este endereço"
+        >
+          <i data-lucide="trash-2" aria-hidden="true"></i>
+          Excluir Endereço
+        </button>
+
+      </section>
+    </main>
+
+    <script src="../scripts/libs/supabase.js"></script>
+    <script src="../scripts/config.js"></script>
+    <script src="../scripts/auth.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../scripts/validators.js"></script>
+    <script src="../scripts/common.js"></script>
+    <script src="../scripts/editar-endereco.js"></script>
+  </body>
+</html>
