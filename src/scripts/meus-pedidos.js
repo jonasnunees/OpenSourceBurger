@@ -33,11 +33,13 @@
 
   /** Ícone e rótulo por status */
   const STATUS_CONFIG = {
-    finalizado: { icone: "circle-check-big", label: "Pedido Finalizado" },
-    em_preparo: { icone: "chef-hat",         label: "Em Preparo"        },
-    a_caminho:  { icone: "bike",             label: "A Caminho"         },
-    pendente:   { icone: "clock",            label: "Pendente"          },
-    cancelado:  { icone: "circle-x",         label: "Cancelado"         },
+    finalizado: { icone: "circle-check-big", label: "Concluído"  },
+    concluido:  { icone: "circle-check-big", label: "Concluído"  },
+    concluído:  { icone: "circle-check-big", label: "Concluído"  },
+    em_preparo: { icone: "chef-hat",         label: "Em Preparo" },
+    a_caminho:  { icone: "bike",             label: "A Caminho"  },
+    pendente:   { icone: "clock",            label: "Pendente"   },
+    cancelado:  { icone: "circle-x",         label: "Cancelado"  },
   };
 
   // ══════════════════════════════════════════════════════════

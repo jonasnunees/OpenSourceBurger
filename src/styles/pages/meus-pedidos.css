@@ -191,9 +191,11 @@
 
 /* Cores por status */
 .pedido-card__status[data-status="finalizado"] { color: var(--status-success); }
+.pedido-card__status[data-status="concluido"]  { color: var(--status-success); }
+.pedido-card__status[data-status="concluído"]  { color: var(--status-success); }
 .pedido-card__status[data-status="em_preparo"] { color: var(--primary-color);  }
 .pedido-card__status[data-status="a_caminho"]  { color: var(--primary-color);  }
-.pedido-card__status[data-status="pendente"]   { color: var(--text-muted);     }
+.pedido-card__status[data-status="pendente"]   { color: var(--primary-color);  }
 .pedido-card__status[data-status="cancelado"]  { color: var(--status-error);   }
 
 /* ── Estrelas de avaliação ── */
