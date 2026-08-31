@@ -30,7 +30,7 @@ const CART_TTL_MS =
 const CONFIG = {
   settings: {
     cartStorageKey: "osb_cart",
-    appliedCouponStorageKey: "osb_applied_coupon",
+    appliedCouponSessionKey: "osb_applied_coupon",
 
     // Tempo de vida do carrinho salvo no navegador.
     cartTTL: CART_TTL_MS,

@@ -31,10 +31,17 @@ function formatarPreco(valor) {
 }
 
 function getAppliedCoupon() {
-  const storageKey = CONFIG.settings?.appliedCouponStorageKey || "osb_applied_coupon";
+  const storageKey = CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
+
+  localStorage.removeItem(storageKey);
+
+  if (typeof Auth !== "undefined" && !Auth.isLoggedIn()) {
+    sessionStorage.removeItem(storageKey);
+    return null;
+  }
 
   try {
-    return JSON.parse(localStorage.getItem(storageKey));
+    return JSON.parse(sessionStorage.getItem(storageKey));
   } catch {
     return null;
   }

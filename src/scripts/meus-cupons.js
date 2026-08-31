@@ -27,8 +27,8 @@
     return match ? parseFloat(match[0].replace(",", ".")) : 0;
   }
 
-  function getAppliedCouponStorageKey() {
-    return CONFIG.settings?.appliedCouponStorageKey || "osb_applied_coupon";
+  function getAppliedCouponSessionKey() {
+    return CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
   }
 
   function normalizeCouponCode(value) {
@@ -63,7 +63,7 @@
       appliedAt: new Date().toISOString(),
     };
 
-    localStorage.setItem(getAppliedCouponStorageKey(), JSON.stringify(payload));
+    sessionStorage.setItem(getAppliedCouponSessionKey(), JSON.stringify(payload));
   }
 
   async function validateCoupon(code) {

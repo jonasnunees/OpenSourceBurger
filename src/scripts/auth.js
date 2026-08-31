@@ -120,7 +120,11 @@ const Auth = (() => {
       await SupabaseClient.auth.signOut();
     }
 
+    const couponKey = CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
+
     sessionStorage.removeItem("osb_session");
+    sessionStorage.removeItem(couponKey);
+    localStorage.removeItem(couponKey);
     window.location.href = HOME_PAGE;
   }
 
@@ -188,7 +192,11 @@ const Auth = (() => {
       _syncSession(data.session.user);
     } else {
       // Sessão expirada ou inválida: limpa o cache
+      const couponKey = CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
+
       sessionStorage.removeItem("osb_session");
+      sessionStorage.removeItem(couponKey);
+      localStorage.removeItem(couponKey);
     }
   })();
 
