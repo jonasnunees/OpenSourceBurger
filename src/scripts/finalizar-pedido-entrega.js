@@ -66,11 +66,16 @@
    * Retorna null para dados ausentes — cada função consumidora
    * trata a ausência graciosamente (exibe "—", R$ 0,00, etc).
    *
-   * @returns {{ guest, modalidade, endereco }}
+   * @returns {{ cliente: object|null, guest: object|null, usuario: object|null, modalidade: object|null, endereco: object|null }}
    */
   function lerDadosSessao() {
+    const guest   = lerSessao(GUEST_KEY);
+    const usuario = Auth.getSession?.() ?? null;
+
     return {
-      guest:      lerSessao(GUEST_KEY),
+      cliente:    guest ?? usuario,
+      guest,
+      usuario,
       modalidade: lerSessao(MODALIDADE_KEY),
       endereco:   lerSessao(ENDERECO_KEY),
     };
@@ -206,6 +211,8 @@
 
   function montarPedido(sessao) {
     return {
+      cliente:     sessao.cliente,
+      tipoCliente: sessao.usuario ? "cadastrado" : "visitante",
       visitante:   sessao.guest,
       modalidade:  sessao.modalidade,
       endereco:    sessao.endereco,
@@ -236,7 +243,7 @@
 
       // Valida sessão apenas no momento de confirmar
       const sessao = lerDadosSessao();
-      if (!sessao.guest || !sessao.modalidade || !sessao.endereco) {
+      if (!sessao.cliente || !sessao.modalidade || !sessao.endereco) {
         window.location.replace(FLUXO_INICIO);
         return;
       }

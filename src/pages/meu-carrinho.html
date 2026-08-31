@@ -191,13 +191,16 @@
       </section>
 
       <!-- ── Botão Finalizar Pedido ──
-           href aponta para login.html como destino semântico correto.
+           href aponta para login.html preservando o retorno à próxima etapa
+           de checkout. Sem esse redirect, o login concluído volta para
+           a página inicial por padrão.
+
            O JS intercepta o clique e bloqueia a navegação quando a
            loja estiver fechada, exibindo o closed-modal no lugar.
       ── -->
       <a
         id="btn-finalize"
-        href="login.html"
+        href="login.html?redirect=escolher-modalidade.html"
         class="btn-primary"
         aria-label="Finalizar pedido"
         style="display: none"

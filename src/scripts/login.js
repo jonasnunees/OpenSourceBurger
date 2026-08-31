@@ -44,7 +44,9 @@ const FAKE_API_DELAY_MS = 300;
 const CHECKOUT_PAGES = [
   "pedido-visitante.html",
   "escolher-modalidade.html",
+  "endereco-de-entrega.html",
   "finalizar-pedido.html",
+  "finalizar-pedido-entrega.html",
 ];
 
 // ── Utilidades ──────────────────────────────────────────────────────────────
@@ -167,9 +169,19 @@ function isCheckoutFlow() {
  * o fluxo do DOM e não quebrar scripts que possam referenciar o link.
  */
 function initGuestLink() {
-  if (isCheckoutFlow()) return; // checkout: exibe normalmente
-
   const guestLink = document.querySelector(".guest-link");
+
+  if (isCheckoutFlow()) {
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+
+    if (guestLink && redirect) {
+      guestLink.href = `pedido-visitante.html?redirect=${encodeURIComponent(redirect)}`;
+    }
+
+    return; // checkout: exibe normalmente
+  }
+
   if (guestLink) guestLink.style.display = "none";
 }
 

@@ -3,7 +3,7 @@
  * Script da página de finalização de pedido (retirada e consumo no local).
  *
  * Responsabilidades:
- * - Valida presença dos dados de sessão (osb_guest, osb_modalidade)
+ * - Valida presença de cliente (visitante ou usuário logado) e modalidade
  * - Redireciona para o início do fluxo se dados estiverem ausentes
  * - Preenche o label e ícone da modalidade escolhida
  * - Calcula e exibe o resumo do carrinho (itens + total)
@@ -64,22 +64,24 @@
    * Valida que os dados necessários estão no sessionStorage.
    * Se ausentes, redireciona para o início do fluxo.
    *
-   * Os dados de visitante (osb_guest) são obrigatórios pois o fluxo
-   * de checkout sempre passa por pedido-visitante.html antes desta página.
-   * A modalidade (osb_modalidade) é obrigatória pois define o que exibir.
+   * O cliente pode vir do checkout como visitante (osb_guest) ou da sessão
+   * autenticada. A modalidade (osb_modalidade) é obrigatória pois define
+   * o que exibir.
    *
-   * @returns {{ guest: object, modalidade: object } | null}
+   * @returns {{ cliente: object, guest: object|null, usuario: object|null, modalidade: object } | null}
    */
   function validarSessao() {
     const guest      = lerSessao(GUEST_KEY);
+    const usuario    = Auth.getSession?.() ?? null;
     const modalidade = lerSessao(MODALIDADE_KEY);
+    const cliente    = guest ?? usuario;
 
-    if (!guest || !modalidade) {
+    if (!cliente || !modalidade) {
       window.location.replace(FLUXO_INICIO);
       return null;
     }
 
-    return { guest, modalidade };
+    return { cliente, guest, usuario, modalidade };
   }
 
   // ── Modalidade ──────────────────────────────────────────────────────────
@@ -168,11 +170,13 @@
   /**
    * Monta o objeto do pedido consolidando todos os dados da sessão.
    *
-   * @param {{ guest: object, modalidade: object }} sessao
+   * @param {{ cliente: object, guest: object|null, usuario: object|null, modalidade: object }} sessao
    * @returns {object}
    */
   function montarPedido(sessao) {
     return {
+      cliente:      sessao.cliente,
+      tipoCliente:  sessao.usuario ? "cadastrado" : "visitante",
       visitante:    sessao.guest,
       modalidade:   sessao.modalidade,
       pagamento:    "Pagar no estabelecimento",
