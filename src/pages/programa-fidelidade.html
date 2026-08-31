@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Programa de Fidelidade Open Source Burger — Troque seus pontos por prêmios incríveis. Confira o catálogo de brindes, seu histórico e o regulamento."
+      content="Programa de Fidelidade Open Source Burger — Troque seus pontos por prêmios incríveis. Confira o catálogo de brindes, seus pontos e o regulamento."
     />
     <title>Programa de Fidelidade — Open Source Burger</title>
 
@@ -184,7 +184,7 @@
           aria-controls="panel-historico"
           tabindex="-1"
         >
-          Histórico
+          Meus pontos
         </button>
 
         <button
@@ -239,26 +239,55 @@
         </div>
       </section>
 
-      <!-- ── Painel: Histórico ── -->
+      <!-- ── Painel: Meus pontos ── -->
       <section
-        class="tab-panel history-panel"
+        class="tab-panel my-points-panel"
         id="panel-historico"
         role="tabpanel"
         aria-labelledby="tab-historico"
         tabindex="0"
       >
-        <p class="history-message">
-          Faça login para ver o seu histórico de pontos.
+        <div class="points-summary" id="points-summary" hidden>
+          <span class="points-summary__label">Pontos disponíveis</span>
+          <strong class="points-summary__value" id="points-balance">0</strong>
+        </div>
+
+        <p class="history-message" id="points-login-message">
+          Faça login para ver os seus pontos.
         </p>
 
         <a
-          href="login.html?redirect=programa-fidelidade.html"
+          href="login.html?redirect=programa-fidelidade.html%3Ftab%3Dmeus-pontos"
           class="login-btn"
+          id="points-login-btn"
           aria-label="Fazer login ou cadastrar-se no programa de fidelidade"
         >
           <i data-lucide="user-round"></i>
           Faça login ou cadastre-se
         </a>
+
+        <p class="points-loading" id="points-loading" hidden>
+          Carregando seus pontos...
+        </p>
+
+        <div class="points-empty" id="points-empty" hidden>
+          <i data-lucide="gift"></i>
+          <p>Você ainda não tem pontos.</p>
+        </div>
+
+        <div class="points-empty" id="points-no-prizes" hidden>
+          <i data-lucide="gift"></i>
+          <p>Você ainda não tem pontos suficientes para trocar por um prêmio.</p>
+        </div>
+
+        <div class="redeemable-prizes" id="redeemable-prizes" hidden>
+          <h2 class="redeemable-prizes__heading">Você já pode trocar por</h2>
+          <ul
+            class="prizes-list"
+            id="redeemable-prizes-list"
+            aria-label="Prêmios disponíveis para os seus pontos"
+          ></ul>
+        </div>
       </section>
 
       <!-- ── Painel: Regulamento ── -->
@@ -316,11 +345,13 @@
     <script src="../scripts/libs/supabase.js"></script>
     <!-- 1. Dados globais -->
     <script src="../scripts/config.js"></script>
-    <!-- 2. Biblioteca de ícones -->
+    <!-- 2. Serviço de autenticação -->
+    <script src="../scripts/auth.js"></script>
+    <!-- 3. Biblioteca de ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 3. Comportamentos comuns (drawer, whatsapp, lucide init, initTabs) -->
+    <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init, initTabs) -->
     <script src="../scripts/common.js"></script>
-    <!-- 4. Script da página -->
+    <!-- 5. Script da página -->
     <script src="../scripts/programa-fidelidade.js"></script>
   </body>
 </html>

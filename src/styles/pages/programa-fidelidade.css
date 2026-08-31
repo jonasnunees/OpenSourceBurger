@@ -110,20 +110,43 @@
   letter-spacing: 0.5px;
 }
 
-/* ── Painel: Histórico ── */
-.history-panel {
+/* ── Painel: Meus pontos ── */
+.my-points-panel {
   display: none; /* sobrescrito por .is-active */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: calc(100dvh - var(--topbar-height) - 49px);
-  padding: var(--space-3xl) var(--space-xl);
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   text-align: center;
   gap: var(--space-xl);
 }
 
-.history-panel.is-active {
+.my-points-panel.is-active {
   display: flex;
+}
+
+.points-summary {
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-xl);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+}
+
+.points-summary__label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-xs);
+}
+
+.points-summary__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--primary-color);
 }
 
 .history-message {
@@ -131,6 +154,35 @@
   color: var(--text-secondary);
   line-height: 1.5;
   max-width: 280px;
+}
+
+.points-loading,
+.points-empty {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+.points-empty svg {
+  width: 44px;
+  height: 44px;
+  stroke: rgba(255, 255, 255, 0.22);
+  margin: 0 auto var(--space-md);
+}
+
+.redeemable-prizes {
+  width: 100%;
+  max-width: 640px;
+  text-align: left;
+}
+
+.redeemable-prizes__heading {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-lg);
 }
 
 /* Botão de login — variante com border-radius md (não pill).

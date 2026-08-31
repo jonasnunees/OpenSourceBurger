@@ -6,11 +6,12 @@
  * - Declarar os dados de prêmios e categorias de pontuação
  * - Renderizar a lista de prêmios com busca em tempo real
  * - Renderizar a tabela de regulamento por categoria
+ * - Renderizar a área "Meus pontos" para clientes logados
  *
  * O sistema de tabs é inicializado por UI.initTabs() em common.js.
  *
  * Dependências (nesta ordem no HTML):
- * config.js → common.js → utils/formatters.js → pages/programa-fidelidade.js
+ * config.js → auth.js → common.js → pages/programa-fidelidade.js
  */
 
 // ── Seletores ───────────────────────────────────────────────────────────────
@@ -19,6 +20,7 @@ const PRIZES_LIST_ID = "prizes-list";
 const EMPTY_STATE_ID = "empty-state";
 const SEARCH_INPUT_ID = "search-input";
 const CATEGORIES_BODY_ID = "categories-body";
+const REDEEMABLE_PRIZES_LIST_ID = "redeemable-prizes-list";
 
 // ── Dados ──────────────────────────────────────────────────────────────────
 
@@ -93,6 +95,12 @@ const CATEGORIAS = [
   { nome: "Brindes Programa de Fidelidade", formula: "R$ 1 = 0 pontos" },
 ];
 
+const STATUS_PEDIDOS_PONTUAVEIS = [
+  "finalizado",
+  "concluido",
+  "concluído",
+];
+
 // ── Utilidades ──────────────────────────────────────────────────────────────
 
 /**
@@ -124,6 +132,59 @@ function normalizeSearchTerm(value) {
  */
 function formatarPontos(pontos) {
   return pontos.toLocaleString("pt-BR");
+}
+
+/**
+ * Converte preços salvos como texto ou número para Number.
+ *
+ * @param {unknown} valor
+ * @returns {number}
+ */
+function parsePreco(valor) {
+  if (typeof valor === "number") return valor;
+
+  const normalizado = String(valor ?? "")
+    .replace(/[^\d,.-]/g, "")
+    .replace(/\.(?=\d{3}(?:\D|$))/g, "")
+    .replace(",", ".");
+
+  return Number.parseFloat(normalizado) || 0;
+}
+
+/**
+ * Normaliza itens salvos no pedido como objeto ou array.
+ *
+ * @param {object|object[]|null} itens
+ * @returns {object[]}
+ */
+function normalizarItensPedido(itens) {
+  if (Array.isArray(itens)) return itens;
+  if (itens && typeof itens === "object") return Object.values(itens);
+  return [];
+}
+
+function obterMultiplicadorPontos(categoriaNome) {
+  const categoria = String(categoriaNome || "").toLowerCase();
+
+  if (categoria.includes("sanduíche") || categoria.includes("sanduiche")) return 2;
+  if (categoria.includes("doce artesanal")) return 0;
+  if (categoria.includes("brindes programa")) return 0;
+
+  return 1;
+}
+
+function calcularPontosItem(item) {
+  const multiplicador = obterMultiplicadorPontos(item.categoriaNome);
+  const subtotal = parsePreco(item.subtotal) || (parsePreco(item.preco) * Number(item.qty || 0));
+
+  return Math.floor(subtotal * multiplicador);
+}
+
+function calcularPontosPedidos(pedidos) {
+  return pedidos.reduce((total, pedido) => {
+    const itens = normalizarItensPedido(pedido.itens);
+    return total + itens.reduce((subtotal, item) => subtotal + calcularPontosItem(item), 0);
+  }, 0);
 }
 
 /**
@@ -267,6 +328,15 @@ function renderPremios(lista) {
   createLucideIcons();
 }
 
+function renderPremiosResgataveis(lista) {
+  const prizesList = document.getElementById(REDEEMABLE_PRIZES_LIST_ID);
+
+  if (!prizesList) return;
+
+  prizesList.innerHTML = lista.map(createPrizeItemTemplate).join("");
+  createLucideIcons();
+}
+
 /**
  * Filtra os prêmios pelo termo digitado na busca.
  *
@@ -308,8 +378,130 @@ function initRegulamento() {
   categoriesBody.innerHTML = CATEGORIAS.map(createCategoryRowTemplate).join("");
 }
 
+function setElementHidden(id, hidden) {
+  const element = document.getElementById(id);
+  if (element) element.hidden = hidden;
+}
+
+function renderSaldo(saldo) {
+  const balanceEl = document.getElementById("points-balance");
+  if (balanceEl) balanceEl.textContent = formatarPontos(saldo);
+}
+
+function getPremiosResgataveis(saldo) {
+  return PREMIOS.filter((premio) => premio.pontos <= saldo);
+}
+
+async function buscarPedidosPontuaveis(userId) {
+  const { data, error } = await SupabaseClient
+    .from("pedidos")
+    .select("itens")
+    .eq("user_id", userId)
+    .in("status", STATUS_PEDIDOS_PONTUAVEIS);
+
+  if (error) throw error;
+
+  return data || [];
+}
+
+async function buscarSaldoPontos(userId) {
+  const pedidos = await buscarPedidosPontuaveis(userId);
+  return calcularPontosPedidos(pedidos);
+}
+
+function showLoginState() {
+  setElementHidden("points-summary", true);
+  setElementHidden("points-loading", true);
+  setElementHidden("points-empty", true);
+  setElementHidden("points-no-prizes", true);
+  setElementHidden("redeemable-prizes", true);
+  setElementHidden("points-login-message", false);
+  setElementHidden("points-login-btn", false);
+}
+
+function showLoadingState() {
+  setElementHidden("points-summary", true);
+  setElementHidden("points-loading", false);
+  setElementHidden("points-empty", true);
+  setElementHidden("points-no-prizes", true);
+  setElementHidden("redeemable-prizes", true);
+  setElementHidden("points-login-message", true);
+  setElementHidden("points-login-btn", true);
+}
+
+function showPointsState(saldo) {
+  const premiosResgataveis = getPremiosResgataveis(saldo);
+
+  renderSaldo(saldo);
+  renderPremiosResgataveis(premiosResgataveis);
+
+  setElementHidden("points-summary", false);
+  setElementHidden("points-loading", true);
+  setElementHidden("points-login-message", true);
+  setElementHidden("points-login-btn", true);
+  setElementHidden("points-empty", saldo > 0);
+  setElementHidden("points-no-prizes", saldo <= 0 || premiosResgataveis.length > 0);
+  setElementHidden("redeemable-prizes", premiosResgataveis.length === 0);
+
+  createLucideIcons();
+}
+
+async function initMeusPontos() {
+  const session = Auth.getSession();
+
+  if (!session?.id) {
+    showLoginState();
+    return;
+  }
+
+  showLoadingState();
+
+  try {
+    const saldo = await buscarSaldoPontos(session.id);
+    showPointsState(saldo);
+  } catch (error) {
+    console.error("[OSB] Erro ao carregar pontos:", error);
+    showPointsState(0);
+  }
+}
+
+function ativarAba(tabId) {
+  const tab = document.getElementById(tabId);
+  if (!tab) return;
+
+  document.querySelectorAll("[role='tab']").forEach((button) => {
+    button.setAttribute("aria-selected", "false");
+    button.setAttribute("tabindex", "-1");
+  });
+
+  document.querySelectorAll("[role='tabpanel']").forEach((panel) => {
+    panel.classList.remove("is-active");
+  });
+
+  tab.setAttribute("aria-selected", "true");
+  tab.setAttribute("tabindex", "0");
+  document.getElementById(tab.getAttribute("aria-controls"))?.classList.add("is-active");
+}
+
+function initAbaInicial() {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("tab") !== "meus-pontos") return;
+
+  if (!Auth.isLoggedIn()) {
+    window.location.replace("login.html?redirect=programa-fidelidade.html%3Ftab%3Dmeus-pontos");
+    return;
+  }
+
+  ativarAba("tab-historico");
+}
+
 // ── Init ───────────────────────────────────────────────────────────────────
 
 // UI.initTabs() é chamado automaticamente no carregamento global (common.js).
 initPremios();
 initRegulamento();
+document.addEventListener("DOMContentLoaded", () => {
+  initMeusPontos();
+  initAbaInicial();
+});
