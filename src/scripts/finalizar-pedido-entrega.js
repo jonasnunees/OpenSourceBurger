@@ -28,6 +28,7 @@
   const GUEST_KEY      = "osb_guest";
   const MODALIDADE_KEY = "osb_modalidade";
   const ENDERECO_KEY   = "osb_endereco";
+  const CONFIRM_KEY    = "osb_pedido_confirmado";
   const FLUXO_INICIO   = "escolher-modalidade.html";
   const MAX_OBS        = 300;
 
@@ -109,19 +110,60 @@
     return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }
 
+  function getAppliedCoupon() {
+    const key = CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
+
+    try {
+      return JSON.parse(sessionStorage.getItem(key));
+    } catch {
+      return null;
+    }
+  }
+
+  function calcularDesconto(subtotal, coupon) {
+    if (!coupon || subtotal <= 0) return 0;
+
+    const discountValue = Number(coupon.discountValue) || 0;
+    const maxDiscountValue = Number(coupon.maxDiscountValue) || 0;
+
+    if (coupon.discountType === "fixed") {
+      return Math.min(discountValue, subtotal);
+    }
+
+    const percentual = Math.min(discountValue, 100);
+    const desconto = subtotal * (percentual / 100);
+
+    if (maxDiscountValue > 0) {
+      return Math.min(desconto, maxDiscountValue, subtotal);
+    }
+
+    return Math.min(desconto, subtotal);
+  }
+
+  function calcularTotais(itens, endereco) {
+    const subtotal = Object.values(itens).reduce((total, { preco, qty }) => {
+      return total + parsePreco(preco) * qty;
+    }, 0);
+
+    const taxaEntrega = Number(endereco?.taxa) || 0;
+    const cupom = getAppliedCoupon();
+    const desconto = calcularDesconto(subtotal, cupom);
+
+    return {
+      subtotal,
+      taxaEntrega,
+      desconto,
+      total: Math.max(subtotal + taxaEntrega - desconto, 0),
+      cupom,
+    };
+  }
+
   function preencherResumo(endereco) {
     const itens = Cart.get();
-    let totalItens = 0;
+    const { subtotal, taxaEntrega, total } = calcularTotais(itens, endereco);
 
-    Object.values(itens).forEach(({ preco, qty }) => {
-      totalItens += parsePreco(preco) * qty;
-    });
-
-    const taxa  = Number(endereco?.taxa) || 0;
-    const total = totalItens + taxa;
-
-    if (resumoValorItens) resumoValorItens.textContent = formatarPreco(totalItens);
-    if (resumoTaxa)       resumoTaxa.textContent       = formatarPreco(taxa);
+    if (resumoValorItens) resumoValorItens.textContent = formatarPreco(subtotal);
+    if (resumoTaxa)       resumoTaxa.textContent       = formatarPreco(taxaEntrega);
     if (resumoTotal)      resumoTotal.textContent      = formatarPreco(total);
   }
 
@@ -210,7 +252,11 @@
   // ── Finalizar pedido ─────────────────────────────────────────────────────
 
   function montarPedido(sessao) {
+    const itens = Cart.get();
+    const totais = calcularTotais(itens, sessao.endereco);
+
     return {
+      codigo:      gerarCodigoPedido(),
       cliente:     sessao.cliente,
       tipoCliente: sessao.usuario ? "cadastrado" : "visitante",
       visitante:   sessao.guest,
@@ -219,22 +265,91 @@
       pagamento:   selectPagamento.options[selectPagamento.selectedIndex]?.text ?? "",
       bandeira:    selectBandeira.disabled ? null : (selectBandeira.value || null),
       observacoes: textarea?.value.trim() ?? "",
-      itens:       Cart.get(),
+      itens,
+      subtotal:    totais.subtotal,
+      taxaEntrega: totais.taxaEntrega,
+      desconto:    totais.desconto,
+      total:       totais.total,
+      cupom:       totais.cupom,
       criadoEm:    new Date().toISOString(),
     };
+  }
+
+  function gerarCodigoPedido() {
+    const data = new Date();
+    const dia = data.toISOString().slice(2, 10).replace(/-/g, "");
+    const aleatorio = Math.random().toString(36).slice(2, 6).toUpperCase();
+    return `OSB-${dia}-${aleatorio}`;
+  }
+
+  function montarRegistroVisitante(pedido) {
+    return {
+      codigo: pedido.codigo,
+      cliente_nome: pedido.visitante.nome,
+      cliente_telefone: pedido.visitante.telefone,
+      modalidade: "entrega",
+      endereco: pedido.endereco,
+      pagamento: pedido.pagamento,
+      bandeira: pedido.bandeira,
+      observacoes: pedido.observacoes || null,
+      itens: pedido.itens,
+      subtotal: pedido.subtotal,
+      taxa_entrega: pedido.taxaEntrega,
+      desconto: pedido.desconto,
+      total: pedido.total,
+      cupom_codigo: pedido.cupom?.code ?? null,
+      origem: "site",
+    };
+  }
+
+  async function salvarPedidoVisitante(pedido) {
+    if (pedido.tipoCliente !== "visitante") return;
+
+    const { error } = await SupabaseClient
+      .from("pedidos_visitantes")
+      .insert(montarRegistroVisitante(pedido));
+
+    if (error) throw error;
+  }
+
+  function formatarEnderecoResumidoSeguro(endereco) {
+    return endereco ? formatarEnderecoResumido(endereco) : null;
+  }
+
+  function salvarConfirmacao(pedido) {
+    sessionStorage.setItem(CONFIRM_KEY, JSON.stringify({
+      codigo: pedido.codigo,
+      clienteNome: pedido.cliente.nome ?? pedido.cliente.name ?? "",
+      modalidade: "Entregar em domicílio",
+      pagamento: pedido.pagamento,
+      endereco: formatarEnderecoResumidoSeguro(pedido.endereco),
+      subtotal: pedido.subtotal,
+      taxaEntrega: pedido.taxaEntrega,
+      desconto: pedido.desconto,
+      total: pedido.total,
+      cupomCodigo: pedido.cupom?.code ?? null,
+      criadoEm: pedido.criadoEm,
+    }));
+  }
+
+  function limparCupomAplicado() {
+    const key = CONFIG.settings?.appliedCouponSessionKey || "osb_applied_coupon";
+    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
   }
 
   function limparSessaoCheckout() {
     sessionStorage.removeItem(GUEST_KEY);
     sessionStorage.removeItem(MODALIDADE_KEY);
     sessionStorage.removeItem(ENDERECO_KEY);
+    limparCupomAplicado();
     Cart.clear();
   }
 
   function initFinalizar() {
     if (!btnFinalizar) return;
 
-    btnFinalizar.addEventListener("click", () => {
+    btnFinalizar.addEventListener("click", async () => {
       // Valida pagamento primeiro
       if (!validarPagamento()) {
         selectPagamento.focus();
@@ -256,13 +371,24 @@
 
       const pedido = montarPedido(sessao);
 
-      // TODO: enviar pedido ao Supabase via fetch() ou SDK
-      console.log("[OSB] Pedido entrega montado:", pedido);
+      btnFinalizar.disabled = true;
+      btnFinalizar.innerHTML = "Enviando pedido...";
 
-      limparSessaoCheckout();
+      try {
+        await salvarPedidoVisitante(pedido);
+        salvarConfirmacao(pedido);
+        limparSessaoCheckout();
 
-      // TODO: redirecionar para página de confirmação do pedido
-      window.location.href = "pedido-confirmado.html";
+        window.location.href = "pedido-confirmado.html";
+      } catch (error) {
+        console.error("[OSB] Erro ao salvar pedido:", error);
+        alert("Não foi possível enviar seu pedido agora. Tente novamente.");
+        btnFinalizar.disabled = false;
+        btnFinalizar.innerHTML = '<i data-lucide="circle-check-big" aria-hidden="true"></i>Finalizar Pedido';
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons({ nodes: btnFinalizar.querySelectorAll("i[data-lucide]") });
+        }
+      }
     });
   }
 

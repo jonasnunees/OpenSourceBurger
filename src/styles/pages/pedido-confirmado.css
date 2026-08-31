@@ -1,0 +1,187 @@
+/* =========================
+   PAGE › PEDIDO CONFIRMADO
+   Estilos da tela de confirmacao de pedido.
+========================= */
+
+.confirmado-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) var(--gutter) var(--space-4xl);
+}
+
+.confirmado-section {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  text-align: center;
+}
+
+.confirmado-section--empty {
+  justify-content: center;
+  min-height: 60dvh;
+}
+
+.confirmado-status {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(76, 175, 80, 0.12);
+  border: 2px solid rgba(76, 175, 80, 0.35);
+  color: var(--status-success);
+}
+
+.confirmado-status--muted {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.confirmado-status svg {
+  width: 44px;
+  height: 44px;
+  stroke-width: 1.8;
+}
+
+.confirmado-kicker {
+  margin: var(--space-sm) 0 calc(-1 * var(--space-sm));
+  color: var(--primary-color);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.confirmado-title {
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.confirmado-text {
+  max-width: 340px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+.confirmado-codigo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--bg-card);
+  border: 1.5px solid var(--primary-glow-strong);
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+
+.confirmado-codigo span {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.confirmado-codigo strong {
+  color: var(--primary-color);
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  overflow-wrap: anywhere;
+}
+
+.confirmado-detalhes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: var(--space-sm) 0 0;
+  border: 1.5px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  text-align: left;
+}
+
+.confirmado-detalhes div {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.38fr) 1fr;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.confirmado-detalhes div:last-child {
+  border-bottom: 0;
+  background: var(--bg-card);
+}
+
+.confirmado-detalhes dt {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.confirmado-detalhes dd {
+  margin: 0;
+  color: var(--text-main);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.confirmado-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.confirmado-actions__primary {
+  width: 100%;
+  min-height: var(--input-height);
+  margin-bottom: 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.4px;
+}
+
+.confirmado-actions__secondary {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: color var(--transition-fast);
+}
+
+.confirmado-actions__secondary:hover {
+  color: var(--primary-color);
+}
+
+@media (max-width: 380px) {
+  .confirmado-codigo,
+  .confirmado-detalhes div {
+    grid-template-columns: 1fr;
+  }
+
+  .confirmado-codigo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
