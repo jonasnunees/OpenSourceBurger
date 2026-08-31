@@ -12,7 +12,7 @@
  *  - Garantir que ao marcar como principal, o anterior perde a flag
  *  - Verificar limite de 5 endereços no modo criação
  *  - Excluir o endereço no modo edição com confirmação
- *  - Redirecionar para enderecos.html após operação bem-sucedida
+ *  - Redirecionar para enderecos.html, ou retornar ao checkout quando aberto de lá
  *
  * Dependências:
  *  supabase.js → config.js → auth.js → lucide → validators.js → common.js → editar-endereco.js
@@ -25,6 +25,7 @@
 
   const LIMITE_ENDERECOS = 5;
   const VIACEP_URL = "https://viacep.com.br/ws/{CEP}/json/";
+  const ENDERECO_CHECKOUT_KEY = "osb_endereco";
 
   // ── Estado ─────────────────────────────────────────────────
   let enderecoId = null; // null = modo criação
@@ -33,6 +34,7 @@
   const accountNameEl  = document.getElementById("account-name");
   const btnLogout      = document.getElementById("btn-logout");
   const topbarTitulo   = document.getElementById("topbar-titulo");
+  const btnVoltar      = document.getElementById("btn-voltar");
   const feedbackEl     = document.getElementById("endereco-feedback");
   const form           = document.getElementById("endereco-form");
   const btnSalvar      = document.getElementById("btn-salvar-endereco");
@@ -54,6 +56,69 @@
   const inputUf        = document.getElementById("end-uf");
   const erroUf         = document.getElementById("end-uf-error");
   const checkPrincipal = document.getElementById("end-principal");
+
+  // ── Navegação ─────────────────────────────────────────────
+
+  function getParams() {
+    return new URLSearchParams(window.location.search);
+  }
+
+  function isCheckoutMode() {
+    return getParams().get("checkout") === "1";
+  }
+
+  function getSuccessUrl() {
+    return isCheckoutMode() ? "endereco-de-entrega.html?endereco_salvo=1" : "enderecos.html";
+  }
+
+  function getCheckoutSuccessUrl(usouEnderecoNoPedido) {
+    if (!isCheckoutMode()) return getSuccessUrl();
+    return usouEnderecoNoPedido
+      ? "finalizar-pedido-entrega.html"
+      : "endereco-de-entrega.html?endereco_salvo=1";
+  }
+
+  function initCheckoutNavigation() {
+    if (!isCheckoutMode() || !btnVoltar) return;
+
+    btnVoltar.href = "endereco-de-entrega.html";
+    btnVoltar.setAttribute("aria-label", "Voltar para endereço de entrega");
+  }
+
+  function normalizarTexto(valor) {
+    return String(valor ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function buscarBairroAtendido(nome) {
+    const bairroNormalizado = normalizarTexto(nome);
+    return CONFIG.bairros.find((bairro) =>
+      normalizarTexto(bairro.nome) === bairroNormalizado
+    );
+  }
+
+  function salvarEnderecoNoCheckout(endereco) {
+    if (!isCheckoutMode()) return false;
+
+    const bairroAtendido = buscarBairroAtendido(endereco.bairro);
+    if (!bairroAtendido) return false;
+
+    sessionStorage.setItem(ENDERECO_CHECKOUT_KEY, JSON.stringify({
+      id:          endereco.id,
+      titulo:      endereco.titulo,
+      cidade:      `${endereco.cidade}/${endereco.uf}`,
+      endereco:    endereco.rua,
+      numero:      endereco.numero,
+      bairro:      endereco.bairro,
+      taxa:        Number(bairroAtendido.taxa) || 0,
+      complemento: endereco.complemento ?? "",
+    }));
+
+    return true;
+  }
 
   // ── Faixa do usuário ───────────────────────────────────────
   function renderUserBanner() {
@@ -219,6 +284,8 @@
     };
 
     try {
+      let usouEnderecoNoPedido = false;
+
       // Se marcar como principal, remove a flag dos outros endereços primeiro.
       // O índice único do banco garante consistência, mas fazemos aqui também
       // para evitar o erro de constraint.
@@ -232,13 +299,16 @@
 
       if (enderecoId) {
         // Modo edição: atualiza
-        const { error } = await SupabaseClient
+        const { data, error } = await SupabaseClient
           .from("enderecos")
           .update(payload)
+          .select("id, titulo, rua, numero, complemento, bairro, cidade, uf, principal")
           .eq("id", enderecoId)
-          .eq("user_id", session.id);
+          .eq("user_id", session.id)
+          .single();
 
         if (error) throw error;
+        if (data) usouEnderecoNoPedido = salvarEnderecoNoCheckout(data);
       } else {
         // Modo criação: verifica limite antes de inserir
         const { count, error: countError } = await SupabaseClient
@@ -256,14 +326,17 @@
           return;
         }
 
-        const { error } = await SupabaseClient
+        const { data, error } = await SupabaseClient
           .from("enderecos")
-          .insert({ ...payload, user_id: session.id });
+          .insert({ ...payload, user_id: session.id })
+          .select("id, titulo, rua, numero, complemento, bairro, cidade, uf, principal")
+          .single();
 
         if (error) throw error;
+        if (data) usouEnderecoNoPedido = salvarEnderecoNoCheckout(data);
       }
 
-      window.location.replace("enderecos.html");
+      window.location.replace(getCheckoutSuccessUrl(usouEnderecoNoPedido));
 
     } catch {
       exibirFeedback("Não foi possível salvar o endereço. Tente novamente.", "error");
@@ -349,7 +422,9 @@
     initEventListeners();
 
     // Detecta modo pela query string
-    const params = new URLSearchParams(window.location.search);
+    initCheckoutNavigation();
+
+    const params = getParams();
     enderecoId = params.get("id") ?? null;
 
     if (enderecoId) {

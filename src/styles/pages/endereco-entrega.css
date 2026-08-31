@@ -18,6 +18,112 @@
   max-width: 480px;
 }
 
+/* ── Endereços salvos ── */
+.enderecos-salvos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.enderecos-salvos[hidden] {
+  display: none;
+}
+
+.enderecos-salvos__titulo {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.enderecos-salvos__feedback {
+  min-height: 1.25rem;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.enderecos-salvos__feedback:empty {
+  display: none;
+}
+
+.enderecos-salvos__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.endereco-salvo-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.endereco-salvo-card:hover,
+.endereco-salvo-card:focus-visible {
+  border-color: var(--primary-color);
+  background: var(--bg-action);
+  transform: translateY(-1px);
+}
+
+.endereco-salvo-card:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.endereco-salvo-card:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.endereco-salvo-card__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.endereco-salvo-card__topo strong {
+  font-size: var(--font-size-base);
+  color: var(--text-main);
+}
+
+.endereco-salvo-card__topo span,
+.endereco-salvo-card small {
+  color: var(--primary-color);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.endereco-salvo-card__texto {
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.enderecos-salvos__novo {
+  width: 100%;
+  min-height: var(--input-height);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 /* ── Formulário ── */
 .endereco-form {
   display: flex;

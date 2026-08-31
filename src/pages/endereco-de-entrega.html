@@ -145,6 +145,31 @@
     <main class="endereco-main" id="main-content">
       <div class="endereco-section">
 
+        <section
+          id="enderecos-salvos-section"
+          class="enderecos-salvos"
+          aria-labelledby="enderecos-salvos-titulo"
+          hidden
+        >
+          <h2 id="enderecos-salvos-titulo" class="enderecos-salvos__titulo">
+            Escolha um endereço
+          </h2>
+          <p id="enderecos-salvos-feedback" class="enderecos-salvos__feedback" role="status" aria-live="polite"></p>
+          <ul
+            id="enderecos-salvos-lista"
+            class="enderecos-salvos__lista"
+            aria-label="Endereços cadastrados"
+          ></ul>
+          <a
+            href="editar-endereco.html?checkout=1"
+            id="btn-cadastrar-endereco-salvo"
+            class="btn-base btn-primary enderecos-salvos__novo"
+          >
+            <i data-lucide="plus" aria-hidden="true"></i>
+            Cadastrar Novo Endereço
+          </a>
+        </section>
+
         <section aria-labelledby="endereco-titulo">
           <h2 id="endereco-titulo" class="sr-only">
             Endereço de entrega

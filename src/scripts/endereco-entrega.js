@@ -5,6 +5,7 @@
  * Responsabilidades:
  * - Popula o select de cidade com CONFIG.cidade (valor único, fixo)
  * - Popula o select de bairro com CONFIG.bairros (nome + taxa)
+ * - Para clientes logados com endereços salvos, permite escolher um endereço
  * - Valida os campos obrigatórios (endereço, número, bairro)
  * - Persiste o endereço em sessionStorage como 'osb_endereco'
  * - Redireciona para finalizar-pedido-entrega.html ao avançar
@@ -33,6 +34,61 @@
   const bairroError     = document.getElementById("bairro-error");
   const btnAvancar      = document.getElementById("btn-avancar");
   const btnVoltar       = document.getElementById("btn-voltar");
+  const salvosSection   = document.getElementById("enderecos-salvos-section");
+  const salvosLista     = document.getElementById("enderecos-salvos-lista");
+  const salvosFeedback  = document.getElementById("enderecos-salvos-feedback");
+  const formSection     = form?.closest("section");
+
+  // ── Helpers ─────────────────────────────────────────────────────────────
+
+  function normalizarTexto(valor) {
+    return String(valor ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function buscarBairroAtendido(nome) {
+    const bairroNormalizado = normalizarTexto(nome);
+    return CONFIG.bairros.find((bairro) =>
+      normalizarTexto(bairro.nome) === bairroNormalizado
+    );
+  }
+
+  function getCidadeEnderecoSalvo(endereco) {
+    if (endereco.uf) return `${endereco.cidade}/${endereco.uf}`;
+    return endereco.cidade;
+  }
+
+  function toEnderecoCheckout(enderecoSalvo) {
+    const bairroAtendido = buscarBairroAtendido(enderecoSalvo.bairro);
+
+    return {
+      id:          enderecoSalvo.id,
+      titulo:      enderecoSalvo.titulo,
+      cidade:      getCidadeEnderecoSalvo(enderecoSalvo),
+      endereco:    enderecoSalvo.rua,
+      numero:      enderecoSalvo.numero,
+      bairro:      enderecoSalvo.bairro,
+      taxa:        Number(bairroAtendido?.taxa) || 0,
+      complemento: enderecoSalvo.complemento ?? "",
+    };
+  }
+
+  function formatarEnderecoSalvo(endereco) {
+    const partes = [
+      `${endereco.rua}, ${endereco.numero}`,
+      endereco.complemento ? endereco.complemento : null,
+      `${endereco.bairro} - ${getCidadeEnderecoSalvo(endereco)}`,
+    ].filter(Boolean);
+
+    return partes.join(", ");
+  }
+
+  function salvarEnderecoCheckout(endereco) {
+    sessionStorage.setItem(ENDERECO_KEY, JSON.stringify(endereco));
+  }
 
   // ── Popula selects via CONFIG ────────────────────────────────────────────
 
@@ -74,6 +130,96 @@
       option.dataset.taxa   = taxa;
       selectBairro.appendChild(option);
     });
+  }
+
+  // ── Endereços salvos ────────────────────────────────────────────────────
+
+  function mostrarFormularioManual() {
+    if (salvosSection) salvosSection.hidden = true;
+    if (formSection) formSection.hidden = false;
+  }
+
+  function mostrarEnderecosSalvos() {
+    if (formSection) formSection.hidden = true;
+    if (salvosSection) salvosSection.hidden = false;
+  }
+
+  function handleEscolherEndereco(endereco) {
+    const bairroAtendido = buscarBairroAtendido(endereco.bairro);
+
+    if (!bairroAtendido) {
+      if (salvosFeedback) {
+        salvosFeedback.textContent =
+          "Esse endereço está fora da área de entrega. Cadastre ou escolha outro endereço.";
+      }
+      return;
+    }
+
+    salvarEnderecoCheckout(toEnderecoCheckout(endereco));
+    window.location.href = DEFAULT_NEXT;
+  }
+
+  function htmlEnderecoSalvo(endereco) {
+    const bairroAtendido = buscarBairroAtendido(endereco.bairro);
+    const disabledAttr = bairroAtendido ? "" : "disabled aria-disabled=\"true\"";
+    const status = endereco.principal ? "<span>Principal</span>" : "";
+    const aviso = bairroAtendido ? "" : "<small>Fora da área de entrega</small>";
+
+    return `
+      <li>
+        <button
+          type="button"
+          class="endereco-salvo-card"
+          data-endereco-id="${endereco.id}"
+          ${disabledAttr}
+        >
+          <span class="endereco-salvo-card__topo">
+            <strong>${endereco.titulo}</strong>
+            ${status}
+          </span>
+          <span class="endereco-salvo-card__texto">${formatarEnderecoSalvo(endereco)}</span>
+          ${aviso}
+        </button>
+      </li>`;
+  }
+
+  async function carregarEnderecosSalvos() {
+    const session = Auth.getSession?.();
+
+    if (!session?.id) {
+      mostrarFormularioManual();
+      return;
+    }
+
+    const { data, error } = await SupabaseClient
+      .from("enderecos")
+      .select("id, titulo, rua, numero, complemento, bairro, cidade, uf, principal")
+      .eq("user_id", session.id)
+      .order("principal", { ascending: false })
+      .order("created_at", { ascending: true });
+
+    if (error || !Array.isArray(data) || data.length === 0) {
+      mostrarFormularioManual();
+      return;
+    }
+
+    if (salvosLista) {
+      salvosLista.innerHTML = data.map(htmlEnderecoSalvo).join("");
+      salvosLista.addEventListener("click", (event) => {
+        const card = event.target.closest("[data-endereco-id]");
+        if (!card || card.disabled) return;
+
+        const endereco = data.find((item) => item.id === card.dataset.enderecoId);
+        if (endereco) handleEscolherEndereco(endereco);
+      });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("endereco_salvo") === "1" && salvosFeedback) {
+      salvosFeedback.textContent = "Endereço salvo. Escolha um endereço para continuar.";
+    }
+
+    mostrarEnderecosSalvos();
   }
 
   // ── Validação ────────────────────────────────────────────────────────────
@@ -206,11 +352,12 @@
 
   // ── Init ─────────────────────────────────────────────────────────────────
 
-  function init() {
+  async function init() {
     popularCidade();
     popularBairros();
     initRealtimeValidation();
     form?.addEventListener("submit", handleSubmit);
+    await carregarEnderecosSalvos();
   }
 
   document.addEventListener("DOMContentLoaded", init);
