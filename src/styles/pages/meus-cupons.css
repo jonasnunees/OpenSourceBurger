@@ -1,0 +1,114 @@
+/* =========================
+   PAGE › MEUS CUPONS
+   Depende de: main.css (tokens + form + empty-state)
+========================= */
+
+.account-main {
+  min-height: calc(100dvh - var(--topbar-height));
+  padding: var(--space-xl) var(--gutter) var(--space-3xl);
+}
+
+.account-container {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+}
+
+.account-header {
+  margin-bottom: var(--space-xl);
+}
+
+.account-header__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.account-header__subtitle {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-xs);
+}
+
+.coupon-entry {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.coupon-entry__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-glow);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupon-entry__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.coupon-entry__content {
+  min-width: 0;
+}
+
+.coupon-entry__title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  color: var(--text-main);
+  margin: 0 0 var(--space-xs);
+}
+
+.coupon-entry__text {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.coupon-form {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.coupon-form__submit {
+  margin: 0;
+}
+
+.coupon-feedback {
+  min-height: 18px;
+  color: var(--error-color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.coupon-feedback[data-type="success"] {
+  color: var(--status-success);
+}
+
+.coupons-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 420px) {
+  .coupon-entry {
+    grid-template-columns: 1fr;
+  }
+}

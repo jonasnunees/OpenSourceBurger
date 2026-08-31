@@ -139,6 +139,7 @@
         <div class="cart-hint">
           <span>Escolha os seus hambúrgueres favoritos no menu</span>
         </div>
+        <p class="cart-coupon-empty" id="cart-coupon-empty" hidden></p>
       </section>
 
       <!-- ── Estado: carrinho com itens (injetado pelo JS) ── -->
@@ -178,6 +179,10 @@
         <div class="cart-summary-row">
           <span class="summary-items-value-label">Subtotal:</span>
           <span class="summary-items-value" aria-live="polite">R$ 0,00</span>
+        </div>
+        <div class="cart-summary-row cart-summary-coupon" hidden>
+          <span class="summary-coupon-label">Cupom:</span>
+          <span class="summary-coupon-value" aria-live="polite">- R$ 0,00</span>
         </div>
         <div class="cart-summary-row">
           <span class="cart-summary-total-label">Valor Total do Pedido:</span>

@@ -51,6 +51,14 @@
   font-size: var(--font-size-sm);
 }
 
+.cart-coupon-empty {
+  margin: var(--space-xl) auto 0;
+  color: var(--status-success);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
 /* ── Estado com itens ── */
 .cart-items-state {
   display: none;
@@ -313,6 +321,10 @@
   color: var(--text-main);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.cart-summary-coupon {
+  color: var(--status-success);
 }
 
 /* ── Botão Finalizar Pedido ──

@@ -18,7 +18,7 @@
     <link rel="icon" href="../assets/icons/favicon.ico" />
     <link rel="stylesheet" href="../styles/vendors/reset.css">
     <link rel="stylesheet" href="../styles/main.css" />
-    <link rel="stylesheet" href="../styles/pages/account.css" />
+    <link rel="stylesheet" href="../styles/pages/meus-cupons.css" />
   </head>
   <body>
     <!-- ══ Drawer ══ -->
@@ -152,11 +152,49 @@
           </p>
         </header>
 
-        <!--
-          Estado vazio: exibido enquanto não há cupons disponíveis.
-          TODO: quando o backend existir, renderizar a lista .coupons-list
-          aqui e ocultar o .empty-state via JS.
-        -->
+        <section class="coupon-entry" aria-labelledby="coupon-entry-title">
+          <div class="coupon-entry__icon" aria-hidden="true">
+            <i data-lucide="ticket"></i>
+          </div>
+          <div class="coupon-entry__content">
+            <h3 class="coupon-entry__title" id="coupon-entry-title">
+              Tem um cupom do Instagram?
+            </h3>
+            <p class="coupon-entry__text">
+              Digite o código divulgado nos stories para aplicar o desconto no
+              seu carrinho.
+            </p>
+          </div>
+
+          <form class="coupon-form" id="coupon-form" novalidate>
+            <div class="form-field">
+              <label for="coupon-code">Código do cupom</label>
+              <input
+                type="text"
+                id="coupon-code"
+                name="coupon-code"
+                inputmode="text"
+                autocomplete="off"
+                placeholder="Ex: STORY10"
+                aria-describedby="coupon-feedback"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn-primary coupon-form__submit">
+              <i data-lucide="badge-percent"></i>
+              Aplicar cupom
+            </button>
+
+            <p
+              class="coupon-feedback"
+              id="coupon-feedback"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+
         <div
           class="empty-state"
           id="coupons-empty"
@@ -196,23 +234,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- 4. Comportamentos comuns (drawer, whatsapp, lucide init) -->
     <script src="../scripts/common.js"></script>
-    <!-- 5. Lógica inline da página -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Redireciona para login se não estiver autenticado
-        Auth.requireAuth();
-
-        /*
-         * TODO: buscar cupons do usuário logado.
-         * Exemplo futuro:
-         *   const coupons = await fetchCoupons(Auth.getSession().id);
-         *   if (coupons.length > 0) {
-         *     renderCoupons(coupons);
-         *     document.getElementById('coupons-empty').hidden = true;
-         *     document.getElementById('coupons-list').hidden = false;
-         *   }
-         */
-      });
-    </script>
+    <!-- 5. Lógica da página -->
+    <script src="../scripts/meus-cupons.js"></script>
   </body>
 </html>

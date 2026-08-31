@@ -30,6 +30,46 @@ function formatarPreco(valor) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+function getAppliedCoupon() {
+  const storageKey = CONFIG.settings?.appliedCouponStorageKey || "osb_applied_coupon";
+
+  try {
+    return JSON.parse(localStorage.getItem(storageKey));
+  } catch {
+    return null;
+  }
+}
+
+function getCouponLabel(coupon) {
+  if (!coupon) return "";
+
+  if (coupon.discountType === "percent") {
+    return `${coupon.code} (${Number(coupon.discountValue)}% OFF)`;
+  }
+
+  return `${coupon.code} (${formatarPreco(Number(coupon.discountValue))} OFF)`;
+}
+
+function calcularDesconto(totalValor, coupon) {
+  if (!coupon || totalValor <= 0) return 0;
+
+  const discountValue = Number(coupon.discountValue) || 0;
+  const maxDiscountValue = Number(coupon.maxDiscountValue) || 0;
+
+  if (coupon.discountType === "fixed") {
+    return Math.min(discountValue, totalValor);
+  }
+
+  const percentual = Math.min(discountValue, 100);
+  const desconto = totalValor * (percentual / 100);
+
+  if (maxDiscountValue > 0) {
+    return Math.min(desconto, maxDiscountValue, totalValor);
+  }
+
+  return Math.min(desconto, totalValor);
+}
+
 function inferirEmoji(nome, categoriaId) {
   const s = (nome + " " + categoriaId).toLowerCase();
   if (s.includes("batata"))                                                    return "🍟";
@@ -215,10 +255,36 @@ function renderSummary(cartItems) {
   });
 
   const itemLabel = totalItens === 1 ? "item" : "itens";
+  const appliedCoupon = getAppliedCoupon();
+  const discountAmount = calcularDesconto(totalValor, appliedCoupon);
+  const totalComDesconto = Math.max(totalValor - discountAmount, 0);
+  const couponRow = summaryEl.querySelector(".cart-summary-coupon");
 
   summaryEl.querySelector(".summary-items-count").textContent  = `${totalItens} ${itemLabel}`;
   summaryEl.querySelector(".summary-items-value").textContent  = formatarPreco(totalValor);
-  summaryEl.querySelector(".summary-total-value").textContent  = formatarPreco(totalValor);
+  summaryEl.querySelector(".summary-total-value").textContent  = formatarPreco(totalComDesconto);
+
+  if (couponRow) {
+    couponRow.hidden = discountAmount <= 0;
+    couponRow.querySelector(".summary-coupon-label").textContent = `Cupom ${getCouponLabel(appliedCoupon)}:`;
+    couponRow.querySelector(".summary-coupon-value").textContent = `- ${formatarPreco(discountAmount)}`;
+  }
+}
+
+function renderEmptyCouponNotice() {
+  const notice = document.getElementById("cart-coupon-empty");
+  if (!notice) return;
+
+  const appliedCoupon = getAppliedCoupon();
+
+  if (!appliedCoupon) {
+    notice.hidden = true;
+    notice.textContent = "";
+    return;
+  }
+
+  notice.hidden = false;
+  notice.textContent = `Cupom ${getCouponLabel(appliedCoupon)} aplicado. Adicione itens para ver o total com desconto.`;
 }
 
 // ── Eventos ───────────────────────────────────────────────────────────────────
@@ -373,6 +439,7 @@ function initFinalizarPedido() {
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
+  renderEmptyCouponNotice();
   renderCart();
   initEventosQtd();
   initStatusLoja();
