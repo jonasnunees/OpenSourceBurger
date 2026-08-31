@@ -70,13 +70,13 @@ const CONFIG = {
    * 6 = Sábado
    */
   horarios: [
-    { dia: "Domingo",  abertura: "18:00", fechamento: "23:59" },
-    { dia: "Segunda",  abertura: "18:00", fechamento: "23:59" },
-    { dia: "Terça",    abertura: "18:00", fechamento: "23:59" },
-    { dia: "Quarta",   abertura: "18:00", fechamento: "23:59" },
-    { dia: "Quinta",   abertura: "18:00", fechamento: "23:59" },
-    { dia: "Sexta",    abertura: "18:00", fechamento: "23:59" },
-    { dia: "Sábado",   abertura: "18:00", fechamento: "23:59" },
+    { dia: "Domingo",  abertura: "00:01", fechamento: "23:59" },
+    { dia: "Segunda",  abertura: "00:01", fechamento: "23:59" },
+    { dia: "Terça",    abertura: "00:01", fechamento: "23:59" },
+    { dia: "Quarta",   abertura: "00:01", fechamento: "23:59" },
+    { dia: "Quinta",   abertura: "00:01", fechamento: "23:59" },
+    { dia: "Sexta",    abertura: "00:01", fechamento: "23:59" },
+    { dia: "Sábado",   abertura: "00:01", fechamento: "23:59" },
   ],
 
   cidade: "São Pedro da Aldeia/RJ",
