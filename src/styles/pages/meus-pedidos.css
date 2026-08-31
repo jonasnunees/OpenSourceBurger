@@ -85,10 +85,9 @@
 /* ── Card de pedido ── */
 .pedido-card {
   border-bottom: 1px solid var(--border-subtle);
-  padding: var(--space-lg);
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
 }
 
 .pedido-card:first-child {
@@ -96,6 +95,30 @@
 }
 
 /* Linha superior: data | número | total */
+.pedido-card__toggle {
+  width: 100%;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.pedido-card__toggle:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.pedido-card__toggle:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
 .pedido-card__linha-topo {
   display: flex;
   align-items: center;
@@ -113,6 +136,7 @@
   font-size: var(--font-size-sm);
   font-weight: 700;
   color: var(--text-secondary);
+  text-align: center;
 }
 
 .pedido-card__total {
@@ -128,6 +152,26 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
+}
+
+.pedido-card__ver-detalhes {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pedido-card__ver-detalhes svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.pedido-card.is-open .pedido-card__ver-detalhes svg {
+  transform: rotate(180deg);
 }
 
 /* ── Status ── */
@@ -191,6 +235,102 @@
   color: var(--primary-hover);
 }
 
+.pedido-card__acoes {
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.pedido-card__acoes:empty {
+  display: none;
+}
+
+/* ── Detalhe do pedido ── */
+.pedido-card__detalhe {
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.pedido-card__itens {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.pedido-card__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-md);
+  align-items: start;
+}
+
+.pedido-card__item-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.pedido-card__item-nome {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.pedido-card__item-personalizacao {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+}
+
+.pedido-card__item-total {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pedido-card__sem-itens {
+  margin: 0;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.pedido-card__resumo {
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.pedido-card__resumo-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.pedido-card__resumo-linha strong {
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.pedido-card__resumo-linha--total {
+  color: var(--text-main);
+}
+
+.pedido-card__resumo-linha--total strong {
+  color: var(--text-main);
+}
+
 /* ── Botão Mostrar mais ── */
 .pedidos-mais-wrap {
   display: flex;
@@ -224,4 +364,33 @@
 .pedidos-btn-mais:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (max-width: 360px) {
+  .pedido-card__linha-topo,
+  .pedido-card__linha-base,
+  .pedido-card__resumo {
+    align-items: flex-start;
+  }
+
+  .pedido-card__linha-topo {
+    flex-wrap: wrap;
+  }
+
+  .pedido-card__numero {
+    text-align: left;
+  }
+
+  .pedido-card__linha-base {
+    flex-direction: column;
+  }
+
+  .pedido-card__item {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
+
+  .pedido-card__item-total {
+    justify-self: end;
+  }
 }
