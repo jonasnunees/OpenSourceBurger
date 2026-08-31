@@ -315,6 +315,26 @@
     };
   }
 
+  function montarRegistroClienteCadastrado(pedido) {
+    return {
+      user_id: pedido.cliente.id,
+      codigo: pedido.codigo,
+      status: "pendente",
+      modalidade: "entrega",
+      endereco: pedido.endereco,
+      pagamento: pedido.pagamento,
+      bandeira: pedido.bandeira,
+      observacoes: pedido.observacoes || null,
+      itens: pedido.itens,
+      subtotal: pedido.subtotal,
+      taxa_entrega: pedido.taxaEntrega,
+      desconto: pedido.desconto,
+      total: pedido.total,
+      cupom_codigo: pedido.cupom?.code ?? null,
+      origem: "site",
+    };
+  }
+
   async function salvarPedidoVisitante(pedido) {
     if (pedido.tipoCliente !== "visitante") return;
 
@@ -323,6 +343,25 @@
       .insert(montarRegistroVisitante(pedido));
 
     if (error) throw error;
+  }
+
+  async function salvarPedidoClienteCadastrado(pedido) {
+    if (pedido.tipoCliente !== "cadastrado") return;
+
+    const { error } = await SupabaseClient
+      .from("pedidos")
+      .insert(montarRegistroClienteCadastrado(pedido));
+
+    if (error) throw error;
+  }
+
+  async function salvarPedido(pedido) {
+    if (pedido.tipoCliente === "visitante") {
+      await salvarPedidoVisitante(pedido);
+      return;
+    }
+
+    await salvarPedidoClienteCadastrado(pedido);
   }
 
   function formatarEnderecoResumidoSeguro(endereco) {
@@ -409,7 +448,7 @@
       btnFinalizar.innerHTML = "Enviando pedido...";
 
       try {
-        await salvarPedidoVisitante(pedido);
+        await salvarPedido(pedido);
         salvarConfirmacao(pedido);
         limparSessaoCheckout();
 
