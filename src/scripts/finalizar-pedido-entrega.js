@@ -190,7 +190,16 @@
       if (pagamentoError) pagamentoError.textContent = "Selecione a forma de pagamento.";
       return false;
     }
+
+    if (PAGAMENTOS_COM_BANDEIRA.has(selectPagamento.value) && !selectBandeira.value) {
+      selectPagamento.setAttribute("aria-invalid", "false");
+      selectBandeira.setAttribute("aria-invalid", "true");
+      if (pagamentoError) pagamentoError.textContent = "Selecione a bandeira do cartão.";
+      return false;
+    }
+
     selectPagamento.setAttribute("aria-invalid", "false");
+    selectBandeira.setAttribute("aria-invalid", "false");
     if (pagamentoError) pagamentoError.textContent = "";
     return true;
   }
@@ -201,6 +210,7 @@
       atualizarBandeira();
       validarPagamento();
     });
+    selectBandeira?.addEventListener("change", validarPagamento);
     atualizarBandeira();
   }
 
@@ -264,6 +274,9 @@
       endereco:    sessao.endereco,
       pagamento:   selectPagamento.options[selectPagamento.selectedIndex]?.text ?? "",
       bandeira:    selectBandeira.disabled ? null : (selectBandeira.value || null),
+      bandeiraLabel: selectBandeira.disabled
+        ? null
+        : (selectBandeira.options[selectBandeira.selectedIndex]?.text || null),
       observacoes: textarea?.value.trim() ?? "",
       itens,
       subtotal:    totais.subtotal,
@@ -316,13 +329,30 @@
     return endereco ? formatarEnderecoResumido(endereco) : null;
   }
 
+  function montarItensConfirmacao(itens) {
+    return Object.entries(itens).map(([id, item]) => ({
+      id,
+      nome: item.nome,
+      preco: item.preco,
+      qty: item.qty,
+      categoriaNome: item.categoriaNome,
+      descPersonalizacao: item.descPersonalizacao || "",
+    }));
+  }
+
   function salvarConfirmacao(pedido) {
     sessionStorage.setItem(CONFIRM_KEY, JSON.stringify({
       codigo: pedido.codigo,
+      tipoCliente: pedido.tipoCliente,
       clienteNome: pedido.cliente.nome ?? pedido.cliente.name ?? "",
       modalidade: "Entregar em domicílio",
       pagamento: pedido.pagamento,
+      bandeira: pedido.bandeira,
+      bandeiraLabel: pedido.bandeiraLabel,
       endereco: formatarEnderecoResumidoSeguro(pedido.endereco),
+      enderecoDados: pedido.endereco,
+      itens: pedido.itens,
+      itensResumo: montarItensConfirmacao(pedido.itens),
       subtotal: pedido.subtotal,
       taxaEntrega: pedido.taxaEntrega,
       desconto: pedido.desconto,
@@ -352,7 +382,11 @@
     btnFinalizar.addEventListener("click", async () => {
       // Valida pagamento primeiro
       if (!validarPagamento()) {
-        selectPagamento.focus();
+        if (PAGAMENTOS_COM_BANDEIRA.has(selectPagamento.value) && !selectBandeira.value) {
+          selectBandeira.focus();
+        } else {
+          selectPagamento.focus();
+        }
         return;
       }
 

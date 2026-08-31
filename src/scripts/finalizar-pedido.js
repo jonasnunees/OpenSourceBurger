@@ -276,13 +276,30 @@
     if (error) throw error;
   }
 
+  function montarItensConfirmacao(itens) {
+    return Object.entries(itens).map(([id, item]) => ({
+      id,
+      nome: item.nome,
+      preco: item.preco,
+      qty: item.qty,
+      categoriaNome: item.categoriaNome,
+      descPersonalizacao: item.descPersonalizacao || "",
+    }));
+  }
+
   function salvarConfirmacao(pedido) {
     sessionStorage.setItem(CONFIRM_KEY, JSON.stringify({
       codigo: pedido.codigo,
+      tipoCliente: pedido.tipoCliente,
       clienteNome: pedido.cliente.nome ?? pedido.cliente.name ?? "",
       modalidade: pedido.modalidade.label,
       pagamento: pedido.pagamento,
+      bandeira: null,
+      bandeiraLabel: null,
       endereco: null,
+      enderecoDados: null,
+      itens: pedido.itens,
+      itensResumo: montarItensConfirmacao(pedido.itens),
       subtotal: pedido.subtotal,
       taxaEntrega: pedido.taxaEntrega,
       desconto: pedido.desconto,
